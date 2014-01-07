@@ -1,7 +1,6 @@
 
 package us.kbase.mak;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,17 +62,17 @@ public class MAKBicluster {
     @JsonProperty("bicluster_id")
     private java.lang.String biclusterId;
     @JsonProperty("num_genes")
-    private Integer numGenes;
+    private Long numGenes;
     @JsonProperty("num_conditions")
-    private Integer numConditions;
+    private Long numConditions;
     @JsonProperty("condition_ids")
-    private List<java.lang.String> conditionIds = new ArrayList<java.lang.String>();
+    private List<String> conditionIds;
     @JsonProperty("condition_labels")
-    private List<java.lang.String> conditionLabels = new ArrayList<java.lang.String>();
+    private List<String> conditionLabels;
     @JsonProperty("gene_ids")
-    private List<java.lang.String> geneIds = new ArrayList<java.lang.String>();
+    private List<String> geneIds;
     @JsonProperty("gene_labels")
-    private List<java.lang.String> geneLabels = new ArrayList<java.lang.String>();
+    private List<String> geneLabels;
     @JsonProperty("exp_mean")
     private Double expMean;
     @JsonProperty("exp_mean_crit")
@@ -110,91 +109,91 @@ public class MAKBicluster {
     }
 
     @JsonProperty("num_genes")
-    public Integer getNumGenes() {
+    public Long getNumGenes() {
         return numGenes;
     }
 
     @JsonProperty("num_genes")
-    public void setNumGenes(Integer numGenes) {
+    public void setNumGenes(Long numGenes) {
         this.numGenes = numGenes;
     }
 
-    public MAKBicluster withNumGenes(Integer numGenes) {
+    public MAKBicluster withNumGenes(Long numGenes) {
         this.numGenes = numGenes;
         return this;
     }
 
     @JsonProperty("num_conditions")
-    public Integer getNumConditions() {
+    public Long getNumConditions() {
         return numConditions;
     }
 
     @JsonProperty("num_conditions")
-    public void setNumConditions(Integer numConditions) {
+    public void setNumConditions(Long numConditions) {
         this.numConditions = numConditions;
     }
 
-    public MAKBicluster withNumConditions(Integer numConditions) {
+    public MAKBicluster withNumConditions(Long numConditions) {
         this.numConditions = numConditions;
         return this;
     }
 
     @JsonProperty("condition_ids")
-    public List<java.lang.String> getConditionIds() {
+    public List<String> getConditionIds() {
         return conditionIds;
     }
 
     @JsonProperty("condition_ids")
-    public void setConditionIds(List<java.lang.String> conditionIds) {
+    public void setConditionIds(List<String> conditionIds) {
         this.conditionIds = conditionIds;
     }
 
-    public MAKBicluster withConditionIds(List<java.lang.String> conditionIds) {
+    public MAKBicluster withConditionIds(List<String> conditionIds) {
         this.conditionIds = conditionIds;
         return this;
     }
 
     @JsonProperty("condition_labels")
-    public List<java.lang.String> getConditionLabels() {
+    public List<String> getConditionLabels() {
         return conditionLabels;
     }
 
     @JsonProperty("condition_labels")
-    public void setConditionLabels(List<java.lang.String> conditionLabels) {
+    public void setConditionLabels(List<String> conditionLabels) {
         this.conditionLabels = conditionLabels;
     }
 
-    public MAKBicluster withConditionLabels(List<java.lang.String> conditionLabels) {
+    public MAKBicluster withConditionLabels(List<String> conditionLabels) {
         this.conditionLabels = conditionLabels;
         return this;
     }
 
     @JsonProperty("gene_ids")
-    public List<java.lang.String> getGeneIds() {
+    public List<String> getGeneIds() {
         return geneIds;
     }
 
     @JsonProperty("gene_ids")
-    public void setGeneIds(List<java.lang.String> geneIds) {
+    public void setGeneIds(List<String> geneIds) {
         this.geneIds = geneIds;
     }
 
-    public MAKBicluster withGeneIds(List<java.lang.String> geneIds) {
+    public MAKBicluster withGeneIds(List<String> geneIds) {
         this.geneIds = geneIds;
         return this;
     }
 
     @JsonProperty("gene_labels")
-    public List<java.lang.String> getGeneLabels() {
+    public List<String> getGeneLabels() {
         return geneLabels;
     }
 
     @JsonProperty("gene_labels")
-    public void setGeneLabels(List<java.lang.String> geneLabels) {
+    public void setGeneLabels(List<String> geneLabels) {
         this.geneLabels = geneLabels;
     }
 
-    public MAKBicluster withGeneLabels(List<java.lang.String> geneLabels) {
+    public MAKBicluster withGeneLabels(List<String> geneLabels) {
         this.geneLabels = geneLabels;
         return this;
     }
@@ -342,6 +341,11 @@ public class MAKBicluster {
     @JsonAnySetter
     public void setAdditionalProperties(java.lang.String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public java.lang.String toString() {
+        return ((((((((((((((((((((((((((((((((((("MAKBicluster"+" [biclusterId=")+ biclusterId)+", numGenes=")+ numGenes)+", numConditions=")+ numConditions)+", conditionIds=")+ conditionIds)+", conditionLabels=")+ conditionLabels)+", geneIds=")+ geneIds)+", geneLabels=")+ geneLabels)+", expMean=")+ expMean)+", expMeanCrit=")+ expMeanCrit)+", expCrit=")+ expCrit)+", ppiCrit=")+ ppiCrit)+", TFCrit=")+ TFCrit)+", orthoCrit=")+ orthoCrit)+", fullCrit=")+ fullCrit)+", missFrxn=")+ missFrxn)+", enrichedTerms=")+ enrichedTerms)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

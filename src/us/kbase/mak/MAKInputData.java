@@ -50,9 +50,9 @@ public class MAKInputData {
     @JsonProperty("dataPath")
     private String dataPath;
     @JsonProperty("num_rows")
-    private Integer numRows;
+    private Long numRows;
     @JsonProperty("num_cols")
-    private Integer numCols;
+    private Long numCols;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("taxon")
@@ -131,31 +131,31 @@ public class MAKInputData {
     }
 
     @JsonProperty("num_rows")
-    public Integer getNumRows() {
+    public Long getNumRows() {
         return numRows;
     }
 
     @JsonProperty("num_rows")
-    public void setNumRows(Integer numRows) {
+    public void setNumRows(Long numRows) {
         this.numRows = numRows;
     }
 
-    public MAKInputData withNumRows(Integer numRows) {
+    public MAKInputData withNumRows(Long numRows) {
         this.numRows = numRows;
         return this;
     }
 
     @JsonProperty("num_cols")
-    public Integer getNumCols() {
+    public Long getNumCols() {
         return numCols;
     }
 
     @JsonProperty("num_cols")
-    public void setNumCols(Integer numCols) {
+    public void setNumCols(Long numCols) {
         this.numCols = numCols;
     }
 
-    public MAKInputData withNumCols(Integer numCols) {
+    public MAKInputData withNumCols(Long numCols) {
         this.numCols = numCols;
         return this;
     }
@@ -168,6 +168,11 @@ public class MAKInputData {
     @JsonAnySetter
     public void setAdditionalProperties(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+        return ((((((((((((((((("MAKInputData"+" [taxon=")+ taxon)+", id=")+ id)+", dataType=")+ dataType)+", description=")+ description)+", dataPath=")+ dataPath)+", numRows=")+ numRows)+", numCols=")+ numCols)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

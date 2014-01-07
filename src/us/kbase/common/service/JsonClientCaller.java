@@ -3,20 +3,19 @@ package us.kbase.common.service;
 import us.kbase.auth.AuthException;
 import us.kbase.auth.AuthService;
 import us.kbase.auth.AuthToken;
-import us.kbase.auth.TokenFormatException;
+import us.kbase.auth.TokenExpiredException;
 
 import java.net.*;
 import java.io.*;
 import java.util.*;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.xml.bind.DatatypeConverter;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonClientCaller {
@@ -27,24 +26,28 @@ public class JsonClientCaller {
 	private char[] password = null;
 	private AuthToken accessToken = null;
 	private boolean isAuthAllowedForHttp = false;
-	private static final String APP_JSON = "application/json";
+	private Integer connectionReadTimeOut = 30 * 60 * 1000;
 	
-	private static Map<String, AuthToken> user2token = Collections.synchronizedMap(new HashMap<String, AuthToken>());
-
 	public JsonClientCaller(URL url) {
 		serviceUrl = url;
 		mapper = new ObjectMapper().registerModule(new JacksonTupleModule());
 	}
 
-	public JsonClientCaller(URL url, AuthToken accessToken) {
+	public JsonClientCaller(URL url, AuthToken accessToken) throws UnauthorizedException, IOException {
 		this(url);
 		this.accessToken = accessToken;
+		try {
+			AuthService.validateToken(accessToken);
+		} catch (TokenExpiredException ex) {
+			throw new UnauthorizedException("Token validation failed", ex);
+		}
 	}
 
-	public JsonClientCaller(URL url, String user, String password) {
+	public JsonClientCaller(URL url, String user, String password) throws UnauthorizedException, IOException {
 		this(url);
 		this.user = user;
 		this.password = password.toCharArray();
+		accessToken = requestTokenFromKBase(user, this.password);
 	}
 
 	public boolean isAuthAllowedForHttp() {
@@ -55,154 +58,125 @@ public class JsonClientCaller {
 		this.isAuthAllowedForHttp = isAuthAllowedForHttp;
 	}
 	
+	public void setConnectionReadTimeOut(Integer connectionReadTimeOut) {
+		this.connectionReadTimeOut = connectionReadTimeOut;
+	}
+
 	private HttpURLConnection setupCall(boolean authRequired) throws IOException, JsonClientException {
 		HttpURLConnection conn = (HttpURLConnection) serviceUrl.openConnection();
+		conn.setConnectTimeout(10000);
+		if (connectionReadTimeOut != null) {
+			conn.setReadTimeout(connectionReadTimeOut);
+		}
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");
-		if (authRequired || user != null || accessToken != null) {
+		if (authRequired || accessToken != null) {
 			if (!(conn instanceof HttpsURLConnection || isAuthAllowedForHttp)) {
-				throw new IllegalStateException("RPC method required authentication shouldn't be called through unsecured http, " +
-						"use https instead or call setAuthAllowedForHttp(true) for your client");
+				throw new UnauthorizedException("RPC method required authentication shouldn't " +
+						"be called through unsecured http, use https instead or call " +
+						"setAuthAllowedForHttp(true) for your client");
 			}
-			if (accessToken == null) {
+			if (accessToken == null || accessToken.isExpired()) {
 				if (user == null) {
-					if (authRequired)
-						throw new IllegalStateException("RPC method requires authentication but neither user nor token was set");
-				} else {
-					accessToken = user2token.get(user);
-					if (accessToken != null && accessToken.isExpired()) {
-						user2token.remove(user);
-						accessToken = null;
-					}
 					if (accessToken == null) {
-						try {
-							accessToken = requestTokenFromKBase(user, password);
-						} catch (IOException ex) {
-							try {
-								accessToken = requestTokenFromGlobus(user, password);
-							} catch (IOException e2) {
-								if (authRequired)
-									throw e2;
-							}
-						}
-						if (accessToken != null)
-							user2token.put(user, accessToken);
+						throw new UnauthorizedException("RPC method requires authentication but neither " +
+								"user nor token was set");
+					} else {
+						throw new UnauthorizedException("Token is expired and can not be reloaded " +
+								"because user wasn't set");
 					}
 				}
+				accessToken = requestTokenFromKBase(user, password);
 			}
-			if (accessToken != null)
-				conn.setRequestProperty("Authorization", accessToken.toString());
+			conn.setRequestProperty("Authorization", accessToken.toString());
 		}
 		return conn;
 	}
 	
 	public static AuthToken requestTokenFromKBase(String user, char[] password)
-			throws IOException, UnauthorizedException {
-		AuthToken token;
+			throws UnauthorizedException, IOException {
 		try {
-			token = AuthService.login(user, new String(password)).getToken();
+			return AuthService.login(user, new String(password)).getToken();
 		} catch (AuthException ex) {
 			throw new UnauthorizedException("Could not authenticate user", ex);
 		}
-		return token;
 	}
-	
-	private static AuthToken requestTokenFromGlobus(String user, char[] password) throws 
-			IOException {
-		String authUrl = "https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials&client_id=rsutormin";
-		HttpURLConnection authConn = (HttpURLConnection)new URL(authUrl).openConnection();
-		String credential = DatatypeConverter.printBase64Binary((user + ":" + new String(password)).getBytes());
-		authConn.setRequestMethod("POST");
-		authConn.setRequestProperty("Content-Type", APP_JSON);
-		authConn.setRequestProperty  ("Authorization", "Basic " + credential);
-		authConn.setDoOutput(true);
-		checkReturnCode(authConn);
-		InputStream is = authConn.getInputStream();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-		StringBuilder response = new StringBuilder(); 
-		while(true) {
-			String line = rd.readLine();
-			if (line == null)
-				break;
-			response.append(line);
-			response.append('\n');
-		}
-		rd.close();
-		ObjectMapper mapper = new ObjectMapper();
-		JsonParser parser = mapper.getFactory().createParser(new ByteArrayInputStream(response.toString().getBytes()));
-		LinkedHashMap<String, Object> respMap = parser.readValueAs(new TypeReference<LinkedHashMap<String, Object>>() {});
-		AuthToken token = null;
-		try {
-			token = new AuthToken((String)respMap.get("access_token"));
-		} catch (TokenFormatException tfe) {
-			throw new RuntimeException("Globus is handing out bad tokens, something is badly wrong");
-		}
-		return token;
-	}
-
-	private static void checkReturnCode(HttpURLConnection conn) throws IOException {
-		int responseCode = conn.getResponseCode();
-		if (responseCode >= 300) {
-			StringBuilder sb = new StringBuilder();
-			InputStream is = conn.getErrorStream();
-			if (is == null)
-				is = conn.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			while (true) {
-				String line = br.readLine();
-				if (line == null)
-					break;
-				if (sb.length() > 0)
-					sb.append("\n");
-				sb.append(line);
-			}
-			br.close();
-			throw new IllegalStateException("Wrong server response: code=" + responseCode + ", error_message=" + sb);
-		}
-	}
-	
+		
 	public <ARG, RET> RET jsonrpcCall(String method, ARG arg,
 			TypeReference<RET> cls, boolean ret, boolean authRequired)
 			throws IOException, JsonClientException {
 		HttpURLConnection conn = setupCall(authRequired);
-		OutputStream os = conn.getOutputStream();
-		JsonGenerator g = mapper.getFactory().createGenerator(os, JsonEncoding.UTF8);
-
-		g.writeStartObject();
-		g.writeObjectField("params", arg);
-		g.writeStringField("method", method);
-		g.writeStringField("version", "1.1");
 		String id = ("" + Math.random()).replace(".", "");
-		g.writeStringField("id", id);
-		g.writeEndObject();
-		g.close();
-
+		// Calculate content-length before
+		final int[] sizeWrapper = new int[] {0};
+		OutputStream os = new OutputStream() {
+			@Override
+			public void write(int b) {sizeWrapper[0]++;}
+			@Override
+			public void write(byte[] b) {sizeWrapper[0] += b.length;}
+			@Override
+			public void write(byte[] b, int o, int l) {sizeWrapper[0] += l;}
+		};
+		writeRequestData(method, arg, os, id);
+		// Set content-length
+		conn.setFixedLengthStreamingMode(sizeWrapper[0]);
+		// Write real data into http output stream
+		writeRequestData(method, arg, conn.getOutputStream(), id);
+		// Read response
 		int code = conn.getResponseCode();
 		conn.getResponseMessage();
-
 		InputStream istream;
 		if (code == 500) {
 			istream = conn.getErrorStream();
 		} else {
 			istream = conn.getInputStream();
 		}
-
-		JsonNode node = mapper.readTree(new UnclosableInputStream(istream));
-		if (node.has("error")) {
-			Map<String, String> ret_error = mapper.readValue(mapper.treeAsTokens(node.get("error")), 
-					new TypeReference<Map<String, String>>(){});
-			
-			String data = ret_error.get("data") == null ? ret_error.get("error") : ret_error.get("data");
-			throw new ServerException(ret_error.get("message"),
-					new Integer(ret_error.get("code")), ret_error.get("name"),
+		// Parse response into json
+		JsonParser jp = mapper.getFactory().createParser(new UnclosableInputStream(istream));
+		checkToken(JsonToken.START_OBJECT, jp.nextToken());
+		Map<String, String> retError = null;
+		RET res = null;
+		while (jp.nextToken() != JsonToken.END_OBJECT) {
+			checkToken(JsonToken.FIELD_NAME, jp.getCurrentToken());
+			String fieldName = jp.getCurrentName();
+			if (fieldName.equals("error")) {
+				jp.nextToken();
+				retError = jp.getCodec().readValue(jp, new TypeReference<Map<String, String>>(){});
+			} else if (fieldName.equals("result")) {
+				jp.nextToken();
+				res = jp.getCodec().readValue(jp, cls);
+			} else {
+				jp.nextToken();
+				jp.getCodec().readValue(jp, Object.class);
+			}
+		}
+		if (retError != null) {
+			String data = retError.get("data") == null ? retError.get("error") : retError.get("data");
+			throw new ServerException(retError.get("message"),
+					new Integer(retError.get("code")), retError.get("name"),
 					data);
 		}
-		RET res = null;
-		if (node.has("result"))
-			res = mapper.readValue(mapper.treeAsTokens(node.get("result")), cls);
 		if (res == null && ret)
 			throw new ServerException("An unknown server error occured", 0, "Unknown", null);
 		return res;
+	}
+
+	private static void checkToken(JsonToken expected, JsonToken actual) throws JsonClientException {
+		if (expected != actual)
+			throw new JsonClientException("Expected " + expected + " token but " + actual + " was occured");
+	}
+		
+	public void writeRequestData(String method, Object arg, OutputStream os, String id) 
+			throws IOException {
+		JsonGenerator g = mapper.getFactory().createGenerator(os, JsonEncoding.UTF8);
+		g.writeStartObject();
+		g.writeObjectField("params", arg);
+		g.writeStringField("method", method);
+		g.writeStringField("version", "1.1");
+		g.writeStringField("id", id);
+		g.writeEndObject();
+		g.close();
+		os.flush();
 	}
 	
 	private static class UnclosableInputStream extends InputStream {

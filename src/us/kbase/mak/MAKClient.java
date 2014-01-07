@@ -17,4 +17,8 @@ public class MAKClient {
     public MAKClient(URL url) {
         caller = new JsonClientCaller(url);
     }
+
+	public void setConnectionReadTimeOut(Integer milliseconds) {
+		this.caller.setConnectionReadTimeOut(milliseconds);
+	}
 }

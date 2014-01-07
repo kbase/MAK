@@ -2,6 +2,7 @@ package us.kbase.mak;
 
 import DataMining.*;
 import mathy.SimpleMatrix;
+import us.kbase.common.service.UObject;
 import util.MoreArray;
 import util.TabFile;
 import util.TextFile;
@@ -98,7 +99,7 @@ public class BiclusterstoJSON {
         mba.setKEGG(listannotmaster);
         mba.setTFBindingSites(listannotmaster);
         mbalist.add(mba);
-        mbs.setAnnotations(mbalist);
+        //mbs.setAnnotations(mbalist);
     }
 
     /**

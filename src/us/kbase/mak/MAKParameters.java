@@ -1,7 +1,6 @@
 
 package us.kbase.mak;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,22 +58,22 @@ public class MAKParameters {
     @JsonProperty("max_enrich_pvalue")
     private Double maxEnrichPvalue;
     @JsonProperty("rounds")
-    private Integer rounds;
+    private Long rounds;
     @JsonProperty("rounds_move_sequences")
-    private List<String> roundsMoveSequences = new ArrayList<String>();
+    private List<String> roundsMoveSequences;
     @JsonProperty("refine")
-    private Integer refine;
+    private Long refine;
     @JsonProperty("linkage")
-    private String linkage;
+    private java.lang.String linkage;
     @JsonProperty("null_data_path")
-    private String nullDataPath;
+    private java.lang.String nullDataPath;
     @JsonProperty("Rcodepath")
-    private String Rcodepath;
+    private java.lang.String Rcodepath;
     @JsonProperty("Rdatapath")
-    private String Rdatapath;
+    private java.lang.String Rdatapath;
     @JsonProperty("inputs")
-    private List<MAKInputData> inputs = new ArrayList<MAKInputData>();
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private List<MAKInputData> inputs;
+    private Map<java.lang.String, Object> additionalProperties = new HashMap<java.lang.String, Object>();
 
     @JsonProperty("min_raw_bicluster_score")
     public Double getMinRawBiclusterScore() {
@@ -122,16 +121,16 @@ public class MAKParameters {
     }
 
     @JsonProperty("rounds")
-    public Integer getRounds() {
+    public Long getRounds() {
         return rounds;
     }
 
     @JsonProperty("rounds")
-    public void setRounds(Integer rounds) {
+    public void setRounds(Long rounds) {
         this.rounds = rounds;
     }
 
-    public MAKParameters withRounds(Integer rounds) {
+    public MAKParameters withRounds(Long rounds) {
         this.rounds = rounds;
         return this;
     }
@@ -152,76 +151,76 @@ public class MAKParameters {
     }
 
     @JsonProperty("refine")
-    public Integer getRefine() {
+    public Long getRefine() {
         return refine;
     }
 
     @JsonProperty("refine")
-    public void setRefine(Integer refine) {
+    public void setRefine(Long refine) {
         this.refine = refine;
     }
 
-    public MAKParameters withRefine(Integer refine) {
+    public MAKParameters withRefine(Long refine) {
         this.refine = refine;
         return this;
     }
 
     @JsonProperty("linkage")
-    public String getLinkage() {
+    public java.lang.String getLinkage() {
         return linkage;
     }
 
     @JsonProperty("linkage")
-    public void setLinkage(String linkage) {
+    public void setLinkage(java.lang.String linkage) {
         this.linkage = linkage;
     }
 
-    public MAKParameters withLinkage(String linkage) {
+    public MAKParameters withLinkage(java.lang.String linkage) {
         this.linkage = linkage;
         return this;
     }
 
     @JsonProperty("null_data_path")
-    public String getNullDataPath() {
+    public java.lang.String getNullDataPath() {
         return nullDataPath;
     }
 
     @JsonProperty("null_data_path")
-    public void setNullDataPath(String nullDataPath) {
+    public void setNullDataPath(java.lang.String nullDataPath) {
         this.nullDataPath = nullDataPath;
     }
 
-    public MAKParameters withNullDataPath(String nullDataPath) {
+    public MAKParameters withNullDataPath(java.lang.String nullDataPath) {
         this.nullDataPath = nullDataPath;
         return this;
     }
 
     @JsonProperty("Rcodepath")
-    public String getRcodepath() {
+    public java.lang.String getRcodepath() {
         return Rcodepath;
     }
 
     @JsonProperty("Rcodepath")
-    public void setRcodepath(String Rcodepath) {
+    public void setRcodepath(java.lang.String Rcodepath) {
         this.Rcodepath = Rcodepath;
     }
 
-    public MAKParameters withRcodepath(String Rcodepath) {
+    public MAKParameters withRcodepath(java.lang.String Rcodepath) {
         this.Rcodepath = Rcodepath;
         return this;
     }
 
     @JsonProperty("Rdatapath")
-    public String getRdatapath() {
+    public java.lang.String getRdatapath() {
         return Rdatapath;
     }
 
     @JsonProperty("Rdatapath")
-    public void setRdatapath(String Rdatapath) {
+    public void setRdatapath(java.lang.String Rdatapath) {
         this.Rdatapath = Rdatapath;
     }
 
-    public MAKParameters withRdatapath(String Rdatapath) {
+    public MAKParameters withRdatapath(java.lang.String Rdatapath) {
         this.Rdatapath = Rdatapath;
         return this;
     }
@@ -242,13 +241,18 @@ public class MAKParameters {
     }
 
     @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
+    public Map<java.lang.String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
     @JsonAnySetter
-    public void setAdditionalProperties(String name, Object value) {
+    public void setAdditionalProperties(java.lang.String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public java.lang.String toString() {
+        return ((((((((((((((((((((((((("MAKParameters"+" [minRawBiclusterScore=")+ minRawBiclusterScore)+", maxBiclusterOverlap=")+ maxBiclusterOverlap)+", maxEnrichPvalue=")+ maxEnrichPvalue)+", rounds=")+ rounds)+", roundsMoveSequences=")+ roundsMoveSequences)+", refine=")+ refine)+", linkage=")+ linkage)+", nullDataPath=")+ nullDataPath)+", Rcodepath=")+ Rcodepath)+", Rdatapath=")+ Rdatapath)+", inputs=")+ inputs)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

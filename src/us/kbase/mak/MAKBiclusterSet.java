@@ -1,7 +1,6 @@
 
 package us.kbase.mak;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,21 +58,21 @@ public class MAKBiclusterSet {
     @JsonProperty("version")
     private String version;
     @JsonProperty("number")
-    private Integer number;
+    private Long number;
     @JsonProperty("min_genes")
-    private Integer minGenes;
+    private Long minGenes;
     @JsonProperty("max_genes")
-    private Integer maxGenes;
+    private Long maxGenes;
     @JsonProperty("min_conditions")
-    private Integer minConditions;
+    private Long minConditions;
     @JsonProperty("max_conditions")
-    private Integer maxConditions;
+    private Long maxConditions;
     @JsonProperty("taxon")
     private String taxon;
     @JsonProperty("bicluster_type")
     private String biclusterType;
     @JsonProperty("biclusters")
-    private List<MAKBicluster> biclusters = new ArrayList<MAKBicluster>();
+    private List<MAKBicluster> biclusters;
     /**
      * <p>Original spec-file type: MAKParameters</p>
      * <pre>
@@ -146,76 +145,76 @@ public class MAKBiclusterSet {
     }
 
     @JsonProperty("number")
-    public Integer getNumber() {
+    public Long getNumber() {
         return number;
     }
 
     @JsonProperty("number")
-    public void setNumber(Integer number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 
-    public MAKBiclusterSet withNumber(Integer number) {
+    public MAKBiclusterSet withNumber(Long number) {
         this.number = number;
         return this;
     }
 
     @JsonProperty("min_genes")
-    public Integer getMinGenes() {
+    public Long getMinGenes() {
         return minGenes;
     }
 
     @JsonProperty("min_genes")
-    public void setMinGenes(Integer minGenes) {
+    public void setMinGenes(Long minGenes) {
         this.minGenes = minGenes;
     }
 
-    public MAKBiclusterSet withMinGenes(Integer minGenes) {
+    public MAKBiclusterSet withMinGenes(Long minGenes) {
         this.minGenes = minGenes;
         return this;
     }
 
     @JsonProperty("max_genes")
-    public Integer getMaxGenes() {
+    public Long getMaxGenes() {
         return maxGenes;
     }
 
     @JsonProperty("max_genes")
-    public void setMaxGenes(Integer maxGenes) {
+    public void setMaxGenes(Long maxGenes) {
         this.maxGenes = maxGenes;
     }
 
-    public MAKBiclusterSet withMaxGenes(Integer maxGenes) {
+    public MAKBiclusterSet withMaxGenes(Long maxGenes) {
         this.maxGenes = maxGenes;
         return this;
     }
 
     @JsonProperty("min_conditions")
-    public Integer getMinConditions() {
+    public Long getMinConditions() {
         return minConditions;
     }
 
     @JsonProperty("min_conditions")
-    public void setMinConditions(Integer minConditions) {
+    public void setMinConditions(Long minConditions) {
         this.minConditions = minConditions;
     }
 
-    public MAKBiclusterSet withMinConditions(Integer minConditions) {
+    public MAKBiclusterSet withMinConditions(Long minConditions) {
         this.minConditions = minConditions;
         return this;
     }
 
     @JsonProperty("max_conditions")
-    public Integer getMaxConditions() {
+    public Long getMaxConditions() {
         return maxConditions;
     }
 
     @JsonProperty("max_conditions")
-    public void setMaxConditions(Integer maxConditions) {
+    public void setMaxConditions(Long maxConditions) {
         this.maxConditions = maxConditions;
     }
 
-    public MAKBiclusterSet withMaxConditions(Integer maxConditions) {
+    public MAKBiclusterSet withMaxConditions(Long maxConditions) {
         this.maxConditions = maxConditions;
         return this;
     }
@@ -332,6 +331,11 @@ public class MAKBiclusterSet {
     @JsonAnySetter
     public void setAdditionalProperties(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+        return ((((((((((((((((((((((((((("MAKBiclusterSet"+" [id=")+ id)+", timeStamp=")+ timeStamp)+", version=")+ version)+", number=")+ number)+", minGenes=")+ minGenes)+", maxGenes=")+ maxGenes)+", minConditions=")+ minConditions)+", maxConditions=")+ maxConditions)+", taxon=")+ taxon)+", biclusterType=")+ biclusterType)+", biclusters=")+ biclusters)+", makParam=")+ makParam)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }
