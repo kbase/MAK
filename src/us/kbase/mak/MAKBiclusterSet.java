@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *         string taxon - NCBI taxonomy id
  *         string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)                
  *         list<MAKBicluster> biclusters - biclusters
- *         list<MAKBiclusterAnnotation> annotations - bicluster annotations
  *         MAKParameters mak_param - parameters
  *         
  * @searchable ws_subset id taxon
@@ -49,7 +48,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "taxon",
     "bicluster_type",
     "biclusters",
-    "annotations",
     "mak_param"
 })
 public class MAKBiclusterSet {
@@ -76,8 +74,6 @@ public class MAKBiclusterSet {
     private String biclusterType;
     @JsonProperty("biclusters")
     private List<MAKBicluster> biclusters = new ArrayList<MAKBicluster>();
-    @JsonProperty("annotations")
-    private List<MAKBiclusterAnnotation> annotations = new ArrayList<MAKBiclusterAnnotation>();
     /**
      * <p>Original spec-file type: MAKParameters</p>
      * <pre>
@@ -266,21 +262,6 @@ public class MAKBiclusterSet {
 
     public MAKBiclusterSet withBiclusters(List<MAKBicluster> biclusters) {
         this.biclusters = biclusters;
-        return this;
-    }
-
-    @JsonProperty("annotations")
-    public List<MAKBiclusterAnnotation> getAnnotations() {
-        return annotations;
-    }
-
-    @JsonProperty("annotations")
-    public void setAnnotations(List<MAKBiclusterAnnotation> annotations) {
-        this.annotations = annotations;
-    }
-
-    public MAKBiclusterSet withAnnotations(List<MAKBiclusterAnnotation> annotations) {
-        this.annotations = annotations;
         return this;
     }
 
