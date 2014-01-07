@@ -105,26 +105,6 @@ module MAK {
 	 float miss_frxn;
 	 mapping<string, string> enriched_terms;
 	} MAKBicluster;
-
-
-
-	/*Bicluster annotations -- for future upgrade, currently rely on map<string, string> in MAKBicluster 
-	
-		WARNING -- placeholder for future implementation
-	
-		list<list<string>> GO - list of GO terms enriched in this set of genes
-		list<list<string>> KEGG - list of KEGG pathways enriched in this set of genes
-		list<list<string>> TIGRFAM_role - list of TIGRFAM roles enriched in this set of genes
-		list<list<string>> TF_binding_sites - list of TFs with binding sites in this set of genes
-	
-		@searchable ws_subset GO KEGG TIGRFAM_role TF_binding_sites
-	*/
-	typedef structure {
-	   list<list<string>> GO;
-	   list<list<string>> KEGG;
-	   list<list<string>> TIGRFAM_role;
-	   list<list<string>> TF_binding_sites;		
-  	} MAKBiclusterAnnotation;  
 	
 	
 	
@@ -141,7 +121,6 @@ module MAK {
 		string taxon - NCBI taxonomy id
 		string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)		
 		list<MAKBicluster> biclusters - biclusters
-		list<MAKBiclusterAnnotation> annotations - bicluster annotations
 		MAKParameters mak_param - parameters
 		
 	@searchable ws_subset id taxon
@@ -158,7 +137,6 @@ module MAK {
 	 	string taxon;		
 	 	string bicluster_type;
 		list<MAKBicluster> biclusters;
-		list<MAKBiclusterAnnotation> annotations;		
 		MAKParameters mak_param;		
   	} MAKBiclusterSet; 
 };
