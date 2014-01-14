@@ -14,12 +14,14 @@ public class RegisterBiclusterIds {
 
     final public static void main(String argv[]) {
 
+        String typeName = "bicluster";
+
         try {
             IDServerAPIClient idClient = new IDServerAPIClient(new URL("http://kbase.us/services/idserver"));
             String id = "kb|" + typeName + "." + idClient.allocateIdRange(typeName, 1L).toString();
 
-            idClient.registerAllocatedIds();
-            idClient.registerIds();
+            //idClient.registerAllocatedIds();
+            //idClient.registerIds();
 
         } catch (Exception e) {
             e.printStackTrace();

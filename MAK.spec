@@ -7,6 +7,46 @@
 
 module MAK {
 		
+	/* Represents KBase gene identifier
+		@id external
+	*/
+	typedef string gene_id;
+
+	/* Represents WS expression data sample identifier
+		id ws ExpressionServices.ExpressionSample
+	*/
+	typedef string expression_sample_ws_ref;
+
+	/* Represents WS expression data series identifier
+		@id ws ExpressionServices.ExpressionSeries
+	*/
+	typedef string expression_series_ws_ref;
+
+	/* Represents WS genome identifier
+		@id ws KBaseGenomes.Genome
+	*/
+	typedef string genome_ws_ref;
+
+	/* Represents WS network identifier
+		@id ws Networks.InteractionSet
+	*/
+	typedef string network_ws_ref;
+
+	/* Represents WS MAK bicluster identifier
+		id subws MAK.MAKBicluster
+	*/
+	typedef string MABicluster_id;
+
+	/* Represents WS MAKBiclusterSet identifier
+		id subws MAK.MAKBiclusterSet
+	*/
+	typedef string MAK_network_id;
+
+	/* Represents WS MAK run result identifier
+		id ws MAK.MAKRunResult
+	*/
+	typedef string MAK_run_result_id;
+	
 		
 	/* MAK dataset source 
 	
@@ -29,6 +69,34 @@ module MAK {
 		int num_cols;		
   	} MAKInputData;  
 	
+		/* Represents a particular data point from gene expression data set
+		string gene_id - KBase gene identifier
+		float expression_value - relative expression value 
+	*/
+	typedef structure{
+		string gene_id;
+		float expression_value;
+	} ExpressionDataPoint;
+	
+	/* ExpressionDataSample represents set of expression data
+		string id - identifier of data set
+		string description - description of data set`
+		list<ExpressionDataPoint> points - data points
+	*/
+	typedef structure{
+		string id;
+		string description;
+		list<ExpressionDataPoint> points;
+	} ExpressionDataSample;
+
+	/* ExpressionDataSeries represents collection of expression data samples
+		string id - identifier of the collection
+		list<ExpressionDataSample> samples - data sets
+	*/
+	typedef structure{
+		string id;
+		list<ExpressionDataSample> samples;
+	} ExpressionDataSeries;
 	
 	
 	/* MAK algorithm and discovery strategy parameters 
@@ -43,6 +111,7 @@ module MAK {
 	    string null_data_path - path to null distribution files
 	    string Rcodepath - path to R code (Miner.R)
 	    string Rdatapath - path to Rdata object
+	    expression_series_ws_ref series_ref - reference to ExpressionSeries
 	    list<MAKInputData> inputs - objects for MAK input data
 		
 		@optional 
@@ -59,7 +128,8 @@ module MAK {
 		string linkage;
 		string null_data_path;
 		string Rcodepath;
-		string Rdatapath;						
+		string Rdatapath;			
+		expression_series_ws_ref series_ref;
 		list<MAKInputData> inputs;		
   	} MAKParameters;  
   
@@ -121,7 +191,6 @@ module MAK {
 		string taxon - NCBI taxonomy id
 		string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)		
 		list<MAKBicluster> biclusters - biclusters
-		MAKParameters mak_param - parameters
 		
 	@searchable ws_subset id taxon
 	*/
@@ -136,7 +205,29 @@ module MAK {
 		int max_conditions;
 	 	string taxon;		
 	 	string bicluster_type;
-		list<MAKBicluster> biclusters;
-		MAKParameters mak_param;		
+		list<MAKBicluster> biclusters;			
   	} MAKBiclusterSet; 
+  	
+  	
+  		/* Represents data from a single run of MAK
+		string id - identifier of MAK run
+		string start_time - start time of MAK run
+		string finish_time - end time of MAK run
+		MAKParameters parameters - run parameters
+		MAKBiclusterSet set;
+	*/
+	typedef structure{
+		string id;
+		string start_time;
+		string finish_time;
+		MAKParameters mak_param;	
+		MAKBiclusterSet set;
+	} MAKResult;
+  	
+  		/*	Starts MAK server job for a series of expression data stored in workspace and returns job ID of the run
+		string ws_id - workspace id
+		MAKParameters params - parameters of MAK job
+		string job_id - identifier of MAK job
+	*/
+	funcdef run_MAK_job_from_ws(string ws_id, MAKParameters params) returns(string MAK_job_id) authentication required;
 };

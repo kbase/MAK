@@ -2,11 +2,11 @@ package us.kbase.mak;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import us.kbase.common.service.UObject;
-import us.kbase.ppi.InteractionDataset;
 import us.kbase.workspace.ObjectSaveData;
 import us.kbase.workspace.SaveObjectsParams;
 import us.kbase.workspace.WorkspaceClient;
 
+import java.io.Console;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
@@ -19,21 +19,35 @@ import java.util.Arrays;
  */
 public class UploadMAKBIclusterstoWS {
 
-    final public static void main(String argv[]) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            File f = new File(argv[0]);
-            MAKBiclusterSet ds = mapper.readValue(f, MAKBiclusterSet.class);
-            WorkspaceClient wc = new WorkspaceClient(new URL(argv[1]),
-                    argv[2],
-                    argv[3]);
-            String wsName = argv[4];
-            String objType = "MAK.BiclusterSet-6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               .0";
-            wc.setAuthAllowedForHttp(true);
-            wc.saveObjects(new SaveObjectsParams().withWorkspace(wsName).withObjects(Arrays.asList(new ObjectSaveData().withType(objType).withData(new UObject(ds)).withName(argv[5]))));
-        } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+    /**
+          read in a password without screen echoing
+       */
+       final public static String readPassword() {
+           Console cons;
+           char[] rv;
+           if ((cons = System.console()) != null &&
+               (rv = cons.readPassword("%s", "Password:")) != null) {
+               return new String(rv);
+           }
+           return null;
+       }
+
+       final public static void main(String argv[]) {
+           try {
+               ObjectMapper mapper = new ObjectMapper();
+               File f = new File(argv[0]);
+               MAKResult ds = mapper.readValue(f, MAKResult.class);
+               WorkspaceClient wc = new WorkspaceClient(new URL(argv[1]),
+                                                        argv[2],
+                                                        readPassword());
+               String objType = "MAK.MAKResult-1";
+               wc.setAuthAllowedForHttp(true);
+               wc.saveObjects(new SaveObjectsParams().withWorkspace(argv[3]).withObjects(Arrays.asList(new ObjectSaveData().withType(objType).withData(new UObject(ds)).withName(argv[4]))));
+           }
+           catch (Exception e) {
+               System.out.println("Exception: "+e.getMessage());
+               e.printStackTrace();
+           }
+       }
+
 }

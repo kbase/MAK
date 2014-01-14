@@ -30,6 +30,7 @@ public class BiclusterstoJSON {
     String[] exp_labels;
 
     MAKBiclusterSet mbs;
+    MAKResult makr;
 
     java.util.Date date;
 
@@ -57,50 +58,29 @@ public class BiclusterstoJSON {
             mbs.setMinConditions(max_conditions);
             mbs.setMinGenes(max_genes);
             mbs.setNumber(num);
-            //mbs.setAnnotations();
             mbs.setBiclusterType(default_bicluster_type);
             mbs.setTaxon(dprm.taxon);
             mbs.setTimeStamp((new Timestamp(date.getTime())).toString());
             mbs.setVersion(MINER_STATIC.version);
 
-           /* List<MAKBiclusterAnnotation> mbalist = new ArrayList();
-            List<List<String>> listannotmaster = new ArrayList();
-            List<String> listannot = new ArrayList();
-            listannot.add("");
-            for (int i = 0; i < vbl.size(); i++) {
-                listannotmaster.add(listannot);
-            }
-
-            doAnnotations(mbalist, listannotmaster);*/
-
             doBiclusters();
 
             List<MAKInputData> listinput = doInputs();
 
+            makr = new MAKResult();
+            makr.setStartTime(""+0);
+            makr.setFinishTime(""+10000);
+            makr.setId(""+0);
+            makr.setSet(mbs);
             doParams(listinput);
 
-            TextFile.write(UObject.transformObjectToString(mbs), args[0] + "_MAKBiclusterSet.json");
-            //TextFile.write(mbs.toString(), args[0] + "_MAKBiclusterSet.json");
+            TextFile.write(UObject.transformObjectToString(makr), args[0] + "_MAKResult.json");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
-    /**
-     * @param mbalist
-     * @param listannotmaster
-     */
-   /* private void doAnnotations(List<MAKBiclusterAnnotation> mbalist, List<List<String>> listannotmaster) {
-        MAKBiclusterAnnotation mba = new MAKBiclusterAnnotation();
-        mba.setGO(listannotmaster);
-        mba.setTIGRFAMRole(listannotmaster);
-        mba.setKEGG(listannotmaster);
-        mba.setTFBindingSites(listannotmaster);
-        mbalist.add(mba);
-        //mbs.setAnnotations(mbalist);
-    }*/
 
     /**
      *
@@ -220,7 +200,7 @@ public class BiclusterstoJSON {
         makp.setRounds((long)dprm.rounds);
         makp.setRoundsMoveSequences(MoreArray.convtoArrayList(dprm.move_sequences));
 
-        mbs.setMakParam(makp);
+        makr.setMakParam(makp);
     }
 
     /**
