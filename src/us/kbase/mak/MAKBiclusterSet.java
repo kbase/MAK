@@ -46,8 +46,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "max_conditions",
     "taxon",
     "bicluster_type",
-    "biclusters",
-    "mak_param"
+    "biclusters"
 })
 public class MAKBiclusterSet {
 
@@ -73,30 +72,6 @@ public class MAKBiclusterSet {
     private String biclusterType;
     @JsonProperty("biclusters")
     private List<MAKBicluster> biclusters;
-    /**
-     * <p>Original spec-file type: MAKParameters</p>
-     * <pre>
-     * MAK algorithm and discovery strategy parameters 
-     *         float min_raw_bicluster_score - minimum raw bicluster score
-     *         float max_bicluster_overlap - maximum allowed bicluster overlap
-     *         float max_enrich_pvalue - maximum allowed enrichment p-value
-     *     int rounds - number of rounds in discovery strategy
-     *     list<string> rounds_move_sequences - 
-     *     int refine - refinement y/n 
-     *     string linkage - complete, single, mean etc.
-     *     string null_data_path - path to null distribution files
-     *     string Rcodepath - path to R code (Miner.R)
-     *     string Rdatapath - path to Rdata object
-     *     list<MAKInputData> inputs - objects for MAK input data
-     *         
-     *         @optional 
-     *         
-     *     @searchable ws_subset
-     * </pre>
-     * 
-     */
-    @JsonProperty("mak_param")
-    private MAKParameters makParam;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
@@ -264,65 +239,6 @@ public class MAKBiclusterSet {
         return this;
     }
 
-    /**
-     * <p>Original spec-file type: MAKParameters</p>
-     * <pre>
-     * MAK algorithm and discovery strategy parameters 
-     *         float min_raw_bicluster_score - minimum raw bicluster score
-     *         float max_bicluster_overlap - maximum allowed bicluster overlap
-     *         float max_enrich_pvalue - maximum allowed enrichment p-value
-     *     int rounds - number of rounds in discovery strategy
-     *     list<string> rounds_move_sequences - 
-     *     int refine - refinement y/n 
-     *     string linkage - complete, single, mean etc.
-     *     string null_data_path - path to null distribution files
-     *     string Rcodepath - path to R code (Miner.R)
-     *     string Rdatapath - path to Rdata object
-     *     list<MAKInputData> inputs - objects for MAK input data
-     *         
-     *         @optional 
-     *         
-     *     @searchable ws_subset
-     * </pre>
-     * 
-     */
-    @JsonProperty("mak_param")
-    public MAKParameters getMakParam() {
-        return makParam;
-    }
-
-    /**
-     * <p>Original spec-file type: MAKParameters</p>
-     * <pre>
-     * MAK algorithm and discovery strategy parameters 
-     *         float min_raw_bicluster_score - minimum raw bicluster score
-     *         float max_bicluster_overlap - maximum allowed bicluster overlap
-     *         float max_enrich_pvalue - maximum allowed enrichment p-value
-     *     int rounds - number of rounds in discovery strategy
-     *     list<string> rounds_move_sequences - 
-     *     int refine - refinement y/n 
-     *     string linkage - complete, single, mean etc.
-     *     string null_data_path - path to null distribution files
-     *     string Rcodepath - path to R code (Miner.R)
-     *     string Rdatapath - path to Rdata object
-     *     list<MAKInputData> inputs - objects for MAK input data
-     *         
-     *         @optional 
-     *         
-     *     @searchable ws_subset
-     * </pre>
-     * 
-     */
-    @JsonProperty("mak_param")
-    public void setMakParam(MAKParameters makParam) {
-        this.makParam = makParam;
-    }
-
-    public MAKBiclusterSet withMakParam(MAKParameters makParam) {
-        this.makParam = makParam;
-        return this;
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -335,7 +251,7 @@ public class MAKBiclusterSet {
 
     @Override
     public String toString() {
-        return ((((((((((((((((((((((((((("MAKBiclusterSet"+" [id=")+ id)+", timeStamp=")+ timeStamp)+", version=")+ version)+", number=")+ number)+", minGenes=")+ minGenes)+", maxGenes=")+ maxGenes)+", minConditions=")+ minConditions)+", maxConditions=")+ maxConditions)+", taxon=")+ taxon)+", biclusterType=")+ biclusterType)+", biclusters=")+ biclusters)+", makParam=")+ makParam)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((((((((((("MAKBiclusterSet"+" [id=")+ id)+", timeStamp=")+ timeStamp)+", version=")+ version)+", number=")+ number)+", minGenes=")+ minGenes)+", maxGenes=")+ maxGenes)+", minConditions=")+ minConditions)+", maxConditions=")+ maxConditions)+", taxon=")+ taxon)+", biclusterType=")+ biclusterType)+", biclusters=")+ biclusters)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

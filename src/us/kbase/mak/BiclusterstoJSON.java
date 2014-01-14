@@ -46,9 +46,9 @@ public class BiclusterstoJSON {
         try {
             loadInputs(args);
 
-            int max_conditions = -1;
-            int max_genes = -1;
-            int num = vbl.size();
+            long max_conditions = -1;
+            long max_genes = -1;
+            long num = vbl.size();
 
             mbs = new MAKBiclusterSet();
             mbs.setId("" + 0);
@@ -92,7 +92,7 @@ public class BiclusterstoJSON {
      * @param mbalist
      * @param listannotmaster
      */
-    private void doAnnotations(List<MAKBiclusterAnnotation> mbalist, List<List<String>> listannotmaster) {
+   /* private void doAnnotations(List<MAKBiclusterAnnotation> mbalist, List<List<String>> listannotmaster) {
         MAKBiclusterAnnotation mba = new MAKBiclusterAnnotation();
         mba.setGO(listannotmaster);
         mba.setTIGRFAMRole(listannotmaster);
@@ -100,7 +100,7 @@ public class BiclusterstoJSON {
         mba.setTFBindingSites(listannotmaster);
         mbalist.add(mba);
         //mbs.setAnnotations(mbalist);
-    }
+    }*/
 
     /**
      *
@@ -154,8 +154,8 @@ public class BiclusterstoJSON {
 
             mb.setData(listdata);*/
 
-            mb.setNumConditions(vb.exps.length);
-            mb.setNumGenes(vb.genes.length);
+            mb.setNumConditions((long)vb.exps.length);
+            mb.setNumGenes((long)vb.genes.length);
             mb.setMissFrxn(vb.frxnNaN());
 
             Map terms = new HashMap();
@@ -216,8 +216,8 @@ public class BiclusterstoJSON {
         makp.setNullDataPath(dprm.null_data_path);
         makp.setRcodepath(prm.R_METHODS_PATH);
         makp.setRdatapath(prm.R_DATA_PATH);
-        makp.setRefine((dprm.refine ? 1 : 0));
-        makp.setRounds(dprm.rounds);
+        makp.setRefine((long)(dprm.refine ? 1 : 0));
+        makp.setRounds((long)dprm.rounds);
         makp.setRoundsMoveSequences(MoreArray.convtoArrayList(dprm.move_sequences));
 
         mbs.setMakParam(makp);
@@ -233,8 +233,8 @@ public class BiclusterstoJSON {
         maki.setDataType(default_bicluster_type);
         maki.setDescription(default_biclusterset_desc);
         maki.setId(default_biclusterset_id);
-        maki.setNumCols(sm.data[0].length);
-        maki.setNumRows(sm.data.length);
+        maki.setNumCols((long)sm.data[0].length);
+        maki.setNumRows((long)sm.data.length);
         maki.setTaxon(dprm.taxon);
         List<MAKInputData> listinput = new ArrayList();
         listinput.add(maki);
