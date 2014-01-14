@@ -34,6 +34,8 @@ public class BiclusterstoJSON {
 
     java.util.Date date;
 
+    String  default_series_ref = "AKtest/D_vulgaris_series_series";
+
     String default_bicluster_type = "expression";
     String default_biclusterset_id = "" + 0;
     String default_biclusterset_desc = "gene expression biclusters";
@@ -74,7 +76,7 @@ public class BiclusterstoJSON {
             makr.setSet(mbs);
             doParams(listinput);
 
-            TextFile.write(UObject.transformObjectToString(makr), args[0] + "_MAKResult.json");
+            TextFile.write(UObject.transformObjectToString(makr), args[0] + "_MAKResult.jsonp");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -199,7 +201,7 @@ public class BiclusterstoJSON {
         makp.setRefine((long)(dprm.refine ? 1 : 0));
         makp.setRounds((long)dprm.rounds);
         makp.setRoundsMoveSequences(MoreArray.convtoArrayList(dprm.move_sequences));
-
+        makp.setSeriesRef(default_series_ref);
         makr.setMakParam(makp);
     }
 

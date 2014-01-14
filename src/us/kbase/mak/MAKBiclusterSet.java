@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *         string taxon - NCBI taxonomy id
  *         string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)                
  *         list<MAKBicluster> biclusters - biclusters
- *         MAKParameters mak_param - parameters
  *         
  * @searchable ws_subset id taxon
  * </pre>

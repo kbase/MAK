@@ -54,6 +54,7 @@ public class MAKResult {
      *     string null_data_path - path to null distribution files
      *     string Rcodepath - path to R code (Miner.R)
      *     string Rdatapath - path to Rdata object
+     *     expression_series_ws_ref series_ref - reference to ExpressionSeries
      *     list<MAKInputData> inputs - objects for MAK input data
      *         
      *         @optional 
@@ -79,7 +80,6 @@ public class MAKResult {
      *         string taxon - NCBI taxonomy id
      *         string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)                
      *         list<MAKBicluster> biclusters - biclusters
-     *         MAKParameters mak_param - parameters
      *         
      * @searchable ws_subset id taxon
      * </pre>
@@ -148,6 +148,7 @@ public class MAKResult {
      *     string null_data_path - path to null distribution files
      *     string Rcodepath - path to R code (Miner.R)
      *     string Rdatapath - path to Rdata object
+     *     expression_series_ws_ref series_ref - reference to ExpressionSeries
      *     list<MAKInputData> inputs - objects for MAK input data
      *         
      *         @optional 
@@ -175,6 +176,7 @@ public class MAKResult {
      *     string null_data_path - path to null distribution files
      *     string Rcodepath - path to R code (Miner.R)
      *     string Rdatapath - path to Rdata object
+     *     expression_series_ws_ref series_ref - reference to ExpressionSeries
      *     list<MAKInputData> inputs - objects for MAK input data
      *         
      *         @optional 
@@ -208,7 +210,6 @@ public class MAKResult {
      *         string taxon - NCBI taxonomy id
      *         string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)                
      *         list<MAKBicluster> biclusters - biclusters
-     *         MAKParameters mak_param - parameters
      *         
      * @searchable ws_subset id taxon
      * </pre>
@@ -234,7 +235,6 @@ public class MAKResult {
      *         string taxon - NCBI taxonomy id
      *         string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)                
      *         list<MAKBicluster> biclusters - biclusters
-     *         MAKParameters mak_param - parameters
      *         
      * @searchable ws_subset id taxon
      * </pre>

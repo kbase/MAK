@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *     string null_data_path - path to null distribution files
  *     string Rcodepath - path to R code (Miner.R)
  *     string Rdatapath - path to Rdata object
+ *     expression_series_ws_ref series_ref - reference to ExpressionSeries
  *     list<MAKInputData> inputs - objects for MAK input data
  *         
  *         @optional 
@@ -47,6 +48,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "null_data_path",
     "Rcodepath",
     "Rdatapath",
+    "series_ref",
     "inputs"
 })
 public class MAKParameters {
@@ -71,6 +73,8 @@ public class MAKParameters {
     private java.lang.String Rcodepath;
     @JsonProperty("Rdatapath")
     private java.lang.String Rdatapath;
+    @JsonProperty("series_ref")
+    private java.lang.String seriesRef;
     @JsonProperty("inputs")
     private List<MAKInputData> inputs;
     private Map<java.lang.String, Object> additionalProperties = new HashMap<java.lang.String, Object>();
@@ -225,6 +229,21 @@ public class MAKParameters {
         return this;
     }
 
+    @JsonProperty("series_ref")
+    public java.lang.String getSeriesRef() {
+        return seriesRef;
+    }
+
+    @JsonProperty("series_ref")
+    public void setSeriesRef(java.lang.String seriesRef) {
+        this.seriesRef = seriesRef;
+    }
+
+    public MAKParameters withSeriesRef(java.lang.String seriesRef) {
+        this.seriesRef = seriesRef;
+        return this;
+    }
+
     @JsonProperty("inputs")
     public List<MAKInputData> getInputs() {
         return inputs;
@@ -252,7 +271,7 @@ public class MAKParameters {
 
     @Override
     public java.lang.String toString() {
-        return ((((((((((((((((((((((((("MAKParameters"+" [minRawBiclusterScore=")+ minRawBiclusterScore)+", maxBiclusterOverlap=")+ maxBiclusterOverlap)+", maxEnrichPvalue=")+ maxEnrichPvalue)+", rounds=")+ rounds)+", roundsMoveSequences=")+ roundsMoveSequences)+", refine=")+ refine)+", linkage=")+ linkage)+", nullDataPath=")+ nullDataPath)+", Rcodepath=")+ Rcodepath)+", Rdatapath=")+ Rdatapath)+", inputs=")+ inputs)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((((((((((((("MAKParameters"+" [minRawBiclusterScore=")+ minRawBiclusterScore)+", maxBiclusterOverlap=")+ maxBiclusterOverlap)+", maxEnrichPvalue=")+ maxEnrichPvalue)+", rounds=")+ rounds)+", roundsMoveSequences=")+ roundsMoveSequences)+", refine=")+ refine)+", linkage=")+ linkage)+", nullDataPath=")+ nullDataPath)+", Rcodepath=")+ Rcodepath)+", Rdatapath=")+ Rdatapath)+", seriesRef=")+ seriesRef)+", inputs=")+ inputs)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }
