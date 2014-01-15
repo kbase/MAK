@@ -1,0 +1,30 @@
+{
+	"info": {
+		"pipeline": "mak-runner-pipeline",
+		"name": "mak",
+		"project": "default",
+		"user": "default",
+		"clientgroups":"",
+		"sessionId":"%s" 
+	},
+	
+	"tasks": [
+		{
+			"cmd": {
+				"args": "%s",		
+				"description": "running MAK service", 
+				"name": "run_mak"
+			}, 
+			"dependsOn": [], 
+			"outputs": {
+				"%s.tgz": {
+					"host": "http://140.221.84.236:8000"
+				}
+			},
+			
+			"taskid": "0",
+			"skip": 0,
+			"totalwork": 1
+		}
+	]
+}	
