@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "id",
     "start_time",
     "finish_time",
-    "mak_param",
+    "parameters",
     "set"
 })
 public class MAKResult {
@@ -63,8 +63,8 @@ public class MAKResult {
      * </pre>
      * 
      */
-    @JsonProperty("mak_param")
-    private MAKParameters makParam;
+    @JsonProperty("parameters")
+    private MAKParameters parameters;
     /**
      * <p>Original spec-file type: MAKBiclusterSet</p>
      * <pre>
@@ -157,9 +157,9 @@ public class MAKResult {
      * </pre>
      * 
      */
-    @JsonProperty("mak_param")
-    public MAKParameters getMakParam() {
-        return makParam;
+    @JsonProperty("parameters")
+    public MAKParameters getParameters() {
+        return parameters;
     }
 
     /**
@@ -185,13 +185,13 @@ public class MAKResult {
      * </pre>
      * 
      */
-    @JsonProperty("mak_param")
-    public void setMakParam(MAKParameters makParam) {
-        this.makParam = makParam;
+    @JsonProperty("parameters")
+    public void setParameters(MAKParameters parameters) {
+        this.parameters = parameters;
     }
 
-    public MAKResult withMakParam(MAKParameters makParam) {
-        this.makParam = makParam;
+    public MAKResult withParameters(MAKParameters parameters) {
+        this.parameters = parameters;
         return this;
     }
 
@@ -262,7 +262,7 @@ public class MAKResult {
 
     @Override
     public String toString() {
-        return ((((((((((((("MAKResult"+" [id=")+ id)+", startTime=")+ startTime)+", finishTime=")+ finishTime)+", makParam=")+ makParam)+", set=")+ set)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((("MAKResult"+" [id=")+ id)+", startTime=")+ startTime)+", finishTime=")+ finishTime)+", parameters=")+ parameters)+", set=")+ set)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }
