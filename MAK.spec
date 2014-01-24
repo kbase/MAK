@@ -220,7 +220,7 @@ module MAK {
 		string id;
 		string start_time;
 		string finish_time;
-		MAKParameters mak_param;	
+		MAKParameters parameters;	
 		MAKBiclusterSet set;
 	} MAKResult;
   	
