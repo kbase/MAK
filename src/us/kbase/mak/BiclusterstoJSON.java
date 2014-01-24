@@ -202,7 +202,7 @@ public class BiclusterstoJSON {
         makp.setRounds((long)dprm.rounds);
         makp.setRoundsMoveSequences(MoreArray.convtoArrayList(dprm.move_sequences));
         makp.setSeriesRef(default_series_ref);
-        makr.setMakParam(makp);
+        makr.setParameters(makp);
     }
 
     /**
