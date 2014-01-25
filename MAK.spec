@@ -214,14 +214,14 @@ module MAK {
 		string start_time - start time of MAK run
 		string finish_time - end time of MAK run
 		MAKParameters parameters - run parameters
-		MAKBiclusterSet set;
+		list<MAKBiclusterSet> sets;
 	*/
 	typedef structure{
 		string id;
 		string start_time;
 		string finish_time;
 		MAKParameters parameters;	
-		MAKBiclusterSet set;
+		list<MAKBiclusterSet> sets;
 	} MAKResult;
   	
   		/*	Starts MAK server job for a series of expression data stored in workspace and returns job ID of the run
