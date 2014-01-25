@@ -2,6 +2,7 @@
 package us.kbase.mak;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * string start_time - start time of MAK run
  * string finish_time - end time of MAK run
  * MAKParameters parameters - run parameters
- * MAKBiclusterSet set;
+ * list<MAKBiclusterSet> sets;
  * </pre>
  * 
  */
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "start_time",
     "finish_time",
     "parameters",
-    "set"
+    "sets"
 })
 public class MAKResult {
 
@@ -65,28 +66,8 @@ public class MAKResult {
      */
     @JsonProperty("parameters")
     private MAKParameters parameters;
-    /**
-     * <p>Original spec-file type: MAKBiclusterSet</p>
-     * <pre>
-     * Bicluster set 
-     *         string id - id
-     *         string time_stamp - time stamp for the results
-     *         string version - MAK version
-     *         int number - number of biclusters in set
-     *         int min_genes - min genes for bicluster in set
-     *         int max_genes - max genes for bicluster in set
-     *         int min_conditions - max genes for bicluster in set
-     *         int max_conditions - max conditions for bicluster in set
-     *         string taxon - NCBI taxonomy id
-     *         string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)                
-     *         list<MAKBicluster> biclusters - biclusters
-     *         
-     * @searchable ws_subset id taxon
-     * </pre>
-     * 
-     */
-    @JsonProperty("set")
-    private MAKBiclusterSet set;
+    @JsonProperty("sets")
+    private List<MAKBiclusterSet> sets;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
@@ -195,58 +176,18 @@ public class MAKResult {
         return this;
     }
 
-    /**
-     * <p>Original spec-file type: MAKBiclusterSet</p>
-     * <pre>
-     * Bicluster set 
-     *         string id - id
-     *         string time_stamp - time stamp for the results
-     *         string version - MAK version
-     *         int number - number of biclusters in set
-     *         int min_genes - min genes for bicluster in set
-     *         int max_genes - max genes for bicluster in set
-     *         int min_conditions - max genes for bicluster in set
-     *         int max_conditions - max conditions for bicluster in set
-     *         string taxon - NCBI taxonomy id
-     *         string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)                
-     *         list<MAKBicluster> biclusters - biclusters
-     *         
-     * @searchable ws_subset id taxon
-     * </pre>
-     * 
-     */
-    @JsonProperty("set")
-    public MAKBiclusterSet getSet() {
-        return set;
+    @JsonProperty("sets")
+    public List<MAKBiclusterSet> getSets() {
+        return sets;
     }
 
-    /**
-     * <p>Original spec-file type: MAKBiclusterSet</p>
-     * <pre>
-     * Bicluster set 
-     *         string id - id
-     *         string time_stamp - time stamp for the results
-     *         string version - MAK version
-     *         int number - number of biclusters in set
-     *         int min_genes - min genes for bicluster in set
-     *         int max_genes - max genes for bicluster in set
-     *         int min_conditions - max genes for bicluster in set
-     *         int max_conditions - max conditions for bicluster in set
-     *         string taxon - NCBI taxonomy id
-     *         string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)                
-     *         list<MAKBicluster> biclusters - biclusters
-     *         
-     * @searchable ws_subset id taxon
-     * </pre>
-     * 
-     */
-    @JsonProperty("set")
-    public void setSet(MAKBiclusterSet set) {
-        this.set = set;
+    @JsonProperty("sets")
+    public void setSets(List<MAKBiclusterSet> sets) {
+        this.sets = sets;
     }
 
-    public MAKResult withSet(MAKBiclusterSet set) {
-        this.set = set;
+    public MAKResult withSets(List<MAKBiclusterSet> sets) {
+        this.sets = sets;
         return this;
     }
 
@@ -262,7 +203,7 @@ public class MAKResult {
 
     @Override
     public String toString() {
-        return ((((((((((((("MAKResult"+" [id=")+ id)+", startTime=")+ startTime)+", finishTime=")+ finishTime)+", parameters=")+ parameters)+", set=")+ set)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((("MAKResult"+" [id=")+ id)+", startTime=")+ startTime)+", finishTime=")+ finishTime)+", parameters=")+ parameters)+", sets=")+ sets)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

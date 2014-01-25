@@ -18,7 +18,7 @@ public class TestIdMap {
 
     //SOMR1 dnaA
     String SOMR1testid = "199205";
-    String testgenomeId = "882";//"211586";           //
+    String testgenomeId = "211586";           //"882";//
 
     final static String sourcedb = "microbes_online";
 

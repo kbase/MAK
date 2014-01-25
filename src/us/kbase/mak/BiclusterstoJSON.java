@@ -8,10 +8,7 @@ import util.TabFile;
 import util.TextFile;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Marcin Joachimiak
@@ -73,7 +70,9 @@ public class BiclusterstoJSON {
             makr.setStartTime(""+0);
             makr.setFinishTime(""+10000);
             makr.setId(""+0);
-            makr.setSet(mbs);
+
+            List<MAKBiclusterSet> makbl = Arrays.asList(mbs);
+            makr.setSets(makbl);
             doParams(listinput);
 
             TextFile.write(UObject.transformObjectToString(makr), args[0] + "_MAKResult.jsonp");
@@ -244,7 +243,7 @@ public class BiclusterstoJSON {
 
         if (args.length >= 6) {
             try {
-                String[][] sarray = TabFile.readtoArray(args[3]);
+                String[][] sarray = TabFile.readtoArray(args[5]);
                 System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
                 int col = 2;
                 String[] n = MoreArray.extractColumnStr(sarray, col);
@@ -256,14 +255,14 @@ public class BiclusterstoJSON {
             }
             if (args.length == 7) {
                 try {
-                    String[][] sarray = TabFile.readtoArray(args[3]);
+                    String[][] sarray = TabFile.readtoArray(args[6]);
                     System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
-                    int col = 2;
+                    int col = 1;
                     String[] n = MoreArray.extractColumnStr(sarray, col);
                     exp_labels = MoreArray.replaceAll(n, "\"", "");
                     System.out.println("setLabels gene " + exp_labels.length + "\t" + exp_labels[0]);
                 } catch (Exception e) {
-                    System.out.println("expecting 2 cols");
+                    System.out.println("expecting 1 cols");
                     e.printStackTrace();
                 }
             }

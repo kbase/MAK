@@ -48,7 +48,7 @@ public class MapIds {
             MAKResult makResult = mapper.readValue(f, MAKResult.class);
 
 
-            List<MAKBicluster> mbs = makResult.getSet().getBiclusters();
+            List<MAKBicluster> mbs = makResult.getSets().get(0).getBiclusters();
 
             for (int a = 0; a < mbs.size(); a++) {
                 MAKBicluster makb = mbs.get(a);
@@ -69,7 +69,7 @@ public class MapIds {
                 makb.setGeneIds(kbgids);
                 mbs.set(a, makb);
             }
-            makResult.getSet().setBiclusters(mbs);
+            makResult.getSets().get(0).setBiclusters(mbs);
 
             TextFile.write(UObject.transformObjectToString(makResult), args[0] + "_kbmap.jsonp");
         } catch (IOException e) {
