@@ -1,12 +1,15 @@
 package us.kbase.mak;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import us.kbase.common.service.UObject;
 import us.kbase.idserverapi.IDServerAPIClient;
+import util.TextFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,12 +41,13 @@ public class RegisterBiclusterIds {
 
 
                 String prefix = "kb|" + biclusterType;
-                Long aLong = idClient.allocateIdRange(biclusterType, (long) makResult.getSets().get(0).getBiclusters().size());
+                List<MAKBicluster> biclusters = makResult.getSets().get(0).getBiclusters();
+                Long aLong = idClient.allocateIdRange(biclusterType, (long) biclusters.size());
                 String biclusterid = prefix + "." + aLong.toString();
                 System.out.println("biclusterid " + biclusterid);
 
                 Map<String, Long> map = new HashMap<String, Long>();
-                for (int i = 0; i < makResult.getSets().get(0).getBiclusters().size(); i++) {
+                for (int i = 0; i < biclusters.size(); i++) {
                     map.put(args[0] + "." + i, aLong + i);
                 }
 
@@ -52,26 +56,38 @@ public class RegisterBiclusterIds {
 
                 String prefix2 = "kb|" + setType;
                 Long bLong = idClient.allocateIdRange(setType, (long) 1);
-                String biclusterid2 = prefix2 + "." + bLong.toString();
-                System.out.println("biclusterid " + biclusterid2);
+                String setId = prefix2 + "." + bLong.toString();
+                System.out.println("biclusterid " + setId);
 
                 Map<String, Long> map2 = new HashMap<String, Long>();
-                map2.put(args[0] + "." + 0, bLong);
+                map2.put(args[0] + ".set" + 0, bLong);
 
                 idClient.registerAllocatedIds(prefix2, "MAK", map);
 
 
                 String prefix3 = "kb|" + resultType;
                 Long cLong = idClient.allocateIdRange(resultType, (long) 1);
-                String biclusterid3 = prefix3 + "." + cLong.toString();
-                System.out.println("biclusterid " + biclusterid3);
+                String resultId = prefix3 + "." + cLong.toString();
+                System.out.println("biclusterid " + resultId);
 
                 Map<String, Long> map3 = new HashMap<String, Long>();
-                map3.put(args[0] + "." + 0, cLong);
+                map3.put(args[0] + ".result" + 0, cLong);
 
                 idClient.registerAllocatedIds(prefix3, "MAK", map);
 
 
+                makResult.getSets().get(0).setId(setId);
+                makResult.setId(resultId);
+
+                for (int i = 0; i < biclusters.size(); i++) {
+                    MAKBicluster mb = biclusters.get(i);
+                    mb.setBiclusterId(prefix + "." + (aLong + i));
+                    biclusters.set(i, mb);
+                }
+
+                makResult.getSets().get(0).setBiclusters(biclusters);
+
+                TextFile.write(UObject.transformObjectToString(makResult), args[0] + "_register.jsonp");
 
             } catch (Exception e) {
                 e.printStackTrace();
