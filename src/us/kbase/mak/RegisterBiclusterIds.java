@@ -8,9 +8,7 @@ import util.TextFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Marcin Joachimiak
@@ -23,19 +21,19 @@ public class RegisterBiclusterIds {
     String biclusterType = "bicluster";//"makbicluster";
     String setType = "biclusterset";//"makset";
     String resultType = "makresult";
+    String MAKresource = "MAK";
 
     /**
      * @param args
      */
     public RegisterBiclusterIds(String args[]) {
 
-        System.out.println("1L " + 1L);
-
         try {
             ObjectMapper mapper = new ObjectMapper();
             File f = new File(args[0]);
             MAKResult makResult = mapper.readValue(f, MAKResult.class);
 
+            String fileprefix = args[0].substring(0, args[0].indexOf("."));
             try {
                 IDServerAPIClient idClient = new IDServerAPIClient(new URL("http://kbase.us/services/idserver"));
 
@@ -46,42 +44,88 @@ public class RegisterBiclusterIds {
                 String biclusterid = prefix + "." + aLong.toString();
                 System.out.println("biclusterid " + biclusterid);
 
-                Map<String, Long> map = new HashMap<String, Long>();
+                Map<String, Long> unmappedIds = new HashMap<String, Long>();
+                Map<String, String> mappedIds = new HashMap<String, String>();
                 for (int i = 0; i < biclusters.size(); i++) {
-                    map.put(args[0] + "." + i, aLong + i);
+                    String key = fileprefix + "." + i;
+                    if (i == 0)
+                        System.out.println("bicluster external id " + key);
+
+                    Map<String, String> isMapped = idClient.externalIdsToKbaseIds(MAKresource, Arrays.asList(key));
+
+                    //System.exit(0);
+
+                    if (isMapped.size() == 0) {
+                        unmappedIds.put(key, aLong + i);
+                    } else {
+                        System.out.println(isMapped);
+                        mappedIds.put(key, isMapped.get(key));
+                    }
                 }
 
-                idClient.registerAllocatedIds(prefix, "MAK", map);
+                if (unmappedIds.size() > 0) {
+                    System.out.println("registering biclusters " + unmappedIds.size());
+                    idClient.registerAllocatedIds(prefix, MAKresource, unmappedIds);
+                }
 
+                System.out.println();
 
                 String prefix2 = "kb|" + setType;
                 Long bLong = idClient.allocateIdRange(setType, (long) 1);
                 String setId = prefix2 + "." + bLong.toString();
-                System.out.println("biclusterid " + setId);
+                System.out.println("reserved new set id " + setId);
 
                 Map<String, Long> map2 = new HashMap<String, Long>();
-                map2.put(args[0] + ".set" + 0, bLong);
+                String key2 = fileprefix + ".set." + 0;
+                Map<String, String> mappedIds2 = idClient.externalIdsToKbaseIds(MAKresource, Arrays.asList(key2));
+                System.out.println("set external id " + key2);
+                String setKBId = "";
+                if (mappedIds2.size() == 0) {
+                    map2.put(key2, bLong);
+                    idClient.registerAllocatedIds(prefix2, MAKresource, map2);
+                    setKBId = prefix2 + "." + bLong;
+                    System.out.println("registering set " + setKBId);
+                } else {
+                    setKBId = mappedIds2.get(key2);
+                    System.out.println("existing set " + setKBId);
+                }
 
-                idClient.registerAllocatedIds(prefix2, "MAK", map);
-
+                System.out.println();
 
                 String prefix3 = "kb|" + resultType;
                 Long cLong = idClient.allocateIdRange(resultType, (long) 1);
                 String resultId = prefix3 + "." + cLong.toString();
-                System.out.println("biclusterid " + resultId);
+                System.out.println("reserved new result id " + resultId);
 
                 Map<String, Long> map3 = new HashMap<String, Long>();
-                map3.put(args[0] + ".result" + 0, cLong);
+                String key3 = fileprefix + ".result." + 0;
+                Map<String, String> mappedIds3 = idClient.externalIdsToKbaseIds(MAKresource, Arrays.asList(key3));
+                System.out.println("result external id " + key3);
+                String resultKBId = "";
+                if (mappedIds3.size() == 0) {
+                    map3.put(key3, cLong);
+                    idClient.registerAllocatedIds(prefix3, MAKresource, map3);
+                    resultKBId = prefix2 + "." + cLong;
+                    System.out.println("registering result " + resultKBId);
+                } else {
+                    resultKBId = mappedIds3.get(key3);
+                    System.out.println("existing result " + resultKBId);
+                }
 
-                idClient.registerAllocatedIds(prefix3, "MAK", map);
 
-
-                makResult.getSets().get(0).setId(setId);
-                makResult.setId(resultId);
+                makResult.getSets().get(0).setId(setKBId);
+                makResult.setId(resultKBId);
 
                 for (int i = 0; i < biclusters.size(); i++) {
                     MAKBicluster mb = biclusters.get(i);
-                    mb.setBiclusterId(prefix + "." + (aLong + i));
+                    //String kbid = prefix + "." + unmappedIds.get(fileprefix + "." + i);
+
+                    String curkey = fileprefix + "." + i;
+                    String kbid = mappedIds.get(curkey);
+                    if (kbid == null) {
+                        kbid = prefix + "." + unmappedIds.get(curkey);
+                    }
+                    mb.setBiclusterId(kbid);
                     biclusters.set(i, mb);
                 }
 

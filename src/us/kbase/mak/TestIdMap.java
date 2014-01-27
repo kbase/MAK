@@ -18,7 +18,7 @@ public class TestIdMap {
 
     //SOMR1 dnaA
     String SOMR1testid = "199205";
-    String testgenomeId = "211586";           //"882";//
+    String testgenomeId = "4932";//"211586";           //"882";//
 
     final static String sourcedb = "microbes_online";
 
@@ -38,10 +38,10 @@ public class TestIdMap {
                 e.printStackTrace();
             }
 
-            /*for (int i = 0; i < kbasegenomes.size(); i++) {
+            for (int i = 0; i < kbasegenomes.size(); i++) {
                 IdPair ip = (IdPair) kbasegenomes.get(i);
                 System.out.println(i + "\t" + ip.getKbaseId());
-            }*/
+            }
 
             for (int i = 0; i < kbasegenomes.size(); i++) {
                 IdPair ip = (IdPair) kbasegenomes.get(i);
