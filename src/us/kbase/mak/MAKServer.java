@@ -1,8 +1,13 @@
 package us.kbase.mak;
 
+import DataMining.RunMiner;
+import DataMining.ValueBlock;
 import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonServerMethod;
 import us.kbase.common.service.JsonServerServlet;
+import util.MoreArray;
+
+import java.util.ArrayList;
 
 //BEGIN_HEADER
 //END_HEADER
@@ -36,13 +41,19 @@ public class MAKServer extends JsonServerServlet {
      * string job_id - identifier of MAK job
      * </pre>
      * @param   wsId   instance of String
+     * @param   makb   instance of MAKBicluster
      * @param   params   instance of type {@link us.kbase.mak.MAKParameters MAKParameters}
      * @return   parameter "MAK_job_id" of String
      */
     @JsonServerMethod(rpc = "MAK.run_MAK_job_from_ws")
-    public String runMAKJobFromWs(String wsId, MAKParameters params, AuthToken authPart) throws Exception {
+    public String runMAKJobFromWs(String wsId, MAKBicluster makb, MAKParameters params, AuthToken authPart) throws Exception {
         String returnVal = null;
         //BEGIN run_MAK_job_from_ws
+
+        DataMining.ValueBlock vb = new ValueBlock(MoreArray.ArrayListtoString((ArrayList) makb.getGeneIds()), MoreArray.ArrayListtoString((ArrayList)makb.getConditionIds()));
+
+        DataMining.RunMiner rm = new DataMining.RunMiner(vb, "./");
+
         //END run_MAK_job_from_ws
         return returnVal;
     }

@@ -39,7 +39,7 @@ public class MapIds {
 
         init(args);
 
-        if (idmapping == null)
+        if (idmapping.size() == 0)
             idMap(args);
 
         try {
@@ -56,8 +56,9 @@ public class MapIds {
                 List<String> kbgids = new ArrayList<String>();
                 for (int z = 0; z < gids.size(); z++) {
                     String cur = gids.get(z);
-                    String e = idmapping.get(gene_labels[Integer.parseInt(cur) - 1]);
-                    //System.out.println("mapped " + cur + "\t" + e);
+                    String moid = gene_labels[Integer.parseInt(cur) - 1];
+                    String e = idmapping.get(moid);
+                    System.out.println("mapped " + cur + "\t" + moid + "\t" + e);
                     if (e != null)
                         kbgids.add(e);
                 }
@@ -110,7 +111,7 @@ public class MapIds {
                     if (syns.size() > 0) {
                         //String[] kbaseids = new String[gene_labels.length];
                         for (int j = 0; j < gene_labels.length; j++) {
-                            //System.out.println(j + "\t" + gene_labels[j]);
+                            System.out.println(j + "\t" + gene_labels[j]);
                             List<String> a = new ArrayList();
                             a.add(gene_labels[j]);
                             Map map = idc.lookupFeatures(ip.getKbaseId(), Arrays.asList(gene_labels[j]), "CDS", "microbes_online");
@@ -119,14 +120,14 @@ public class MapIds {
                             Iterator kit = keys.iterator();
                             Iterator eit = entries.iterator();
 
-                            //System.out.println("entries " + entries.size());
+                            System.out.println("entries " + entries.size());
                             //for (int k = 0; k < keys.size(); k++) {
                             if (kit.hasNext()) {
                                 while (kit.hasNext()) {
                                     ArrayList me = (ArrayList) map.get(kit.next());
                                     for (int z = 0; z < me.size(); z++) {
                                         IdPair cur = (IdPair) me.get(z);
-                                        //System.out.println(gene_labels[j] + "\t" + cur.getAlias() + "\t" + cur.getKbaseId() + "\t" + cur.getSourceDb());
+                                        System.out.println(gene_labels[j] + "\t" + cur.getAlias() + "\t" + cur.getKbaseId() + "\t" + cur.getSourceDb());
                                         idmapping.put(cur.getAlias(), cur.getKbaseId());
                                     }
                                 }
