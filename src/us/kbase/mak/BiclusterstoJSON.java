@@ -31,7 +31,7 @@ public class BiclusterstoJSON {
 
     java.util.Date date;
 
-    String  default_series_ref = "AKtest/D_vulgaris_series_series";
+    String default_series_ref = "AKtest/D_vulgaris_series_series";
 
     String default_bicluster_type = "expression";
     String default_biclusterset_id = "" + 0;
@@ -67,9 +67,9 @@ public class BiclusterstoJSON {
             List<MAKInputData> listinput = doInputs();
 
             makr = new MAKResult();
-            makr.setStartTime(""+0);
-            makr.setFinishTime(""+10000);
-            makr.setId(""+0);
+            makr.setStartTime("" + 0);
+            makr.setFinishTime("" + 10000);
+            makr.setId("" + 0);
 
             List<MAKBiclusterSet> makbl = Arrays.asList(mbs);
             makr.setSets(makbl);
@@ -135,8 +135,8 @@ public class BiclusterstoJSON {
 
             mb.setData(listdata);*/
 
-            mb.setNumConditions((long)vb.exps.length);
-            mb.setNumGenes((long)vb.genes.length);
+            mb.setNumConditions((long) vb.exps.length);
+            mb.setNumGenes((long) vb.genes.length);
             mb.setMissFrxn(vb.frxnNaN());
 
             Map terms = new HashMap();
@@ -197,8 +197,8 @@ public class BiclusterstoJSON {
         makp.setNullDataPath(dprm.null_data_path);
         makp.setRcodepath(prm.R_METHODS_PATH);
         makp.setRdatapath(prm.R_DATA_PATH);
-        makp.setRefine((long)(dprm.refine ? 1 : 0));
-        makp.setRounds((long)dprm.rounds);
+        makp.setRefine((long) (dprm.refine ? 1 : 0));
+        makp.setRounds((long) dprm.rounds);
         makp.setRoundsMoveSequences(MoreArray.convtoArrayList(dprm.move_sequences));
         makp.setSeriesRef(default_series_ref);
         makr.setParameters(makp);
@@ -214,8 +214,8 @@ public class BiclusterstoJSON {
         maki.setDataType(default_bicluster_type);
         maki.setDescription(default_biclusterset_desc);
         maki.setId(default_biclusterset_id);
-        maki.setNumCols((long)sm.data[0].length);
-        maki.setNumRows((long)sm.data.length);
+        maki.setNumCols((long) sm.data[0].length);
+        maki.setNumRows((long) sm.data.length);
         maki.setTaxon(dprm.taxon);
         List<MAKInputData> listinput = new ArrayList();
         listinput.add(maki);
@@ -289,6 +289,7 @@ public class BiclusterstoJSON {
                     "< MAK discovery strategy file >\n" +
                     "< OPTIONAL primary input data gene labels >\n" +
                     "< OPTIONAL (only if also gene labels) primary input data condition labels >"
+                    /*TODO add dash options, add option to name primary data type*/
             );
         }
     }

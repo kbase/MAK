@@ -23,6 +23,8 @@ import java.util.ArrayList;
 public class MAKServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
 
+    static final String default_paramfile = "parameters.txt";
+
     //BEGIN_CLASS_HEADER
     //END_CLASS_HEADER
 
@@ -50,9 +52,13 @@ public class MAKServer extends JsonServerServlet {
         String returnVal = null;
         //BEGIN run_MAK_job_from_ws
 
+        /*TODO allow use of string ids from geneids file in ValueBlock*/
+
         DataMining.ValueBlock vb = new ValueBlock(MoreArray.ArrayListtoString((ArrayList) makb.getGeneIds()), MoreArray.ArrayListtoString((ArrayList)makb.getConditionIds()));
 
-        DataMining.RunMiner rm = new DataMining.RunMiner(vb, "./");
+        /*TODO choose parameter file based on tax id*/
+
+        //DataMining.RunMiner rm = new DataMining.RunMiner(vb, default_paramfile);
 
         //END run_MAK_job_from_ws
         return returnVal;

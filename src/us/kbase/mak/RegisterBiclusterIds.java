@@ -33,7 +33,10 @@ public class RegisterBiclusterIds {
             File f = new File(args[0]);
             MAKResult makResult = mapper.readValue(f, MAKResult.class);
 
-            String fileprefix = args[0].substring(0, args[0].indexOf("."));
+            int slashind = args[0].indexOf("/");
+            int max = Math.max(0, slashind);
+            int dotind = args[0].indexOf(".", max);
+            String fileprefix = args[0].substring(max, dotind);
             try {
                 IDServerAPIClient idClient = new IDServerAPIClient(new URL("http://kbase.us/services/idserver"));
 
