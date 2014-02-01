@@ -8,6 +8,7 @@ import us.kbase.centralstore.dumpers.*;
 import us.kbase.common.service.JsonClientException;
 import us.kbase.idmap.IdMapClient;
 import us.kbase.idmap.IdPair;
+import us.kbase.mak.util.KBidforTaxId;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,9 +61,7 @@ public class MAKCSDumper {
                         e.printStackTrace();
                     }
 
-
-                    //execute only if MAKDB is not present in Source table
-                    /*try {
+                    try {
                         bundle.so.withId(MAKresource)
                                 .withDescription("Massive Associative K-biclustering database")
                                 .withName("MAKDB")
@@ -71,7 +70,7 @@ public class MAKCSDumper {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    */
+
                     String type = setType();
 
                     String makeBiclusterSetId = makBiclusterSet.getId();
@@ -168,7 +167,7 @@ public class MAKCSDumper {
 
         String type = "";
         String dataType = makResult.getParameters().getInputs().get(0).getDataType();
-        System.out.println("dataType "+dataType);
+        System.out.println("dataType " + dataType);
         if (dataType.equals("expression"))
             type = "CO-EXPRESSION";
         else if (dataType.equals("fitness"))
@@ -191,33 +190,7 @@ public class MAKCSDumper {
 
         makResult = mapper.readValue(f, MAKResult.class);
 
-        IdMapClient idc = new IdMapClient(new URL("http://127.0.0.1:7111"));
-        List kbasegenomes = new ArrayList();
-        try {
-            kbasegenomes = idc.lookupGenome(makResult.getParameters().getInputs().get(0).getTaxon(), "NCBI_TAXID");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JsonClientException e) {
-            e.printStackTrace();
-        }
-
-        for (int i = 0; i < kbasegenomes.size(); i++) {
-            IdPair ip = (IdPair) kbasegenomes.get(i);
-            //System.out.println(i + "\t" + ip.getKbaseId());
-
-            try {
-                List syns = idc.lookupFeatureSynonyms(ip.getKbaseId(), "CDS");
-                System.out.println("synonyms " + syns.size());
-
-                if (syns.size() > 0) {
-                    kbgid = ip.getKbaseId();
-                    System.out.println(i + "\t" + kbasegenomes.get(i));
-                }
-            } catch (JsonClientException e) {
-                e.printStackTrace();
-            }
-        }
-
+        kbgid = KBidforTaxId.getKBidforTaxId(makResult.getParameters().getInputs().get(0).getTaxon());
 
         bundle = new MAKBundle();
     }

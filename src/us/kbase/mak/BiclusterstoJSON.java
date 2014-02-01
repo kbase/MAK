@@ -33,6 +33,7 @@ public class BiclusterstoJSON {
 
     String default_series_ref = "AKtest/D_vulgaris_series_series";
 
+    /*TODO user variable for primary data type*/
     String default_bicluster_type = "expression";
     String default_biclusterset_id = "" + 0;
     String default_biclusterset_desc = "gene expression biclusters";
@@ -251,7 +252,18 @@ public class BiclusterstoJSON {
                 System.out.println("setLabels gene " + gene_labels.length + "\t" + gene_labels[0]);
             } catch (Exception e) {
                 System.out.println("expecting 2 cols");
-                e.printStackTrace();
+                //e.printStackTrace();
+                try {
+                    String[][] sarray = TabFile.readtoArray(args[5]);
+                    System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
+                    int col = 1;
+                    String[] n = MoreArray.extractColumnStr(sarray, col);
+                    gene_labels = MoreArray.replaceAll(n, "\"", "");
+                    System.out.println("setLabels gene " + gene_labels.length + "\t" + gene_labels[0]);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+
             }
             if (args.length == 7) {
                 try {
