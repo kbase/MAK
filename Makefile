@@ -107,6 +107,7 @@ build-libs:
 		$(SERVICE_SPEC) lib
 
 compile: src lib
+	chmod +x ./make_war.sh
 	./make_war.sh $(SERVLET_CLASS)
 
 deploy: compile
