@@ -30,7 +30,7 @@ deploy-all: distrib deploy-client
 deploy-jar: deploy-sh-scripts distrib-jar test-jar
 
 compile-jar: src lib
-        ./make_jar.sh $(MAIN_CLASS)
+	./make_jar.sh $(MAIN_CLASS)
 
 distrib-jar:
 	export KB_TOP=$(TARGET)
@@ -85,8 +85,7 @@ distrib:
 	cp -f ./dist/service.war $(TARGET_DIR)
 	cp -f ./glassfish_start_service.sh $(TARGET_DIR)
 	cp -f ./glassfish_stop_service.sh $(TARGET_DIR)
-	cp -f ./cmonkey.awf $(TARGET_DIR)
-	cp -f ./data/KEGG_taxonomy $(DATA_DIR)
+	cp -f ./MAK.awf $(TARGET_DIR)
 	echo "./glassfish_start_service.sh $(TARGET_DIR)/service.war $(TARGET_PORT) $(THREADPOOL_SIZE)" > $(TARGET_DIR)/start_service.sh
 	chmod +x $(TARGET_DIR)/start_service.sh
 	echo "./glassfish_stop_service.sh $(TARGET_PORT)" > $(TARGET_DIR)/stop_service.sh
@@ -109,6 +108,12 @@ build-libs:
 
 compile: src lib
 	./make_war.sh $(SERVLET_CLASS)
+
+deploy: compile
+	cd $(TARGET)/services/$(SERVICE_DIR)/
+	curl -O http://genomics.lbl.gov/~marcin/MAK_data.tar.gz
+	tar zxf MAK_data.tar.gz
+
 
 test: test-scripts
 	@echo "running script tests"

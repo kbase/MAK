@@ -28,7 +28,7 @@ public class MAKServerConfig {
 
     	//Logging options
 
-    	//With LOG_AWE_CALLS = true, Cmonkey will write all JSON calls to AWE client and all AWE responses to /var/tmp/cmonkey/cmonkey-awe.log
+    	//With LOG_AWE_CALLS = true, MAK will write all JSON calls to AWE client and all AWE responses to /var/tmp/MAK/MAK-awe.log
     	//This is a serious security threat because log will contain all auth tokens
     	//SET IT TO FALSE ON PRODUCTION
     	public static final boolean LOG_AWE_CALLS = true;

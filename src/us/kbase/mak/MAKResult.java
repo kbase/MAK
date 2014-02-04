@@ -45,22 +45,22 @@ public class MAKResult {
      * <p>Original spec-file type: MAKParameters</p>
      * <pre>
      * MAK algorithm and discovery strategy parameters 
-     *         float min_raw_bicluster_score - minimum raw bicluster score
-     *         float max_bicluster_overlap - maximum allowed bicluster overlap
-     *         float max_enrich_pvalue - maximum allowed enrichment p-value
-     *     int rounds - number of rounds in discovery strategy
-     *     list<string> rounds_move_sequences - 
-     *     int refine - refinement y/n 
-     *     string linkage - complete, single, mean etc.
-     *     string null_data_path - path to null distribution files
-     *     string Rcodepath - path to R code (Miner.R)
-     *     string Rdatapath - path to Rdata object
-     *     expression_series_ws_ref series_ref - reference to ExpressionSeries
-     *     list<MAKInputData> inputs - objects for MAK input data
-     *         
-     *         @optional 
-     *         
-     *     @searchable ws_subset
+     * string taxon - taxonomy id
+     * string genome_id - kbase genome id
+     * float min_raw_bicluster_score - minimum raw bicluster score
+     * float max_bicluster_overlap - maximum allowed bicluster overlap
+     * float max_enrich_pvalue - maximum allowed enrichment p-value
+     *             int rounds - number of rounds in discovery strategy
+     *             list<string> rounds_move_sequences - 
+     *             int refine - refinement y/n 
+     *             string linkage - complete, single, mean etc.
+     *             string null_data_path - path to null distribution files
+     *             string Rcodepath - path to R code (Miner.R)
+     *             string Rdatapath - path to Rdata object
+     *             expression_series_ws_ref series_ref - reference to ExpressionSeries
+     *             list<MAKInputData> inputs - objects for MAK input data
+     * @optional 
+     *             @searchable ws_subset
      * </pre>
      * 
      */
@@ -119,22 +119,22 @@ public class MAKResult {
      * <p>Original spec-file type: MAKParameters</p>
      * <pre>
      * MAK algorithm and discovery strategy parameters 
-     *         float min_raw_bicluster_score - minimum raw bicluster score
-     *         float max_bicluster_overlap - maximum allowed bicluster overlap
-     *         float max_enrich_pvalue - maximum allowed enrichment p-value
-     *     int rounds - number of rounds in discovery strategy
-     *     list<string> rounds_move_sequences - 
-     *     int refine - refinement y/n 
-     *     string linkage - complete, single, mean etc.
-     *     string null_data_path - path to null distribution files
-     *     string Rcodepath - path to R code (Miner.R)
-     *     string Rdatapath - path to Rdata object
-     *     expression_series_ws_ref series_ref - reference to ExpressionSeries
-     *     list<MAKInputData> inputs - objects for MAK input data
-     *         
-     *         @optional 
-     *         
-     *     @searchable ws_subset
+     * string taxon - taxonomy id
+     * string genome_id - kbase genome id
+     * float min_raw_bicluster_score - minimum raw bicluster score
+     * float max_bicluster_overlap - maximum allowed bicluster overlap
+     * float max_enrich_pvalue - maximum allowed enrichment p-value
+     *             int rounds - number of rounds in discovery strategy
+     *             list<string> rounds_move_sequences - 
+     *             int refine - refinement y/n 
+     *             string linkage - complete, single, mean etc.
+     *             string null_data_path - path to null distribution files
+     *             string Rcodepath - path to R code (Miner.R)
+     *             string Rdatapath - path to Rdata object
+     *             expression_series_ws_ref series_ref - reference to ExpressionSeries
+     *             list<MAKInputData> inputs - objects for MAK input data
+     * @optional 
+     *             @searchable ws_subset
      * </pre>
      * 
      */
@@ -147,22 +147,22 @@ public class MAKResult {
      * <p>Original spec-file type: MAKParameters</p>
      * <pre>
      * MAK algorithm and discovery strategy parameters 
-     *         float min_raw_bicluster_score - minimum raw bicluster score
-     *         float max_bicluster_overlap - maximum allowed bicluster overlap
-     *         float max_enrich_pvalue - maximum allowed enrichment p-value
-     *     int rounds - number of rounds in discovery strategy
-     *     list<string> rounds_move_sequences - 
-     *     int refine - refinement y/n 
-     *     string linkage - complete, single, mean etc.
-     *     string null_data_path - path to null distribution files
-     *     string Rcodepath - path to R code (Miner.R)
-     *     string Rdatapath - path to Rdata object
-     *     expression_series_ws_ref series_ref - reference to ExpressionSeries
-     *     list<MAKInputData> inputs - objects for MAK input data
-     *         
-     *         @optional 
-     *         
-     *     @searchable ws_subset
+     * string taxon - taxonomy id
+     * string genome_id - kbase genome id
+     * float min_raw_bicluster_score - minimum raw bicluster score
+     * float max_bicluster_overlap - maximum allowed bicluster overlap
+     * float max_enrich_pvalue - maximum allowed enrichment p-value
+     *             int rounds - number of rounds in discovery strategy
+     *             list<string> rounds_move_sequences - 
+     *             int refine - refinement y/n 
+     *             string linkage - complete, single, mean etc.
+     *             string null_data_path - path to null distribution files
+     *             string Rcodepath - path to R code (Miner.R)
+     *             string Rdatapath - path to Rdata object
+     *             expression_series_ws_ref series_ref - reference to ExpressionSeries
+     *             list<MAKInputData> inputs - objects for MAK input data
+     * @optional 
+     *             @searchable ws_subset
      * </pre>
      * 
      */

@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * <pre>
  * MAK dataset source 
  *         string taxon - NCBI taxonomy id
+ *         string genome_id - kbase id of genome
  *         string id - kbase id
  *         string description - description
  *         string dataPath - path to data
@@ -30,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("com.googlecode.jsonschema2pojo")
 @JsonPropertyOrder({
     "taxon",
+    "genome_id",
     "id",
     "data_type",
     "description",
@@ -41,6 +43,8 @@ public class MAKInputData {
 
     @JsonProperty("taxon")
     private String taxon;
+    @JsonProperty("genome_id")
+    private String genomeId;
     @JsonProperty("id")
     private String id;
     @JsonProperty("data_type")
@@ -67,6 +71,21 @@ public class MAKInputData {
 
     public MAKInputData withTaxon(String taxon) {
         this.taxon = taxon;
+        return this;
+    }
+
+    @JsonProperty("genome_id")
+    public String getGenomeId() {
+        return genomeId;
+    }
+
+    @JsonProperty("genome_id")
+    public void setGenomeId(String genomeId) {
+        this.genomeId = genomeId;
+    }
+
+    public MAKInputData withGenomeId(String genomeId) {
+        this.genomeId = genomeId;
         return this;
     }
 
@@ -172,7 +191,7 @@ public class MAKInputData {
 
     @Override
     public String toString() {
-        return ((((((((((((((((("MAKInputData"+" [taxon=")+ taxon)+", id=")+ id)+", dataType=")+ dataType)+", description=")+ description)+", dataPath=")+ dataPath)+", numRows=")+ numRows)+", numCols=")+ numCols)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((((("MAKInputData"+" [taxon=")+ taxon)+", genomeId=")+ genomeId)+", id=")+ id)+", dataType=")+ dataType)+", description=")+ description)+", dataPath=")+ dataPath)+", numRows=")+ numRows)+", numCols=")+ numCols)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

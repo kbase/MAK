@@ -16,28 +16,30 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * <p>Original spec-file type: MAKParameters</p>
  * <pre>
  * MAK algorithm and discovery strategy parameters 
- *         float min_raw_bicluster_score - minimum raw bicluster score
- *         float max_bicluster_overlap - maximum allowed bicluster overlap
- *         float max_enrich_pvalue - maximum allowed enrichment p-value
- *     int rounds - number of rounds in discovery strategy
- *     list<string> rounds_move_sequences - 
- *     int refine - refinement y/n 
- *     string linkage - complete, single, mean etc.
- *     string null_data_path - path to null distribution files
- *     string Rcodepath - path to R code (Miner.R)
- *     string Rdatapath - path to Rdata object
- *     expression_series_ws_ref series_ref - reference to ExpressionSeries
- *     list<MAKInputData> inputs - objects for MAK input data
- *         
- *         @optional 
- *         
- *     @searchable ws_subset
+ * string taxon - taxonomy id
+ * string genome_id - kbase genome id
+ * float min_raw_bicluster_score - minimum raw bicluster score
+ * float max_bicluster_overlap - maximum allowed bicluster overlap
+ * float max_enrich_pvalue - maximum allowed enrichment p-value
+ *             int rounds - number of rounds in discovery strategy
+ *             list<string> rounds_move_sequences - 
+ *             int refine - refinement y/n 
+ *             string linkage - complete, single, mean etc.
+ *             string null_data_path - path to null distribution files
+ *             string Rcodepath - path to R code (Miner.R)
+ *             string Rdatapath - path to Rdata object
+ *             expression_series_ws_ref series_ref - reference to ExpressionSeries
+ *             list<MAKInputData> inputs - objects for MAK input data
+ * @optional 
+ *             @searchable ws_subset
  * </pre>
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("com.googlecode.jsonschema2pojo")
 @JsonPropertyOrder({
+    "taxon",
+    "genome_id",
     "min_raw_bicluster_score",
     "max_bicluster_overlap",
     "max_enrich_pvalue",
@@ -53,6 +55,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class MAKParameters {
 
+    @JsonProperty("taxon")
+    private java.lang.String taxon;
+    @JsonProperty("genome_id")
+    private java.lang.String genomeId;
     @JsonProperty("min_raw_bicluster_score")
     private Double minRawBiclusterScore;
     @JsonProperty("max_bicluster_overlap")
@@ -78,6 +84,36 @@ public class MAKParameters {
     @JsonProperty("inputs")
     private List<MAKInputData> inputs;
     private Map<java.lang.String, Object> additionalProperties = new HashMap<java.lang.String, Object>();
+
+    @JsonProperty("taxon")
+    public java.lang.String getTaxon() {
+        return taxon;
+    }
+
+    @JsonProperty("taxon")
+    public void setTaxon(java.lang.String taxon) {
+        this.taxon = taxon;
+    }
+
+    public MAKParameters withTaxon(java.lang.String taxon) {
+        this.taxon = taxon;
+        return this;
+    }
+
+    @JsonProperty("genome_id")
+    public java.lang.String getGenomeId() {
+        return genomeId;
+    }
+
+    @JsonProperty("genome_id")
+    public void setGenomeId(java.lang.String genomeId) {
+        this.genomeId = genomeId;
+    }
+
+    public MAKParameters withGenomeId(java.lang.String genomeId) {
+        this.genomeId = genomeId;
+        return this;
+    }
 
     @JsonProperty("min_raw_bicluster_score")
     public Double getMinRawBiclusterScore() {
@@ -271,7 +307,7 @@ public class MAKParameters {
 
     @Override
     public java.lang.String toString() {
-        return ((((((((((((((((((((((((((("MAKParameters"+" [minRawBiclusterScore=")+ minRawBiclusterScore)+", maxBiclusterOverlap=")+ maxBiclusterOverlap)+", maxEnrichPvalue=")+ maxEnrichPvalue)+", rounds=")+ rounds)+", roundsMoveSequences=")+ roundsMoveSequences)+", refine=")+ refine)+", linkage=")+ linkage)+", nullDataPath=")+ nullDataPath)+", Rcodepath=")+ Rcodepath)+", Rdatapath=")+ Rdatapath)+", seriesRef=")+ seriesRef)+", inputs=")+ inputs)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((((((((((((((((("MAKParameters"+" [taxon=")+ taxon)+", genomeId=")+ genomeId)+", minRawBiclusterScore=")+ minRawBiclusterScore)+", maxBiclusterOverlap=")+ maxBiclusterOverlap)+", maxEnrichPvalue=")+ maxEnrichPvalue)+", rounds=")+ rounds)+", roundsMoveSequences=")+ roundsMoveSequences)+", refine=")+ refine)+", linkage=")+ linkage)+", nullDataPath=")+ nullDataPath)+", Rcodepath=")+ Rcodepath)+", Rdatapath=")+ Rdatapath)+", seriesRef=")+ seriesRef)+", inputs=")+ inputs)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

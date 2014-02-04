@@ -1,13 +1,9 @@
 package us.kbase.mak;
 
-import DataMining.RunMiner;
-import DataMining.ValueBlock;
+import java.util.List;
 import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonServerMethod;
 import us.kbase.common.service.JsonServerServlet;
-import util.MoreArray;
-
-import java.util.ArrayList;
 
 //BEGIN_HEADER
 //END_HEADER
@@ -23,8 +19,6 @@ import java.util.ArrayList;
 public class MAKServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
 
-    static final String default_paramfile = "parameters.txt";
-
     //BEGIN_CLASS_HEADER
     //END_CLASS_HEADER
 
@@ -35,32 +29,69 @@ public class MAKServer extends JsonServerServlet {
     }
 
     /**
-     * <p>Original spec-file function name: run_MAK_job_from_ws</p>
+     * <p>Original spec-file function name: runall_MAK_job_from_ws</p>
      * <pre>
-     * Starts MAK server job for a series of expression data stored in workspace and returns job ID of the run
+     * Starts MAK server job and returns job ID of the run
      * string ws_id - workspace id
-     * MAKParameters params - parameters of MAK job
+     * string kbgid - kbase genome id kbgid
      * string job_id - identifier of MAK job
      * </pre>
      * @param   wsId   instance of String
-     * @param   makb   instance of MAKBicluster
-     * @param   params   instance of type {@link us.kbase.mak.MAKParameters MAKParameters}
+     * @param   kbgid   instance of String
+     * @param   data_type   instance of String
      * @return   parameter "MAK_job_id" of String
      */
-    @JsonServerMethod(rpc = "MAK.run_MAK_job_from_ws")
-    public String runMAKJobFromWs(String wsId, MAKBicluster makb, MAKParameters params, AuthToken authPart) throws Exception {
+    @JsonServerMethod(rpc = "MAK.runall_MAK_job_from_ws")
+    public String runallMAKJobFromWs(String wsId, String kbgid, String data_type, AuthToken authPart) throws Exception {
         String returnVal = null;
-        //BEGIN run_MAK_job_from_ws
+        //BEGIN runall_MAK_job_from_ws
+        //END runall_MAK_job_from_ws
+        return returnVal;
+    }
 
-        /*TODO allow use of string ids from geneids file in ValueBlock*/
+    /**
+     * <p>Original spec-file function name: runsingle_MAK_job_from_ws</p>
+     * <pre>
+     * Starts MAK server job and returns job ID of the run
+     * string ws_id - workspace id
+     * tring kbgid - kbase genome id kbgid
+     * MAKBicluster makb - starting point bicluster
+     * string job_id - identifier of MAK job
+     * </pre>
+     * @param   wsId   instance of String
+     * @param   kbgid   instance of String
+     * @param   data_type   instance of String
+     * @param   geneids   instance of list of String
+     * @return   parameter "MAK_job_id" of String
+     */
+    @JsonServerMethod(rpc = "MAK.runsingle_MAK_job_from_ws")
+    public String runsingleMAKJobFromWs(String wsId, String kbgid, String data_type, List<String> geneids, AuthToken authPart) throws Exception {
+        String returnVal = null;
+        //BEGIN runsingle_MAK_job_from_ws
+        //END runsingle_MAK_job_from_ws
+        return returnVal;
+    }
 
-        DataMining.ValueBlock vb = new ValueBlock(MoreArray.ArrayListtoString((ArrayList) makb.getGeneIds()), MoreArray.ArrayListtoString((ArrayList)makb.getConditionIds()));
-
-        /*TODO choose parameter file based on tax id*/
-
-        //DataMining.RunMiner rm = new DataMining.RunMiner(vb, default_paramfile);
-
-        //END run_MAK_job_from_ws
+    /**
+     * <p>Original spec-file function name: search_MAK_results_from_ws</p>
+     * <pre>
+     * Starts MAK server job for searching precomputed biclusters and returns job ID of the run
+     * string ws_id - workspace id
+     * string kbgid - kbase genome id kbgid
+     * list<string> geneids - list of kb gene ids
+     * string job_id - identifier of MAK job
+     * </pre>
+     * @param   wsId   instance of String
+     * @param   kbgid   instance of String
+     * @param   data_type   instance of String
+     * @param   geneids   instance of list of String
+     * @return   parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
+     */
+    @JsonServerMethod(rpc = "MAK.search_MAK_results_from_ws")
+    public MAKBiclusterSet searchMAKResultsFromWs(String wsId, String kbgid, String data_type, List<String> geneids, AuthToken authPart) throws Exception {
+        MAKBiclusterSet returnVal = null;
+        //BEGIN search_MAK_results_from_ws
+        //END search_MAK_results_from_ws
         return returnVal;
     }
 

@@ -3,6 +3,7 @@ package us.kbase.mak;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mathy.SimpleMatrix;
 import us.kbase.common.service.JsonClientException;
+import us.kbase.expressionservices.ExpressionSeries;
 import us.kbase.idmap.IdMapClient;
 import us.kbase.idmap.IdPair;
 import us.kbase.mak.util.KBidforTaxId;
@@ -40,7 +41,19 @@ public class ExpressionDatatoJSON {
 
         try {
             init(args);
+            us.kbase.expressionservices.ExpressionSeries es = new ExpressionSeries();
 
+           /* ArrayList aed = new ArrayList<ExpressionDataSample>();
+
+            es.withDesign()
+            .withExpressionSampleIds(aed)
+            .withExternalSourceDate()
+            .withKbId()
+            .withPublicationId()
+            .withSourceId()
+            .withSummary()
+            .withTitle();
+            */
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,7 +88,6 @@ public class ExpressionDatatoJSON {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-
         }
         try {
             String[][] sarray = TabFile.readtoArray(args[2]);
