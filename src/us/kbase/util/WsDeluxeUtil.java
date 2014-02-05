@@ -9,11 +9,11 @@ import java.util.Map;
 
 import us.kbase.auth.AuthToken;
 import us.kbase.auth.TokenFormatException;
-import us.kbase.cmonkey.CmonkeyServerConfig;
 import us.kbase.common.service.JsonClientException;
 import us.kbase.common.service.Tuple11;
 import us.kbase.common.service.UObject;
 import us.kbase.common.service.UnauthorizedException;
+import us.kbase.mak.MAKServerConfig;
 import us.kbase.workspace.ObjectData;
 import us.kbase.workspace.ObjectIdentity;
 import us.kbase.workspace.ObjectSaveData;
@@ -23,7 +23,7 @@ import us.kbase.workspace.WorkspaceClient;
 public class WsDeluxeUtil {
 	private static WorkspaceClient _wsClient = null;
 	private static String _token = null;
-	private static final String WS_SERVICE_URL = CmonkeyServerConfig.WS_SERVICE_URL;
+	private static final String WS_SERVICE_URL = MAKServerConfig.WS_SERVICE_URL;
 	
 	public static WorkspaceClient wsClient(String token) throws TokenFormatException, UnauthorizedException, IOException {
 		if((_wsClient == null)||(_token == null)||(!token.equals(_token))){
