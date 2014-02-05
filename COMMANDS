@@ -1,0 +1,2 @@
+#group-name	mak MAK
+#command-set	scripts/(.*).pl	mak
