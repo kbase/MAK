@@ -88,7 +88,7 @@ public class MAKInvoker {
             String jobid = (String) options.get("-jobid");
             System.out.println(jobid);
 
-            MAKServerImpl.searchMAKJobFromWs(wsId, kbgid, jobid, token, currentDir);
+            //MAKServerImpl.searchMAKJobFromWs(wsId, kbgid, jobid, token, currentDir);
         }
 
     public void run(String[] args) throws Exception {
@@ -117,7 +117,7 @@ public class MAKInvoker {
     }
 
 
-    private static boolean validateInput(CommandLine line) {
+    /*private static boolean validateInput(CommandLine line) {
         boolean returnVal = false;
         if (line.hasOption("method")) {
 
@@ -155,7 +155,7 @@ public class MAKInvoker {
             System.err.println("Method required");
         }
         return returnVal;
-    }
+    }*/
 
     /**
      * @param args
