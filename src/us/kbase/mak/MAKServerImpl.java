@@ -362,17 +362,17 @@ public class MAKServerImpl {
         writer.write("log file created " + dateFormat.format(date) + "\n");
         writer.flush();
 
-        String commandLine = generateSearchCommandLine(jobPath, kbgid, data_type, genes);//wsName + "_" +
+       /* String commandLine = generateSearchCommandLine(jobPath, kbgid, data_type, genes);//wsName + "_" +
         writer.write(commandLine + "\n");
         writer.flush();
-        gc();
+        gc();*/
 
 
         if (jobId != null)
             updateJobProgress(jobId,
                     "Input prepared. Starting MAK ...", token);
 
-        Integer exitVal = executeCommand(commandLine, jobPath, jobId, token);
+        Integer exitVal = -1;//executeCommand(commandLine, jobPath, jobId, token);
         //Integer exitVal = executeCommand("", jobPath, jobId, token);
         if (exitVal != null) {
             writer.write("ExitValue: " + exitVal.toString() + "\n");
@@ -395,7 +395,7 @@ public class MAKServerImpl {
             // close log file
             writer.close();
         } else {
-            String resultId = getKbaseId("MAKResult");
+           /* String resultId = getKbaseId("MAKResult");
             writer.write(resultId + "\n");
             makResult.setId(resultId);
             makResult.setParameters(makp);
@@ -414,11 +414,11 @@ public class MAKServerImpl {
             }
             if (jobId != null)
                 finishJob(jobId, wsName, makResult.getId(), "Finished",
-                        token.toString());
+                        token.toString());*/
         }
     }
 
-    private final static ArrayList loadLabels(String kbgid) {
+    public final static ArrayList loadLabels(String kbgid) {
         String[] gene_labels = null;
         String gread = DATA_PATH + "/" + kbgid + "_geneids.txt";
         try {

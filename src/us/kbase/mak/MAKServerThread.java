@@ -22,7 +22,7 @@ public class MAKServerThread {
 
     	public void run (){
     		try {
-    			MAKServerImpl.MAKJobFromWs(wsId, params, jobId, token, null);
+    			//MAKServerImpl.MAKJobFromWs(wsId, params, jobId, token, null);
     		} catch (Exception e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
