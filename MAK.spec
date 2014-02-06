@@ -1,5 +1,5 @@
 /* 
-	Module MAKBiclusterCollection version 1.0
+	Module MAK version 1.0
 	This module provides access to MAK biclustering results.
 
 	@author marcin
@@ -13,12 +13,12 @@ module MAK {
 	typedef string gene_id;
 
 	/* Represents WS expression data sample identifier
-		id ws ExpressionServices.ExpressionSample
+		id ws KBaseExpression.ExpressionSample
 	*/
 	typedef string expression_sample_ws_ref;
 
 	/* Represents WS expression data series identifier
-		@id ws ExpressionServices.ExpressionSeries
+		@id ws KBaseExpression.ExpressionSeries
 	*/
 	typedef string expression_series_ws_ref;
 
@@ -51,7 +51,9 @@ module MAK {
 	/* MAK dataset source 
 	
 		string taxon - NCBI taxonomy id
+		string genome_id - kbase id of genome
 		string id - kbase id
+		string data_type - type of data: "expression", "fitness"
 		string description - description
 		string dataPath - path to data
 	    int num_rows - number of rows
@@ -61,6 +63,7 @@ module MAK {
 	*/
 	typedef structure {	   
 		string taxon;	 
+		string genome_id;
 		string id;
 		string data_type;
 		string description;	
@@ -100,7 +103,8 @@ module MAK {
 	
 	
 	/* MAK algorithm and discovery strategy parameters 
-	
+		string taxon - taxonomy id
+		string genome_id - kbase genome id
 		float min_raw_bicluster_score - minimum raw bicluster score
 		float max_bicluster_overlap - maximum allowed bicluster overlap
 		float max_enrich_pvalue - maximum allowed enrichment p-value
@@ -118,7 +122,9 @@ module MAK {
 		
     	@searchable ws_subset
 	*/
-  	typedef structure {  	
+  	typedef structure {  
+  		string taxon;
+  		string genome_id;
 		float min_raw_bicluster_score;
 		float max_bicluster_overlap;
 		float max_enrich_pvalue;
@@ -208,13 +214,13 @@ module MAK {
 		list<MAKBicluster> biclusters;			
   	} MAKBiclusterSet; 
   	
-  	
-  		/* Represents data from a single run of MAK
-		string id - identifier of MAK run
-		string start_time - start time of MAK run
-		string finish_time - end time of MAK run
-		MAKParameters parameters - run parameters
-		list<MAKBiclusterSet> sets;
+
+	/* Represents data from a single run of MAK
+	string id - identifier of MAK run
+	string start_time - start time of MAK run
+	string finish_time - end time of MAK run
+	MAKParameters parameters - run parameters
+	list<MAKBiclusterSet> sets;
 	*/
 	typedef structure{
 		string id;
@@ -224,10 +230,28 @@ module MAK {
 		list<MAKBiclusterSet> sets;
 	} MAKResult;
   	
-  		/*	Starts MAK server job for a series of expression data stored in workspace and returns job ID of the run
-		string ws_id - workspace id
-		MAKParameters params - parameters of MAK job
-		string job_id - identifier of MAK job
+	/*	Starts MAK server job and returns job ID of the run
+	string ws_id - workspace id
+	string kbgid - kbase genome id kbgid
+	string job_id - identifier of MAK job
 	*/
-	funcdef run_MAK_job_from_ws(string ws_id, MAKParameters params) returns(string MAK_job_id) authentication required;
+	funcdef runall_MAK_job_from_ws(string ws_id, string kbgid, string data_type) returns(string MAK_job_id) authentication required;
+	
+	/*	Starts MAK server job and returns job ID of the run
+	string ws_id - workspace id
+	tring kbgid - kbase genome id kbgid
+	MAKBicluster makb - starting point bicluster
+	string job_id - identifier of MAK job
+	*/
+	funcdef runsingle_MAK_job_from_ws(string ws_id, string kbgid, string data_type, list<string> geneids) returns(string MAK_job_id) authentication required;
+	
+	/*	Starts MAK server job for searching precomputed biclusters and returns job ID of the run
+	string ws_id - workspace id
+	string kbgid - kbase genome id kbgid
+	list<string> geneids - list of kb gene ids
+	string job_id - identifier of MAK job
+	*/
+	funcdef search_MAK_results_from_ws(string ws_id, string kbgid, string data_type, list<string> geneids) returns(MAKBiclusterSet mbs) authentication required;
+	
+	
 };
