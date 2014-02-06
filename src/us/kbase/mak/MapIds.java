@@ -58,7 +58,7 @@ public class MapIds {
                     String cur = gids.get(z);
                     String moid = gene_labels[Integer.parseInt(cur) - 1];
                     String e = idmapping.get(moid);
-                    System.out.println("mapped " + cur + "\t" + moid + "\t" + e);
+                    //System.out.println("mapped " + cur + "\t" + moid + "\t" + e);
                     if (e != null)
                         kbgids.add(e);
                 }

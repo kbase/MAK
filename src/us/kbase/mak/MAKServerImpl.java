@@ -34,7 +34,7 @@ public class MAKServerImpl {
 
     private static boolean awe = MAKServerConfig.DEPLOY_AWE;
 
-    private static final String DATA_PATH = "$(TARGET)/services/$(SERVICE_DIR)/";
+    //private static final String DATA_PATH = "$(TARGET)/services/$(SERVICE_DIR)/";
 
     private static final String JOB_PATH = MAKServerConfig.JOB_DIRECTORY;
     private static final String MAK_DIR = MAKServerConfig.MAK_DIRECTORY;
@@ -109,7 +109,7 @@ public class MAKServerImpl {
 
         /*TODO finish MAK command line*/
         // generate command line
-        String readparam = DATA_PATH + "/" + kbgid + "_trajectory_parameters.txt";
+        String readparam = MAKServerConfig.CACHE_PATH + "/" + kbgid + "_trajectory_parameters.txt";
         String commandLine = generateMAKCommandLine(jobPath, readparam);//wsName + "_" +
         writer.write(commandLine + "\n");
         writer.flush();
@@ -118,7 +118,7 @@ public class MAKServerImpl {
         Parameters prm = new Parameters();
         prm.read(readparam);
 
-        String readparamdisc = DATA_PATH + "/" + kbgid + "_discovery_parameters.txt";
+        String readparamdisc = MAKServerConfig.CACHE_PATH + "/" + kbgid + "_discovery_parameters.txt";
         DiscoveryParameters dp = new DiscoveryParameters();
         dp.read(readparamdisc);
 
@@ -197,7 +197,7 @@ public class MAKServerImpl {
     }
 
 
-    public static void singleMAKJobFromWs(String wsName, String kbgid, List<String> genes,
+    public static void singleMAKJobFromWs(String wsName, String kbgid, String data_type, List<String> genes,
                                           String jobId, String token,
                                           String currentDir) throws UnauthorizedException, IOException,
             JsonClientException, AuthException, InterruptedException,
@@ -230,11 +230,13 @@ public class MAKServerImpl {
 
 
         Parameters prm = new Parameters();
-        prm.read(DATA_PATH + "/" + kbgid + "_trajectory_parameters.txt");
+        prm.read(MAKServerConfig.CACHE_PATH + "/" + kbgid + "_" + data_type + "_trajectory_parameters.txt");
 
         String outputDirectory = jobPath + "out";
         prm.OUTDIR = outputDirectory;
-        ArrayList<String[]> labels = loadLabels(kbgid);
+        ArrayList<String[]> labels = loadLabels(kbgid,
+                MAKServerConfig.CACHE_PATH + "/" + kbgid + "_" + data_type+"_geneids.txt",
+                MAKServerConfig.CACHE_PATH + "/" + kbgid + "_" + data_type+"_expids.txt");
 
         String[] gene_labels = labels.get(0);
         String[] exp_labels = labels.get(1);
@@ -253,10 +255,10 @@ public class MAKServerImpl {
         Random rand = new Random();
 
         //write out new paramter file
-        String readparam = DATA_PATH + "/" + wsName + "_" + jobId + "_" + rand.nextLong() + "_trajectory_parameters.txt";
+        String readparam = MAKServerConfig.CACHE_PATH + "/" + wsName + "_" + jobId + "_" + rand.nextLong() + "_trajectory_parameters.txt";
         prm.write(readparam);
 
-        String readparamdisc = DATA_PATH + "/" + kbgid + "_discovery_parameters.txt";
+        String readparamdisc = MAKServerConfig.CACHE_PATH + "/" + kbgid + "_discovery_parameters.txt";
         DiscoveryParameters dp = new DiscoveryParameters();
         dp.read(readparamdisc);
 
@@ -286,7 +288,6 @@ public class MAKServerImpl {
 
 
         // generate command line
-        //String readparam = DATA_PATH + "/" + kbgid + "_trajectory_parameters.txt";
         String commandLine = generateMAKCommandLine(jobPath, readparam);//wsName + "_" +
         writer.write(commandLine + "\n");
         writer.flush();
@@ -362,18 +363,18 @@ public class MAKServerImpl {
         writer.write("log file created " + dateFormat.format(date) + "\n");
         writer.flush();
 
-       /* String commandLine = generateSearchCommandLine(jobPath, kbgid, data_type, genes);//wsName + "_" +
+        String dbfile = MAKServerConfig.CACHE_PATH + "/" + kbgid + "_" + data_type + ".json";
+        String commandLine = generateMAKCommandLineSearch(genes, dbfile, jobPath, wsName, jobId);
         writer.write(commandLine + "\n");
         writer.flush();
-        gc();*/
+        gc();
 
 
         if (jobId != null)
             updateJobProgress(jobId,
                     "Input prepared. Starting MAK ...", token);
 
-        Integer exitVal = -1;//executeCommand(commandLine, jobPath, jobId, token);
-        //Integer exitVal = executeCommand("", jobPath, jobId, token);
+        Integer exitVal = executeCommand("", jobPath, jobId, token);
         if (exitVal != null) {
             writer.write("ExitValue: " + exitVal.toString() + "\n");
             writer.flush();
@@ -418,11 +419,11 @@ public class MAKServerImpl {
         }
     }
 
-    public final static ArrayList loadLabels(String kbgid) {
+    public final static ArrayList loadLabels(String kbgid, String gpath, String epath) {
         String[] gene_labels = null;
-        String gread = DATA_PATH + "/" + kbgid + "_geneids.txt";
+        //String gread = MAKServerConfig.CACHE_PATH + "/" + kbgid + "_geneids.txt";
         try {
-            String[][] sarray = TabFile.readtoArray(gread);
+            String[][] sarray = TabFile.readtoArray(gpath);
             System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
             int col = 2;
             String[] n = MoreArray.extractColumnStr(sarray, col);
@@ -432,7 +433,7 @@ public class MAKServerImpl {
             //System.out.println("expecting 2 cols");
             //e.printStackTrace();
             try {
-                String[][] sarray = TabFile.readtoArray(gread);
+                String[][] sarray = TabFile.readtoArray(gpath);
                 System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
                 int col = 1;
                 String[] n = MoreArray.extractColumnStr(sarray, col);
@@ -444,9 +445,9 @@ public class MAKServerImpl {
         }
 
         String[] exp_labels = null;
-        String eread = DATA_PATH + "/" + kbgid + "_expids.txt";
+        //String eread = MAKServerConfig.CACHE_PATH + "/" + kbgid + "_expids.txt";
         try {
-            String[][] sarray = TabFile.readtoArray(eread);
+            String[][] sarray = TabFile.readtoArray(epath);
             System.out.println("setLabels e " + sarray.length + "\t" + sarray[0].length);
             int col = 2;
             exp_labels = MoreArray.replaceAll(MoreArray.extractColumnStr(sarray, col), "\"", "");
@@ -455,7 +456,7 @@ public class MAKServerImpl {
             System.out.println("expecting 2 cols");
             //e.printStackTrace();
             try {
-                String[][] sarray = TabFile.readtoArray(eread);
+                String[][] sarray = TabFile.readtoArray(epath);
                 System.out.println("setLabels e " + sarray.length + "\t" + sarray[0].length);
                 int col = 1;
                 exp_labels = MoreArray.replaceAll(MoreArray.extractColumnStr(sarray, col), "\"", "");
@@ -469,10 +470,10 @@ public class MAKServerImpl {
         try {
             boolean bad = false;
             if (gene_labels == null) {
-                System.out.println("failed to read gene labels " + gread);
+                System.out.println("failed to read gene labels " + gpath);
                 bad = true;
             } else if (exp_labels == null) {
-                System.out.println("failed to read exp labels " + eread);
+                System.out.println("failed to read exp labels " + epath);
                 bad = true;
             }
             if (bad)
@@ -523,6 +524,26 @@ public class MAKServerImpl {
             now.write(outfile);
 */
             commandLine = "java -Xmx2G DataMining.RunMiner -param " + parampath;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commandLine;
+    }
+
+    protected static String generateMAKCommandLineSearch(List<String> genes, String dbfile, String jobPath, String wsid, String jobid) {
+
+        String commandLine = null;
+        try {
+            /*Parameters now = new Parameters(defparampath);
+            now.OUTDIR = outputDirectory;
+
+            String outfile = currentDir + "/" + jobId + "_parameters.txt";
+            now.write(outfile);
+*/
+            /*TODO finish */
+            String geneids = MoreArray.toString(MoreArray.ArrayListtoString((ArrayList) genes), ",");
+            String outfile = wsid + "_" + jobid + "_" + dbfile + "_search.jsonp";
+            commandLine = "java -Xmx2G us.kbase.mak.SearchBiclusters " + dbfile + " " +geneids+" "+outfile;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -730,8 +751,7 @@ public class MAKServerImpl {
     public static void gc() {
         Object obj = new Object();
         @SuppressWarnings("rawtypes")
-        java.lang.ref.WeakReference ref = new java.lang.ref.WeakReference<Object>(
-                obj);
+        java.lang.ref.WeakReference ref = new java.lang.ref.WeakReference<Object>(obj);
         obj = null;
         while (ref.get() != null) {
             System.out.println("garbage collector");

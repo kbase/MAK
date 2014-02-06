@@ -24,6 +24,7 @@ public class MAKServerConfig {
     	protected static final String DATA_PATH = "/etc/mak/";
     	protected static final String MAK_RUN_PATH = "/kb/runtime/mak/MAK.jar";
     	protected static final String AWF_CONFIG_FILE = "/kb/deployment/services/mak/mak.awf";
+    	protected static final String CACHE_PATH = "/mnt/MAK";
 
 
     	//Logging options

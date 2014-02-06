@@ -5,6 +5,7 @@ import util.MoreArray;
 import util.ParsePath;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Marcin Joachimiak
@@ -65,31 +66,39 @@ public class MAKInvoker {
         String jobid = (String) options.get("-jobid");
         System.out.println(jobid);
 
-        String[] genes = ((String) options.get("-jobid")).split(",");
+        String data_type = (String) options.get("-datatype");
+               System.out.println(data_type);
+
+        String[] genes = ((String) options.get("-genes")).split(",");
         System.out.println(jobid);
 
-        MAKServerImpl.singleMAKJobFromWs(wsId, kbgid, MoreArray.convtoArrayList(genes), jobid, token, currentDir);
+        MAKServerImpl.singleMAKJobFromWs(wsId, kbgid, data_type, MoreArray.convtoArrayList(genes), jobid, token, currentDir);
     }
 
     private void searchMAK() throws Exception {
 
-            String currentDir = System.getProperty("user.dir");
-            System.out.println("Run MAK from " + currentDir);
+        String currentDir = System.getProperty("user.dir");
+        System.out.println("Run MAK from " + currentDir);
 
-            String wsId = (String) options.get("-wsid");
-            System.out.println(wsId);
+        String wsId = (String) options.get("-wsid");
+        System.out.println(wsId);
 
-            String kbgid = (String) options.get("-kbgid");
-            System.out.println(kbgid);
+        String kbgid = (String) options.get("-kbgid");
+        System.out.println(kbgid);
 
-            String token = (String) options.get("-token");
-            System.out.println(token);
+        String token = (String) options.get("-token");
+        System.out.println(token);
 
-            String jobid = (String) options.get("-jobid");
-            System.out.println(jobid);
+        String jobid = (String) options.get("-jobid");
+        System.out.println(jobid);
 
-            //MAKServerImpl.searchMAKJobFromWs(wsId, kbgid, jobid, token, currentDir);
-        }
+        String data_type = (String) options.get("-datatype");
+        System.out.println(data_type);
+
+        String[] genes = ((String) options.get("-genes")).split(",");
+
+        MAKServerImpl.searchMAKFromWs(wsId, kbgid, data_type, (List<String>) MoreArray.convtoArrayList(genes), jobid, token, currentDir);
+    }
 
     public void run(String[] args) throws Exception {
 
@@ -117,45 +126,35 @@ public class MAKInvoker {
     }
 
 
-    /*private static boolean validateInput(CommandLine line) {
+    private boolean validateInput() {
         boolean returnVal = false;
-        if (line.hasOption("method")) {
-
-            if (line.hasOption("wsid")) {
-
-                if (line.hasOption("token")) {
-
-                    //if (line.hasOption("series")) {
-
-                    if (line.hasOption("job")) {
-
-                        if (line.hasOption("taxon")) {
-
-                            returnVal = true;
+        if (options.get("method") != null) {
+            if (options.get("wsid") != null) {
+                if (options.get("kbgid") != null) {
+                    if (options.get("datatype") != null) {
+                        if (options.get("jobid") != null) {
+                            if (options.get("token") != null) {
+                                returnVal = true;
+                            } else {
+                                System.err.println("method required");
+                            }
                         } else {
-                            System.err.println("taxon required");
+                            System.err.println("wsid required");
                         }
                     } else {
-                        System.err.println("Job ID required");
+                        System.err.println("kbgid required");
                     }
-
-                    //} else {
-                    //    System.err.println("Expression data series ID required");
-                    //}
-
                 } else {
-                    System.err.println("Authorization required");
+                    System.err.println("datatype required");
                 }
-
             } else {
-                System.err.println("Workspace ID required");
+                System.err.println("jobid required");
             }
-
         } else {
-            System.err.println("Method required");
+            System.err.println("token required");
         }
         return returnVal;
-    }*/
+    }
 
     /**
      * @param args
@@ -163,10 +162,9 @@ public class MAKInvoker {
     private void init(String[] args) {
         MoreArray.printArray(args);
 
-        ParsePath pp = null;
-
         options = MapArgOptions.maptoMap(args, valid_args);
 
+        validateInput();
     }
 
 
