@@ -79,7 +79,7 @@ public class SearchBiclustersCDMI {
 
         //until condition data is incorporated
         //int[] expall = mathy.stat.createNaturalNumbers(1, exp_labels.length + 1);
-        List<MAKBicluster> biclustersMatch;
+        List<MAKBicluster> biclustersMatch = null;
         try {
 
             ComboPooledDataSource cpds = new ComboPooledDataSource();
@@ -279,6 +279,9 @@ public class SearchBiclustersCDMI {
 
     }
 
+    /**
+     * @param args
+     */
     private void init(String[] args) {
 
         if (args.length == 4)
@@ -287,11 +290,17 @@ public class SearchBiclustersCDMI {
             doInit(args[0], args[1], args[2], args[3], args[4]);
     }
 
+    /**
+     * @param queryStr
+     * @param out
+     * @param gids
+     * @param type
+     * @param cut
+     */
     public void doInit(String queryStr, String out, String gids, String type, String cut) {
 
         System.out.println(queryStr);
         querygenes = MoreArray.convtoArrayList(queryStr.split(","));
-
 
         outpath = out;
 
@@ -322,9 +331,50 @@ public class SearchBiclustersCDMI {
             data_type = type;
 
 
-        if (cut == 5)
+        if (cut != null)
             cutoff = Double.parseDouble(cut);
     }
+
+  /*  private ShockNode writeFileToNode(final Map<String, Object> attribs,
+                     final String string, final long writes, final String last,
+                     final String filename, final String format, final int id)
+                     throws Exception {
+             final int readlen = string.getBytes(StandardCharsets.UTF_8).length;
+             final int finallen = last.getBytes(StandardCharsets.UTF_8).length;
+             final long filesize = readlen * writes + finallen;
+
+             InputStreamFromOutputStream<String> isos =
+                             new InputStreamFromOutputStream<String>() {
+
+                     @Override
+                     public String produce(final OutputStream dataSink)
+                                     throws Exception {
+                             Writer writer = new OutputStreamWriter(dataSink,
+                                             StandardCharsets.UTF_8);
+                             for (int i = 0; i < writes - 1; i++) {
+                                     writer.write(string);
+                             }
+                             writer.write(string + last);
+//                              System.out.println("ID " + id + " finished writes.");
+                             writer.flush();
+//                              writer.close();
+//                              dataSink.flush();
+//                              dataSink.close();
+//                              System.out.println("ID " + id + " closed the output stream.");
+                             return null;
+                     }
+             };
+             System.out.println("ID " + id + " Streaming " + filesize + "b file... ");
+             ShockNode sn;
+             if (attribs == null) {
+                     sn = bsc1.addNode(isos, filename, format);
+             } else {
+                     sn = bsc1.addNode(attribs, isos, filename, format);
+             }
+             isos.close();
+             System.out.println("\tID " + id + " Streaming done.");
+             return sn;
+     }*/
 
     /**
      * @param args

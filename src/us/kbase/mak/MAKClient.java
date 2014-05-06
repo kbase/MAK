@@ -125,4 +125,31 @@ public class MAKClient {
         List<MAKBiclusterSet> res = caller.jsonrpcCall("MAK.search_MAK_results_from_ws", args, retType, true, true);
         return res.get(0);
     }
+
+
+    /**
+     * <p>Original spec-file function name: search_MAK_results_from_ws</p>
+     * <pre>
+     * Starts MAK server job for searching precomputed biclusters and returns job ID of the run
+     * string ws_id - workspace id
+     * string kbgid - kbase genome id kbgid
+     * list<string> geneids - list of kb gene ids
+     * string job_id - identifier of MAK job
+     * </pre>
+     * @param   kbgid   instance of String
+     * @param   data_type   instance of String
+     * @param   geneids   instance of list of String
+     * @return   parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public MAKBiclusterSet searchMAKResultsFromCDS(String kbgid, String data_type, List<String> geneids) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(kbgid);
+        args.add(data_type);
+        args.add(geneids);
+        TypeReference<List<MAKBiclusterSet>> retType = new TypeReference<List<MAKBiclusterSet>>() {};
+        List<MAKBiclusterSet> res = caller.jsonrpcCall("MAK.search_MAK_results_from_cds", args, retType, true, true);
+        return res.get(0);
+    }
 }
