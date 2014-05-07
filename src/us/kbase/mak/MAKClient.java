@@ -2,6 +2,7 @@ package us.kbase.mak;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,15 @@ import us.kbase.common.service.UnauthorizedException;
  */
 public class MAKClient {
     private JsonClientCaller caller;
+    private static URL DEFAULT_URL = null;
+
+    static {
+            try {
+                DEFAULT_URL = new URL("https://140.221.84.156:8000");//new URL("http://kbase.us/services/cmonkey");
+            } catch (MalformedURLException mue) {
+                throw new RuntimeException("Compile error in client - bad url compiled");
+            }
+        }
 
     public MAKClient(URL url) {
         caller = new JsonClientCaller(url);
