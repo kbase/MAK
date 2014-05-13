@@ -25,7 +25,7 @@ public class MAKClient {
 
     static {
             try {
-                DEFAULT_URL = new URL("https://140.221.84.156:8000");//new URL("http://kbase.us/services/cmonkey");
+                DEFAULT_URL = new URL("http://140.221.84.156:8000");//new URL("http://kbase.us/services/cmonkey");
             } catch (MalformedURLException mue) {
                 throw new RuntimeException("Compile error in client - bad url compiled");
             }
