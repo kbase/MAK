@@ -52,7 +52,7 @@ public class TestMAKServer {
 
                 try {
                     System.out.println("start");
-                    MAKBiclusterSet mbs = mc.searchMAKResultsFromCDS(kbgid, dataType, qids,"211586_allmapunmap.txt");
+                    MAKBiclusterSet mbs = mc.searchMAKResultsFromCDS(kbgid, dataType, qids, "211586_allmapunmap.txt");
                     System.out.println(mbs.getBiclusters().size());
                     System.out.println("end");
                 } catch (IOException e) {

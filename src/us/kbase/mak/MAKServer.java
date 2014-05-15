@@ -120,7 +120,7 @@ public class MAKServer extends JsonServerServlet {
      * @return parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
      */
     @JsonServerMethod(rpc = "MAK.search_MAK_results_from_cds")
-    public List<MAKBicluster> searchMAKResultsFromCDS(String kbgid, String data_type, List<String> geneids, String genemapfilename, AuthToken authPart) throws Exception {
+    public List<MAKBicluster> searchMAKResultsFromCDS(String kbgid, String data_type, List<String> geneids, String genemapfilename) throws Exception {
         MAKBiclusterSet returnVal = null;
         //BEGIN search_MAK_results_from_ws
 

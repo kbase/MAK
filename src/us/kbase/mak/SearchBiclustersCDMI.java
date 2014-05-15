@@ -75,6 +75,8 @@ public class SearchBiclustersCDMI {
 
 
     public List<MAKBicluster> start() {
+
+
         createQueryBicluster();
 
         //until condition data is incorporated
