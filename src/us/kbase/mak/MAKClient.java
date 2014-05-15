@@ -153,11 +153,12 @@ public class MAKClient {
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public MAKBiclusterSet searchMAKResultsFromCDS(String kbgid, String data_type, List<String> geneids) throws IOException, JsonClientException {
+    public MAKBiclusterSet searchMAKResultsFromCDS(String kbgid, String data_type, List<String> geneids, String genemapfilename) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         args.add(kbgid);
         args.add(data_type);
         args.add(geneids);
+        args.add(genemapfilename);
         TypeReference<List<MAKBiclusterSet>> retType = new TypeReference<List<MAKBiclusterSet>>() {};
         List<MAKBiclusterSet> res = caller.jsonrpcCall("MAK.search_MAK_results_from_cds", args, retType, true, true);
         return res.get(0);

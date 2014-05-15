@@ -23,7 +23,7 @@ import java.util.List;
 public class MAKServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
 
-    static String PATH_TO_GENE_IDS = "/tmp/";
+    static String PATH_TO_GENE_IDS = "/kb/dev_container/modules/MAK/data";
 
     //BEGIN_CLASS_HEADER
     //END_CLASS_HEADER
@@ -120,14 +120,14 @@ public class MAKServer extends JsonServerServlet {
      * @return parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
      */
     @JsonServerMethod(rpc = "MAK.search_MAK_results_from_cds")
-    public List<MAKBicluster> searchMAKResultsFromCDS(String kbgid, String data_type, List<String> geneids, AuthToken authPart) throws Exception {
+    public List<MAKBicluster> searchMAKResultsFromCDS(String kbgid, String data_type, List<String> geneids, String genemapfilename, AuthToken authPart) throws Exception {
         MAKBiclusterSet returnVal = null;
         //BEGIN search_MAK_results_from_ws
 
         String[] args = {};
         SearchBiclustersCDMI sc = new SearchBiclustersCDMI();
         ArrayList conv = new ArrayList(geneids);
-        sc.doInit(MoreArray.arrayListtoString(conv, ","), null, MAKServer.PATH_TO_GENE_IDS, data_type, null);
+        sc.doInit(MoreArray.arrayListtoString(conv, ","), null, MAKServer.PATH_TO_GENE_IDS+"/"+genemapfilename, data_type, null);
         List<MAKBicluster> mbs = sc.start();
         //returnVal = CmonkeyServerCaller.buildCmonkeyNetworkJobFromWs(wsId, params, authPart);
 
