@@ -127,8 +127,21 @@ public class MAKServer extends JsonServerServlet {
         String[] args = {};
         SearchBiclustersCDMI sc = new SearchBiclustersCDMI();
         ArrayList conv = new ArrayList(geneids);
-        sc.doInit(MoreArray.arrayListtoString(conv, ","), null, MAKServer.PATH_TO_GENE_IDS+"/"+genemapfilename, data_type, null);
-        List<MAKBicluster> mbs = sc.start();
+        try {
+            System.out.println("searchMAKResultsFromCDS");
+            System.out.println(MoreArray.arrayListtoString(conv, ","));
+            System.out.println(MAKServer.PATH_TO_GENE_IDS+"/"+genemapfilename);
+            System.out.println(data_type);
+            sc.doInit(MoreArray.arrayListtoString(conv, ","), null, MAKServer.PATH_TO_GENE_IDS+"/"+genemapfilename, data_type, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<MAKBicluster> mbs = null;
+        try {
+            mbs = sc.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //returnVal = CmonkeyServerCaller.buildCmonkeyNetworkJobFromWs(wsId, params, authPart);
 
         //END search_MAK_results_from_ws
