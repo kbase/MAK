@@ -5,6 +5,7 @@ import DataMining.BlockMethods;
 import DataMining.ValueBlock;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.mchange.v2.log.MLevel;
 import us.kbase.common.service.UObject;
 import util.MoreArray;
 import util.TabFile;
@@ -84,16 +85,22 @@ public class SearchBiclustersCDMI {
         List<MAKBicluster> biclustersMatch = null;
         try {
 
+            com.mchange.v2.log.MLog.getLogger().setLevel(MLevel.INFO);
+
             ComboPooledDataSource cpds = new ComboPooledDataSource();
             cpds.setDriverClass("com.mysql.jdbc.Driver");
             cpds.setJdbcUrl(server + db);
             cpds.setUser(user);
             cpds.setPassword(pass);
-            cpds.setMaxPoolSize(50);
+            cpds.setMaxPoolSize(10);
             cpds.setMinPoolSize(1);
             cpds.setAcquireIncrement(1);
             cpds.setDebugUnreturnedConnectionStackTraces(true);
             cpds.setBreakAfterAcquireFailure(true);
+            cpds.setAcquireRetryAttempts(10);
+            cpds.setAcquireIncrement(10);
+            cpds.setAcquireRetryDelay(10);
+            cpds.setCheckoutTimeout(30);
             Connection con = cpds.getConnection();
 
             //JDBC
