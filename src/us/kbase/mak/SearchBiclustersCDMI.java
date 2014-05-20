@@ -77,13 +77,6 @@ public class SearchBiclustersCDMI {
 
     public List<MAKBicluster> start() {
 
-        try {
-            user = System.getProperty("test.user");
-            pwd = System.getProperty("test.pwd");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         createQueryBicluster();
 
         //until condition data is incorporated
@@ -337,20 +330,26 @@ public class SearchBiclustersCDMI {
             user = u;
             pwd = p;
         } else {
+            try {
+                user = System.getProperty("test.user");
+                pwd = System.getProperty("test.pwd");
+            } catch (Exception e) {
+                String[] cfgdata = TextFile.readtoArray(PATH_TO_CFG);
 
-            String[] cfgdata = TextFile.readtoArray(PATH_TO_CFG);
-
-            for (int i = 0; i < cfgdata.length; i++) {
-                if (cfgdata[i].indexOf("dbUser=") == 0) {
-                    user = cfgdata[i].substring("dbUser=".length(), cfgdata[i].length());
-                }
-                if (cfgdata[i].indexOf("dbPwd=") == 0) {
-                    pwd = cfgdata[i].substring("dbPwd=".length(), cfgdata[i].length());
+                for (int i = 0; i < cfgdata.length; i++) {
+                    if (cfgdata[i].indexOf("dbUser=") == 0) {
+                        user = cfgdata[i].substring("dbUser=".length(), cfgdata[i].length());
+                    }
+                    if (cfgdata[i].indexOf("dbPwd=") == 0) {
+                        pwd = cfgdata[i].substring("dbPwd=".length(), cfgdata[i].length());
+                    }
                 }
             }
+
+
         }
 
-        System.out.println("MAKServer " + user + "\t" + pwd);
+        System.out.println("MAKServer doInit " + user + "\t" + pwd);
 
 
         System.out.println(queryStr);
