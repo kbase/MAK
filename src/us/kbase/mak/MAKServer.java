@@ -25,10 +25,7 @@ public class MAKServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
 
     static String PATH_TO_GENE_IDS = "/kb/dev_container/modules/MAK/data";
-    static String PATH_TO_CFG = "/kb/dev_container/modules/MAK/deploy.cfg";
 
-    String user;
-    String pwd;
 
     //BEGIN_CLASS_HEADER
     //END_CLASS_HEADER
@@ -37,20 +34,6 @@ public class MAKServer extends JsonServerServlet {
         super("MAK");
         //BEGIN_CONSTRUCTOR
         //END_CONSTRUCTOR
-
-        String[] cfgdata = TextFile.readtoArray(PATH_TO_CFG);
-
-        for (int i = 0; i < cfgdata.length; i++) {
-            if (cfgdata[i].indexOf("dbUser=") == 0) {
-                user = cfgdata[i].substring("dbUser=".length(), cfgdata[i].length());
-            }
-            if (cfgdata[i].indexOf("dbPwd=") == 0) {
-                pwd = cfgdata[i].substring("dbPwd=".length(), cfgdata[i].length());
-            }
-        }
-
-        System.out.println("MAKServer "+user+"\t"+pwd);
-
     }
 
     /**
@@ -152,7 +135,7 @@ public class MAKServer extends JsonServerServlet {
             System.out.println(MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename);
             System.out.println(data_type);
             sc.doInit(MoreArray.arrayListtoString(conv, ","), null, MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename,
-                    data_type, null, user, pwd);
+                    data_type, null, null, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
