@@ -42,13 +42,12 @@ public class SearchBiclustersCDMI {
     //String url = "http://140.221.85.172:7064";
     //String url = "http://127.0.0.1:7064/KBaseNetworksService";
 
-    String user = "kbase_sapselect";
     //String server = "jdbc:mysql://db3.chicago.kbase.us/";
     String server = "jdbc:mysql://localhost:49997/";
-    //for jdbc url encoded
-    //String pass = "oiwn22%26dmwWEe";
-    String pass = "oiwn22&dmwWEe";
+
     String db = "kbase_sapling_v3";
+    String user;
+    String pass;
 
     //KBaseNetworksClient knc;
     String data_type;
@@ -77,6 +76,8 @@ public class SearchBiclustersCDMI {
 
     public List<MAKBicluster> start() {
 
+        user = System.getProperty("test.user");
+        pass = System.getProperty("test.pwd");
 
         createQueryBicluster();
 
