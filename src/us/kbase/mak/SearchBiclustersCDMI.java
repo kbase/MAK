@@ -47,7 +47,7 @@ public class SearchBiclustersCDMI {
 
     String db = "kbase_sapling_v3";
     String user;
-    String pass;
+    String pwd;
 
     //KBaseNetworksClient knc;
     String data_type;
@@ -75,8 +75,12 @@ public class SearchBiclustersCDMI {
 
     public List<MAKBicluster> start() {
 
-        user = System.getProperty("test.user");
-        pass = System.getProperty("test.pwd");
+        try {
+            user = System.getProperty("test.user");
+            pwd = System.getProperty("test.pwd");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         createQueryBicluster();
 
@@ -91,7 +95,7 @@ public class SearchBiclustersCDMI {
             cpds.setDriverClass("com.mysql.jdbc.Driver");
             cpds.setJdbcUrl(server + db);
             cpds.setUser(user);
-            cpds.setPassword(pass);
+            cpds.setPassword(pwd);
             cpds.setMaxPoolSize(10);
             cpds.setMinPoolSize(1);
             cpds.setAcquireIncrement(1);
@@ -104,7 +108,7 @@ public class SearchBiclustersCDMI {
             Connection con = cpds.getConnection();
 
             //JDBC
-            //Connection con = createConnection(server, db, user, pass);//
+            //Connection con = createConnection(server, db, user, pwd);//
             System.out.println("made connection");
             Statement stmt = con.createStatement();
             Statement stmt2 = con.createStatement();
@@ -296,9 +300,11 @@ public class SearchBiclustersCDMI {
     private void init(String[] args) {
 
         if (args.length == 4)
-            doInit(args[0], args[1], args[2], args[3], null);
-        else if (args.length == 4)
-            doInit(args[0], args[1], args[2], args[3], args[4]);
+            doInit(args[0], args[1], args[2], args[3], null, null, null);
+        else if (args.length == 5)
+            doInit(args[0], args[1], args[2], args[3], args[4], null, null);
+        else if (args.length == 7)
+            doInit(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
     }
 
     /**
@@ -308,7 +314,12 @@ public class SearchBiclustersCDMI {
      * @param type
      * @param cut
      */
-    public void doInit(String queryStr, String out, String gids, String type, String cut) {
+    public void doInit(String queryStr, String out, String gids, String type, String cut, String u, String p) {
+
+        if (u != null)
+            user = u;
+        if (p != null)
+            pwd = p;
 
         System.out.println(queryStr);
         querygenes = MoreArray.convtoArrayList(queryStr.split(","));
@@ -318,7 +329,7 @@ public class SearchBiclustersCDMI {
         int gcol = 2;
         int ecol = 1;
 
-        System.out.println("reading "+gids);
+        System.out.println("reading " + gids);
 
         try {
             String[][] sarray = TabFile.readtoArray(gids);
