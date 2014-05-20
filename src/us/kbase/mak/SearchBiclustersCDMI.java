@@ -92,6 +92,8 @@ public class SearchBiclustersCDMI {
             cpds.setMaxPoolSize(50);
             cpds.setMinPoolSize(1);
             cpds.setAcquireIncrement(1);
+            cpds.setDebugUnreturnedConnectionStackTraces(true);
+            cpds.setBreakAfterAcquireFailure(true);
             Connection con = cpds.getConnection();
 
             //JDBC
@@ -308,6 +310,8 @@ public class SearchBiclustersCDMI {
 
         int gcol = 2;
         int ecol = 1;
+
+        System.out.println("reading "+gids);
 
         try {
             String[][] sarray = TabFile.readtoArray(gids);
