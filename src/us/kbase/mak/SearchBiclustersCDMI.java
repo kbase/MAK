@@ -42,8 +42,8 @@ public class SearchBiclustersCDMI {
     //String url = "http://140.221.85.172:7064";
     //String url = "http://127.0.0.1:7064/KBaseNetworksService";
 
-    //String server = "jdbc:mysql://db3.chicago.kbase.us/";
-    String server = "jdbc:mysql://localhost:49997/";
+    String server = "jdbc:mysql://db3.chicago.kbase.us/";
+    //String server = "jdbc:mysql://localhost:49997/";
 
     String db = "kbase_sapling_v3";
     String user;
@@ -87,11 +87,16 @@ public class SearchBiclustersCDMI {
         //until condition data is incorporated
         //int[] expall = mathy.stat.createNaturalNumbers(1, exp_labels.length + 1);
         List<MAKBicluster> biclustersMatch = null;
+        ComboPooledDataSource cpds = null;
+        Statement stmt = null;
+        Statement stmt2 = null;
+        Connection con = null;
+
         try {
 
             com.mchange.v2.log.MLog.getLogger().setLevel(MLevel.INFO);
 
-            ComboPooledDataSource cpds = new ComboPooledDataSource();
+            cpds = new ComboPooledDataSource();
             cpds.setDriverClass("com.mysql.jdbc.Driver");
             cpds.setJdbcUrl(server + db);
             cpds.setUser(user);
@@ -105,13 +110,13 @@ public class SearchBiclustersCDMI {
             cpds.setAcquireIncrement(10);
             cpds.setAcquireRetryDelay(10);
             cpds.setCheckoutTimeout(30);
-            Connection con = cpds.getConnection();
+            con = cpds.getConnection();
 
             //JDBC
             //Connection con = createConnection(server, db, user, pwd);//
             System.out.println("made connection");
-            Statement stmt = con.createStatement();
-            Statement stmt2 = con.createStatement();
+            stmt = con.createStatement();
+            stmt2 = con.createStatement();
             System.out.println("made statements");
 
             biclustersMatch = queryandCompare(stmt, stmt2);
@@ -119,8 +124,19 @@ public class SearchBiclustersCDMI {
             stmt.close();
             stmt2.close();
             con.close();
+            cpds.close();
         } catch (Exception e) {
             e.printStackTrace();
+
+
+            try {
+                stmt.close();
+                stmt2.close();
+                con.close();
+                cpds.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
 
         return biclustersMatch;
