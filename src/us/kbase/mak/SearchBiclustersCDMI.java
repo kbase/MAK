@@ -97,7 +97,7 @@ public class SearchBiclustersCDMI {
             cpds.setMinPoolSize(1);
             cpds.setAcquireIncrement(1);
             cpds.setDebugUnreturnedConnectionStackTraces(true);
-            cpds.setBreakAfterAcquireFailure(true);
+            cpds.setBreakAfterAcquireFailure(false);
             cpds.setAcquireRetryAttempts(10);
             cpds.setAcquireIncrement(10);
             cpds.setAcquireRetryDelay(10);
