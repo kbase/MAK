@@ -54,6 +54,8 @@ public class SearchBiclustersCDMI {
     int[] expall = {1};
     ValueBlock searchblock;
 
+    static String PATH_TO_CFG = "/kb/dev_container/modules/MAK/deploy.cfg";
+
 
     /**
      */
@@ -331,10 +333,25 @@ public class SearchBiclustersCDMI {
      */
     public void doInit(String queryStr, String out, String gids, String type, String cut, String u, String p) {
 
-        if (u != null)
+        if (u != null && p != null) {
             user = u;
-        if (p != null)
             pwd = p;
+        } else {
+
+            String[] cfgdata = TextFile.readtoArray(PATH_TO_CFG);
+
+            for (int i = 0; i < cfgdata.length; i++) {
+                if (cfgdata[i].indexOf("dbUser=") == 0) {
+                    user = cfgdata[i].substring("dbUser=".length(), cfgdata[i].length());
+                }
+                if (cfgdata[i].indexOf("dbPwd=") == 0) {
+                    pwd = cfgdata[i].substring("dbPwd=".length(), cfgdata[i].length());
+                }
+            }
+        }
+
+        System.out.println("MAKServer " + user + "\t" + pwd);
+
 
         System.out.println(queryStr);
         querygenes = MoreArray.convtoArrayList(queryStr.split(","));
