@@ -326,16 +326,20 @@ public class SearchBiclustersCDMI {
      */
     public void doInit(String queryStr, String out, String gids, String type, String cut, String u, String p) {
 
+        System.out.println("MAKServer doInit start " + PATH_TO_CFG);
+
         if (u != null && p != null) {
             user = u;
             pwd = p;
+            System.out.println("MAKServer doInit 0 " + user + "\t" + pwd);
         } else {
             try {
                 user = System.getProperty("test.user");
                 pwd = System.getProperty("test.pwd");
+                System.out.println("MAKServer doInit 1 " + user + "\t" + pwd);
             } catch (Exception e) {
                 String[] cfgdata = TextFile.readtoArray(PATH_TO_CFG);
-                System.out.println(MoreArray.toString(cfgdata,","));
+                System.out.println(MoreArray.toString(cfgdata, ","));
                 for (int i = 0; i < cfgdata.length; i++) {
                     if (cfgdata[i].indexOf("dbUser=") == 0) {
                         user = cfgdata[i].substring("dbUser=".length(), cfgdata[i].length());
@@ -345,11 +349,10 @@ public class SearchBiclustersCDMI {
                     }
                 }
             }
-
-
+            System.out.println("MAKServer doInit 2 " + user + "\t" + pwd);
         }
 
-        System.out.println("MAKServer doInit " + user + "\t" + pwd);
+        System.out.println("MAKServer doInit final " + user + "\t" + pwd);
 
 
         System.out.println(queryStr);
