@@ -338,6 +338,8 @@ public class SearchBiclustersCDMI {
                 pwd = System.getProperty("test.pwd");
                 System.out.println("MAKServer doInit 1 " + user + "\t" + pwd);
             } catch (Exception e) {
+                System.out.println(e.getCause());
+                System.out.println(e.getMessage());
                 String[] cfgdata = TextFile.readtoArray(PATH_TO_CFG);
                 System.out.println(MoreArray.toString(cfgdata, ","));
                 for (int i = 0; i < cfgdata.length; i++) {
@@ -348,8 +350,8 @@ public class SearchBiclustersCDMI {
                         pwd = cfgdata[i].substring("dbPwd=".length(), cfgdata[i].length());
                     }
                 }
+                System.out.println("MAKServer doInit 2 " + user + "\t" + pwd);
             }
-            System.out.println("MAKServer doInit 2 " + user + "\t" + pwd);
         }
 
         System.out.println("MAKServer doInit final " + user + "\t" + pwd);
