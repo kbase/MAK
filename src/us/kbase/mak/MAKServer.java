@@ -26,12 +26,17 @@ public class MAKServer extends JsonServerServlet {
 
     static String PATH_TO_GENE_IDS = "/kb/dev_container/modules/MAK/data";
 
+    String user;
+    String pwd;
 
     //BEGIN_CLASS_HEADER
     //END_CLASS_HEADER
 
     public MAKServer() throws Exception {
         super("MAK");
+
+        user = super.config.get("dbUser");
+        pwd = super.config.get("dbPwd");
         //BEGIN_CONSTRUCTOR
         //END_CONSTRUCTOR
     }
@@ -135,7 +140,7 @@ public class MAKServer extends JsonServerServlet {
             System.out.println(MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename);
             System.out.println(data_type);
             sc.doInit(MoreArray.arrayListtoString(conv, ","), null, MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename,
-                    data_type, null, null, null);
+                    data_type, null, user, pwd);
         } catch (Exception e) {
             e.printStackTrace();
         }
