@@ -335,7 +335,7 @@ public class SearchBiclustersCDMI {
                 pwd = System.getProperty("test.pwd");
             } catch (Exception e) {
                 String[] cfgdata = TextFile.readtoArray(PATH_TO_CFG);
-
+                System.out.println(MoreArray.toString(cfgdata,","));
                 for (int i = 0; i < cfgdata.length; i++) {
                     if (cfgdata[i].indexOf("dbUser=") == 0) {
                         user = cfgdata[i].substring("dbUser=".length(), cfgdata[i].length());
