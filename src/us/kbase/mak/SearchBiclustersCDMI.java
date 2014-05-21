@@ -54,7 +54,7 @@ public class SearchBiclustersCDMI {
     int[] expall = {1};
     ValueBlock searchblock;
 
-    static String PATH_TO_CFG = "/kb/dev_container/modules/MAK/deploy.cfg";
+    //static String PATH_TO_CFG = "/kb/dev_container/modules/MAK/deploy.cfg";
 
 
     /**
@@ -313,7 +313,7 @@ public class SearchBiclustersCDMI {
             doInit(args[0], args[1], args[2], args[3], null, null, null);
         else if (args.length == 5)
             doInit(args[0], args[1], args[2], args[3], args[4], null, null);
-        else if (args.length == 7)
+        else if (args.length == 5)
             doInit(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
     }
 
@@ -326,7 +326,10 @@ public class SearchBiclustersCDMI {
      */
     public void doInit(String queryStr, String out, String gids, String type, String cut, String u, String p) {
 
-        System.out.println("MAKServer doInit start " + PATH_TO_CFG);
+        user = u;
+        pwd = p;
+
+        /*System.out.println("MAKServer doInit start " + PATH_TO_CFG);
 
         if (u != null && p != null) {
             user = u;
@@ -354,7 +357,7 @@ public class SearchBiclustersCDMI {
             }
         }
 
-        System.out.println("MAKServer doInit final " + user + "\t" + pwd);
+        System.out.println("MAKServer doInit final " + user + "\t" + pwd)*/;
 
 
         System.out.println(queryStr);
