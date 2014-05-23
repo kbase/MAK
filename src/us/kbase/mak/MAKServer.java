@@ -35,6 +35,9 @@ public class MAKServer extends JsonServerServlet {
     public MAKServer() throws Exception {
         super("MAK");
 
+        System.out.println("keySet "+super.config.keySet());
+        System.out.println("values "+super.config.values());
+
         user = super.config.get("dbUser");
         pwd = super.config.get("dbPwd");
         //BEGIN_CONSTRUCTOR
