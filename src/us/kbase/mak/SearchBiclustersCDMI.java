@@ -116,20 +116,27 @@ public class SearchBiclustersCDMI {
 
             biclustersMatch = queryandCompare(stmt, stmt2);
 
-            stmt.close();
-            stmt2.close();
-            con.close();
-            cpds.close();
         } catch (Exception e) {
             e.printStackTrace();
 
-
             try {
                 stmt.close();
-                stmt2.close();
-                con.close();
-                cpds.close();
             } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                stmt2.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                cpds.close();
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
         }
@@ -358,7 +365,8 @@ public class SearchBiclustersCDMI {
             }
         }
 
-        System.out.println("MAKServer doInit final " + user + "\t" + pwd)*/;
+        System.out.println("MAKServer doInit final " + user + "\t" + pwd)*/
+        ;
 
 
         System.out.println(queryStr);
