@@ -139,7 +139,7 @@ public class MAKServer extends JsonServerServlet {
         ArrayList conv = new ArrayList(geneids);
         try {
             System.out.println("searchMAKResultsFromCDS");
-            System.out.println(System.getProperty("KB_DEPLOYMENT_CONFIG"));
+            System.out.println("KB_DEPLOYMENT_CONFIG "+System.getProperty("KB_DEPLOYMENT_CONFIG"));
             System.out.println(MoreArray.arrayListtoString(conv, ","));
             System.out.println(MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename);
             System.out.println(data_type);
