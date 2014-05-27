@@ -20,12 +20,13 @@ SCRIPTS_TESTS = $(wildcard script-tests/*.t)
 DEPLOY_JAR = $(KB_TOP)/lib/jars/mak
 DATA_DIR = /var/tmp/mak/data
 SCRIPTS_TESTS_CLUSTER = $(wildcard script-test-cluster/*.t)
+GLASSFISH_HOME ?= $(DEPLOY_RUNTIME)/glassfish3
 
 default: compile
 
-deploy: distrib deploy-client deploy-jar
+deploy: deploy-client deploy-scripts deploy-service deploy-jar
 
-deploy-all: distrib deploy-client
+deploy-all: deploy-client
 
 deploy-jar: deploy-sh-scripts distrib-jar test-jar
 
@@ -78,14 +79,15 @@ deploy-sh-scripts:
 		$(WRAP_SH_SCRIPT) "$(TARGET)/shbin/$$basefile" $(TARGET)/bin/$$base ; \
 	done 
 
-distrib:
+deploy-service:
 	@echo "Target folder: $(TARGET_DIR)"
 	mkdir -p $(TARGET_DIR)
-	mkdir -p $(DATA_DIR)
+	mkdir -p $(TMP_DIR)
 	cp -f ./dist/service.war $(TARGET_DIR)
 	cp -f ./glassfish_start_service.sh $(TARGET_DIR)
 	cp -f ./glassfish_stop_service.sh $(TARGET_DIR)
 	cp -f ./MAK.awf $(TARGET_DIR)
+	echo "MAK=$(DEPLOY_RUNTIME)/MAK-python/\nujs_url=$(UJS_SERVICE_URL)\nawe_url=$(AWE_CLIENT_URL)\nid_url=$(ID_SERVICE_URL)\nws_url=$(WS_SERVICE_URL)\nawf_config=$(TARGET_DIR)/MAK.awf" > $(TARGET_DIR)/MAK.properties
 	echo "./glassfish_start_service.sh $(TARGET_DIR)/service.war $(TARGET_PORT) $(THREADPOOL_SIZE)" > $(TARGET_DIR)/start_service.sh
 	chmod +x $(TARGET_DIR)/start_service.sh
 	echo "./glassfish_stop_service.sh $(TARGET_PORT)" > $(TARGET_DIR)/stop_service.sh
