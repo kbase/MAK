@@ -1,9 +1,10 @@
 TOP_DIR = ../..
+TMP_DIR = /tmp
 include $(TOP_DIR)/tools/Makefile.common
-KB_RUNTIME ?= /kb/runtime
-DEPLOY_RUNTIME ?= $(KB_RUNTIME)
-KB_TOP ?= /kb/deployment
-TARGET ?= $(KB_TOP)
+KB_RUNTIME = /kb/runtime
+DEPLOY_RUNTIME = $(KB_RUNTIME)
+KB_TOP = /kb/deployment
+TARGET = $(KB_TOP)
 CURR_DIR = $(shell pwd)
 TARGET_DIR = $(TARGET)/services/$(SERVICE_NAME)
 TARGET_PORT = 7078
@@ -38,7 +39,7 @@ distrib-jar:
 	rm -rf $(DEPLOY_JAR)
 	mkdir -p $(DEPLOY_JAR)/lib
 	cp ./lib/*.jar $(DEPLOY_JAR)/lib
-	cp ./MAK.jar $(DEPLOY_JAR)
+	cp ./lib//MAK.jar $(DEPLOY_JAR)
 
 
 deploy-client: deploy-libs deploy-pl-scripts deploy-docs
@@ -113,7 +114,7 @@ compile: src lib
 	./make_war.sh $(SERVLET_CLASS)
 
 deploy: compile
-	cd $(TARGET)/services/$(SERVICE_DIR)/
+	cd $(TARGET)
 	curl -O http://genomics.lbl.gov/~marcin/MAK_data.tar.gz
 	tar zxf MAK_data.tar.gz
 
