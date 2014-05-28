@@ -1,0 +1,9 @@
+if [ -z "$KB_DEPLOYMENT_CONFIG" ]
+then
+    export KB_DEPLOYMENT_CONFIG=/kb/deployment/deployment.cfg
+fi
+if [ -z "$KB_SERVICE_NAME" ]
+then
+    export KB_SERVICE_NAME=MAK
+fi
+/kb/deployment/services/MAK/glassfish_administer_service.py --admin /kb/runtime//glassfish3/glassfish/bin/asadmin	--domain MAK --domain-dir /kb/deployment/services/MAK/glassfish_domain	--war /kb/deployment/services/MAK/MAK.war --port 8000	--threads 20 --Xms 10000 --Xmx 15000	--noparallelgc --properties KB_DEPLOYMENT_CONFIG=$KB_DEPLOYMENT_CONFIG

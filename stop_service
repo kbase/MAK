@@ -1,0 +1,1 @@
+/kb/deployment/services/MAK/glassfish_administer_service.py --admin /kb/runtime//glassfish3/glassfish/bin/asadmin	--domain Workspace --domain-dir /kb/deployment/services/MAK/glassfish_domain	--port 8000
