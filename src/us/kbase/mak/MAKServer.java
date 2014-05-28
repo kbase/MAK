@@ -140,6 +140,7 @@ public class MAKServer extends JsonServerServlet {
         try {
             System.out.println("searchMAKResultsFromCDS");
             System.out.println("java.vm.version "+System.getProperty("java.vm.version"));
+            System.out.println("JAVA_HOME "+System.getenv("JAVA_HOME"));
             System.out.println("KB_DEPLOYMENT_CONFIG "+System.getenv("KB_DEPLOYMENT_CONFIG"));
             System.out.println("KB_DEPLOYMENT_CONFIG p "+System.getProperty("KB_DEPLOYMENT_CONFIG"));
             System.out.println("KB_SERVICE_NAME "+System.getenv("KB_SERVICE_NAME"));
@@ -147,6 +148,7 @@ public class MAKServer extends JsonServerServlet {
             System.out.println(MoreArray.arrayListtoString(conv, ","));
             System.out.println(MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename);
             System.out.println(data_type);
+
             sc.doInit(MoreArray.arrayListtoString(conv, ","), null, MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename,
                     data_type, null, user, pwd);
         } catch (Exception e) {

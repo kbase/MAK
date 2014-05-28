@@ -335,7 +335,7 @@ public class SearchBiclustersCDMI {
 
         user = u;
         pwd = p;
-        System.out.println("MAKServer doInit " + user + "\t" + pwd);
+        System.out.println("SearchBiclusterCDMI doInit " + user + "\t" + pwd);
 
         /*System.out.println("MAKServer doInit start " + PATH_TO_CFG);
 
