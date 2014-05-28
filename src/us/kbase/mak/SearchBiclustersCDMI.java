@@ -176,7 +176,7 @@ public class SearchBiclustersCDMI {
             if (match > cutoff) {
                 MAKBicluster mb = new MAKBicluster();
                 mb.setGeneIds(curbic);
-                mb.setConditionIds(MoreArray.convtoArrayList(expall));
+                mb.setConditionIds(MoreArray.convtoArrayList(MoreArray.toStringArray(expall)));
 
                 System.out.println("match " + match + "\t" + bicname + "\t" + biclustersMatch.size());
                 biclustersMatch.add(mb);
