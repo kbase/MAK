@@ -129,15 +129,17 @@ public class SearchBiclustersCDMI {
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-            try {
-                con.close();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+
             try {
                 cpds.close();
             } catch (Exception e1) {
                 e1.printStackTrace();
+            }
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+
             }
         }
 
