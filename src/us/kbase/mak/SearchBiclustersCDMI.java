@@ -104,7 +104,7 @@ public class SearchBiclustersCDMI {
             cpds.setAcquireRetryAttempts(10);
             cpds.setAcquireIncrement(10);
             cpds.setAcquireRetryDelay(10);
-            cpds.setCheckoutTimeout(30);
+            cpds.setCheckoutTimeout(2000);
             con = cpds.getConnection();
 
             //JDBC
