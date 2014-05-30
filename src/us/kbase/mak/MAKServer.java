@@ -130,8 +130,7 @@ public class MAKServer extends JsonServerServlet {
      * @return parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
      */
     @JsonServerMethod(rpc = "MAK.search_MAK_results_from_cds")
-    public List<MAKBicluster> searchMAKResultsFromCDS(String kbgid, String data_type, List<String> geneids, String genemapfilename) throws Exception {
-        MAKBiclusterSet returnVal = null;
+    public MAKBiclusterSet searchMAKResultsFromCDS(String kbgid, String data_type, List<String> geneids, String genemapfilename) throws Exception {
         //BEGIN search_MAK_results_from_ws
 
         String[] args = {};
@@ -154,13 +153,15 @@ public class MAKServer extends JsonServerServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<MAKBicluster> mbs = null;
+        MAKBiclusterSet mbs = null;
         try {
             mbs = sc.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
         //returnVal = CmonkeyServerCaller.buildCmonkeyNetworkJobFromWs(wsId, params, authPart);
+
+
 
         //END search_MAK_results_from_ws
         return mbs;

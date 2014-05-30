@@ -3,6 +3,7 @@ package us.kbase.mak;
 
 import DataMining.BlockMethods;
 import DataMining.ValueBlock;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.log.MLevel;
@@ -54,6 +55,8 @@ public class SearchBiclustersCDMI {
     int[] expall = {1};
     ValueBlock searchblock;
 
+    String kbgid = "g.371";
+
     //static String PATH_TO_CFG = "/kb/dev_container/modules/MAK/deploy.cfg";
 
 
@@ -75,13 +78,13 @@ public class SearchBiclustersCDMI {
     }
 
 
-    public List<MAKBicluster> start() {
+    public MAKBiclusterSet start() {
 
         createQueryBicluster();
 
         //until condition data is incorporated
         //int[] expall = mathy.stat.createNaturalNumbers(1, exp_labels.length + 1);
-        List<MAKBicluster> biclustersMatch = null;
+        MAKBiclusterSet biclustersMatch = null;
         ComboPooledDataSource cpds = null;
         Statement stmt = null;
         Statement stmt2 = null;
@@ -146,7 +149,7 @@ public class SearchBiclustersCDMI {
         return biclustersMatch;
     }
 
-    private List<MAKBicluster> queryandCompare(Statement stmt, Statement stmt2) throws SQLException {
+    private MAKBiclusterSet queryandCompare(Statement stmt, Statement stmt2) throws SQLException {
         String select = "select id,name from Association where description like 'MAK%' and description like '%" + data_type + "%'";
         ResultSet rss = stmt.executeQuery(select);
         List<MAKBicluster> biclustersMatch = new ArrayList<MAKBicluster>();
@@ -186,7 +189,12 @@ public class SearchBiclustersCDMI {
 
         }
 
-        return biclustersMatch;
+        MAKBiclusterSet mbs = new MAKBiclusterSet();
+        mbs.setBiclusters(biclustersMatch);
+        mbs.setId("0");
+        mbs.setTaxon(kbgid);
+        mbs.setBiclusterType(data_type);
+        return mbs;
     }
 
     /**
@@ -468,3 +476,13 @@ public class SearchBiclustersCDMI {
         }
     }
 }
+
+
+/*
+public class BorrowerSummaryContainer {
+  @JsonProperty("BorrowerSummary")
+  public List<MAKBiclusterSet> makbicset;
+}
+*/
+
+

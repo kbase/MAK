@@ -159,8 +159,8 @@ public class MAKClient {
         args.add(data_type);
         args.add(geneids);
         args.add(genemapfilename);
-        TypeReference<List<MAKBiclusterSet>> retType = new TypeReference<List<MAKBiclusterSet>>() {};
-        List<MAKBiclusterSet> res = caller.jsonrpcCall("MAK.search_MAK_results_from_cds", args, retType, true, true);
-        return res.get(0);
+        TypeReference<MAKBiclusterSet> retType = new TypeReference<MAKBiclusterSet>() {};
+        MAKBiclusterSet res = caller.jsonrpcCall("MAK.search_MAK_results_from_cds", args, retType, true, true);
+        return res;
     }
 }
