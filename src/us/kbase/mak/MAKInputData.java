@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *         string taxon - NCBI taxonomy id
  *         string genome_id - kbase id of genome
  *         string id - kbase id
+ *         string data_type - type of data: "expression", "fitness"
  *         string description - description
  *         string dataPath - path to data
  *     int num_rows - number of rows
