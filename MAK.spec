@@ -253,5 +253,30 @@ module MAK {
 	*/
 	funcdef search_MAK_results_from_ws(string ws_id, string kbgid, string data_type, list<string> geneids) returns(MAKBiclusterSet mbs) authentication required;
 	
+	/* Represents data for a single bicluster data table, for gene expression data convention is genes on y-axis and conditions on x and similarly for other data types
+	string id - identifier for data table (same as bicluster_id in MAKBicluster)
+	list<string> - row_ids (should be reference or kb id?)
+	list<string> - row_labels
+	list<string> - column_ids (should be reference or kb id?)
+	list<string> - column_labels
+	list<list<float>> - data
+	*/
+	typedef structure{
+		string id;
+		list<string> row_ids;
+		list<string> row_labels;
+		list<string> column_ids;
+		list<string> column_labels;
+		list<list<float>> data;
+	} FloatDataTable;
+	
+	/* Represents data for a single bicluster
+	string id - identifier for container (same as id in MAKBiclusterSet)
+	list<FloatDataTable> - bicluster data array
+	*/
+	typedef structure{
+		string id;
+		list<FloatDataTable> setdata;
+	} FloatDataTableContainer;
 	
 };

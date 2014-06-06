@@ -1,9 +1,11 @@
 package us.kbase.mak;
 
+import java.util.ArrayList;
 import java.util.List;
 import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonServerMethod;
 import us.kbase.common.service.JsonServerServlet;
+import util.MoreArray;
 
 //BEGIN_HEADER
 //END_HEADER
@@ -20,11 +22,19 @@ public class MAKServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
 
     //BEGIN_CLASS_HEADER
+
+    public static String PATH_TO_GENE_IDS = "/kb/dev_container/modules/MAK/data";
+    String user;
+    String pwd;
     //END_CLASS_HEADER
 
     public MAKServer() throws Exception {
         super("MAK");
         //BEGIN_CONSTRUCTOR
+
+        user = super.config.get("dbUser");
+        pwd = super.config.get("dbPwd");
+
         //END_CONSTRUCTOR
     }
 
@@ -94,6 +104,7 @@ public class MAKServer extends JsonServerServlet {
 
         String[] args = {};
         SearchBiclustersCDMI sc = new SearchBiclustersCDMI();
+
         ArrayList conv = new ArrayList(geneids);
         try {
             System.out.println("searchMAKResultsFromCDS");
@@ -104,11 +115,12 @@ public class MAKServer extends JsonServerServlet {
             System.out.println("KB_SERVICE_NAME "+System.getenv("KB_SERVICE_NAME"));
             System.out.println("KB_SERVICE_NAME p "+System.getProperty("KB_SERVICE_NAME"));
             System.out.println(MoreArray.arrayListtoString(conv, ","));
+            String genemapfilename = kbgid + "_allmapunmap.txt";
             System.out.println(MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename);
-            System.out.println(data_type);
+            System.out.println(dataType);
 
             sc.doInit(MoreArray.arrayListtoString(conv, ","), null, MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename,
-                    data_type, null, user, pwd);
+                    dataType, null, user, pwd);
         } catch (Exception e) {
             e.printStackTrace();
         }
