@@ -1,11 +1,12 @@
 package us.kbase.mak;
 
-import java.util.ArrayList;
-import java.util.List;
 import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonServerMethod;
 import us.kbase.common.service.JsonServerServlet;
 import util.MoreArray;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //BEGIN_HEADER
 //END_HEADER
@@ -15,8 +16,9 @@ import util.MoreArray;
  * <pre>
  * Module MAK version 1.0
  * This module provides access to MAK biclustering results.
+ *
  * @author marcin
- * </pre>
+ *         </pre>
  */
 public class MAKServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
@@ -34,7 +36,6 @@ public class MAKServer extends JsonServerServlet {
 
         user = super.config.get("dbUser");
         pwd = super.config.get("dbPwd");
-
         //END_CONSTRUCTOR
     }
 
@@ -46,10 +47,11 @@ public class MAKServer extends JsonServerServlet {
      * string kbgid - kbase genome id kbgid
      * string job_id - identifier of MAK job
      * </pre>
-     * @param   wsId   instance of String
-     * @param   kbgid   instance of String
-     * @param   dataType   instance of String
-     * @return   parameter "MAK_job_id" of String
+     *
+     * @param wsId     instance of String
+     * @param kbgid    instance of String
+     * @param dataType instance of String
+     * @return parameter "MAK_job_id" of String
      */
     @JsonServerMethod(rpc = "MAK.runall_MAK_job_from_ws")
     public String runallMAKJobFromWs(String wsId, String kbgid, String dataType, AuthToken authPart) throws Exception {
@@ -68,11 +70,12 @@ public class MAKServer extends JsonServerServlet {
      * MAKBicluster makb - starting point bicluster
      * string job_id - identifier of MAK job
      * </pre>
-     * @param   wsId   instance of String
-     * @param   kbgid   instance of String
-     * @param   dataType   instance of String
-     * @param   geneids   instance of list of String
-     * @return   parameter "MAK_job_id" of String
+     *
+     * @param wsId     instance of String
+     * @param kbgid    instance of String
+     * @param dataType instance of String
+     * @param geneids  instance of list of String
+     * @return parameter "MAK_job_id" of String
      */
     @JsonServerMethod(rpc = "MAK.runsingle_MAK_job_from_ws")
     public String runsingleMAKJobFromWs(String wsId, String kbgid, String dataType, List<String> geneids, AuthToken authPart) throws Exception {
@@ -89,18 +92,45 @@ public class MAKServer extends JsonServerServlet {
      * string ws_id - workspace id
      * string kbgid - kbase genome id kbgid
      * list<string> geneids - list of kb gene ids
-     * string job_id - identifier of MAK job
+     * MAKBiclusterSet set - MAKBiclusterSet
      * </pre>
-     * @param   wsId   instance of String
-     * @param   kbgid   instance of String
-     * @param   dataType   instance of String
-     * @param   geneids   instance of list of String
-     * @return   parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
+     *
+     * @param wsId     instance of String
+     * @param kbgid    instance of String
+     * @param dataType instance of String
+     * @param geneids  instance of list of String
+     * @return parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
      */
     @JsonServerMethod(rpc = "MAK.search_MAK_results_from_ws")
     public MAKBiclusterSet searchMAKResultsFromWs(String wsId, String kbgid, String dataType, List<String> geneids, AuthToken authPart) throws Exception {
         MAKBiclusterSet returnVal = null;
         //BEGIN search_MAK_results_from_ws
+
+
+        //returnVal = CmonkeyServerCaller.buildCmonkeyNetworkJobFromWs(wsId, params, authPart);
+        //END search_MAK_results_from_ws
+        return returnVal;
+    }
+
+    /**
+     * <p>Original spec-file function name: search_MAK_results_from_cds</p>
+     * <pre>
+     * Starts MAK server job for searching precomputed biclusters from the CDS and returns job ID of the run
+     * string ws_id - workspace id
+     * string kbgid - kbase genome id kbgid
+     * list<string> geneids - list of kb gene ids
+     * MAKBiclusterSet set - MAKBiclusterSet
+     * </pre>
+     *
+     * @param kbgid    instance of String
+     * @param dataType instance of String
+     * @param geneids  instance of list of String
+     * @return parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
+     */
+    @JsonServerMethod(rpc = "MAK.search_MAK_results_from_cds")
+    public MAKBiclusterSet searchMAKResultsFromCds(String kbgid, String dataType, List<String> geneids) throws Exception {//, AuthToken authPart
+        MAKBiclusterSet returnVal = null;
+        //BEGIN search_MAK_results_from_cds
 
         String[] args = {};
         SearchBiclustersCDMI sc = new SearchBiclustersCDMI();
@@ -108,12 +138,12 @@ public class MAKServer extends JsonServerServlet {
         ArrayList conv = new ArrayList(geneids);
         try {
             System.out.println("searchMAKResultsFromCDS");
-            System.out.println("java.vm.version "+System.getProperty("java.vm.version"));
-            System.out.println("JAVA_HOME "+System.getenv("JAVA_HOME"));
-            System.out.println("KB_DEPLOYMENT_CONFIG "+System.getenv("KB_DEPLOYMENT_CONFIG"));
-            System.out.println("KB_DEPLOYMENT_CONFIG p "+System.getProperty("KB_DEPLOYMENT_CONFIG"));
-            System.out.println("KB_SERVICE_NAME "+System.getenv("KB_SERVICE_NAME"));
-            System.out.println("KB_SERVICE_NAME p "+System.getProperty("KB_SERVICE_NAME"));
+            System.out.println("java.vm.version " + System.getProperty("java.vm.version"));
+            System.out.println("JAVA_HOME " + System.getenv("JAVA_HOME"));
+            System.out.println("KB_DEPLOYMENT_CONFIG " + System.getenv("KB_DEPLOYMENT_CONFIG"));
+            System.out.println("KB_DEPLOYMENT_CONFIG p " + System.getProperty("KB_DEPLOYMENT_CONFIG"));
+            System.out.println("KB_SERVICE_NAME " + System.getenv("KB_SERVICE_NAME"));
+            System.out.println("KB_SERVICE_NAME p " + System.getProperty("KB_SERVICE_NAME"));
             System.out.println(MoreArray.arrayListtoString(conv, ","));
             String genemapfilename = kbgid + "_allmapunmap.txt";
             System.out.println(MAKServer.PATH_TO_GENE_IDS + "/" + genemapfilename);
@@ -130,8 +160,8 @@ public class MAKServer extends JsonServerServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //returnVal = CmonkeyServerCaller.buildCmonkeyNetworkJobFromWs(wsId, params, authPart);
-        //END search_MAK_results_from_ws
+
+        //END search_MAK_results_from_cds
         return returnVal;
     }
 
