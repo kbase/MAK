@@ -249,9 +249,17 @@ module MAK {
 	string ws_id - workspace id
 	string kbgid - kbase genome id kbgid
 	list<string> geneids - list of kb gene ids
-	string job_id - identifier of MAK job
+	MAKBiclusterSet set - MAKBiclusterSet
 	*/
 	funcdef search_MAK_results_from_ws(string ws_id, string kbgid, string data_type, list<string> geneids) returns(MAKBiclusterSet mbs) authentication required;
+	
+	/*	Starts MAK server job for searching precomputed biclusters from the CDS and returns job ID of the run
+	string ws_id - workspace id
+	string kbgid - kbase genome id kbgid
+	list<string> geneids - list of kb gene ids
+	MAKBiclusterSet set - MAKBiclusterSet
+	*/
+	funcdef search_MAK_results_from_cds(string ws_id, string kbgid, string data_type, list<string> geneids) returns(MAKBiclusterSet mbs) authentication required;
 	
 	/* Represents data for a single bicluster data table, for gene expression data convention is genes on y-axis and conditions on x and similarly for other data types
 	string id - identifier for data table (same as bicluster_id in MAKBicluster)
