@@ -259,7 +259,7 @@ module MAK {
 	list<string> geneids - list of kb gene ids
 	MAKBiclusterSet set - MAKBiclusterSet
 	*/
-	funcdef search_MAK_results_from_cds(string ws_id, string kbgid, string data_type, list<string> geneids) returns(MAKBiclusterSet mbs) authentication required;
+	funcdef search_MAK_results_from_cds(string kbgid, string data_type, list<string> geneids) returns(MAKBiclusterSet mbs) authentication required;
 	
 	/* Represents data for a single bicluster data table, for gene expression data convention is genes on y-axis and conditions on x and similarly for other data types
 	string id - identifier for data table (same as bicluster_id in MAKBicluster)
