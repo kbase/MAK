@@ -154,9 +154,8 @@ public class MAKServer extends JsonServerServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        MAKBiclusterSet mbs = null;
         try {
-            mbs = sc.start();
+            returnVal = sc.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
