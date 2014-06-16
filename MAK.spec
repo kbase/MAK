@@ -231,7 +231,7 @@ module MAK {
 	*/
 	funcdef search_MAK_results_from_cds(string kbgid, string data_type, list<string> geneids) returns(MAKBiclusterSet mbs) authentication required;
 	
-	/* Represents data for a single bicluster data table, convention is biological features on y-axis and samples etc. on x and similarly for other data types
+	/* Represents data for a single data table, convention is biological features on y-axis and samples etc. on x
 	string id - identifier for data table
 	string name - name or title to display in a plot etc.
 	list<string> - row_ids
@@ -250,7 +250,7 @@ module MAK {
 		list<list<float>> data;
 	} FloatDataTable;
 	
-	/* Represents data for a single bicluster
+	/* Represents a list of data tables
 	string id - identifier for container
 	list<FloatDataTable> - bicluster data array
 	map<string, string> id_index - map of table ids to array positions
