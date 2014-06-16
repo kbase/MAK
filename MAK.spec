@@ -12,15 +12,10 @@ module MAK {
 	*/
 	typedef string gene_id;
 
-	/* Represents WS expression data sample identifier
-		id ws KBaseExpression.ExpressionSample
+	/* Represents WS input data tabke object identifier
+		@id ws MAK.FloatDataTable
 	*/
-	typedef string expression_sample_ws_ref;
-
-	/* Represents WS expression data series identifier
-		@id ws KBaseExpression.ExpressionSeries
-	*/
-	typedef string expression_series_ws_ref;
+	typedef string inputdata_ws_ref;
 
 	/* Represents WS genome identifier
 		@id ws KBaseGenomes.Genome
@@ -53,6 +48,7 @@ module MAK {
 		string taxon - NCBI taxonomy id
 		string genome_id - kbase id of genome
 		string id - kbase id
+		string ws_id - reference to workspace id of FloatDataTable object for input data
 		string data_type - type of data: "expression", "fitness"
 		string description - description
 		string dataPath - path to data
@@ -71,36 +67,8 @@ module MAK {
 		int num_rows;
 		int num_cols;		
   	} MAKInputData;  
-	
-		/* Represents a particular data point from gene expression data set
-		string gene_id - KBase gene identifier
-		float expression_value - relative expression value 
-	*/
-	typedef structure{
-		string gene_id;
-		float expression_value;
-	} ExpressionDataPoint;
-	
-	/* ExpressionDataSample represents set of expression data
-		string id - identifier of data set
-		string description - description of data set`
-		list<ExpressionDataPoint> points - data points
-	*/
-	typedef structure{
-		string id;
-		string description;
-		list<ExpressionDataPoint> points;
-	} ExpressionDataSample;
-
-	/* ExpressionDataSeries represents collection of expression data samples
-		string id - identifier of the collection
-		list<ExpressionDataSample> samples - data sets
-	*/
-	typedef structure{
-		string id;
-		list<ExpressionDataSample> samples;
-	} ExpressionDataSeries;
-	
+  	
+  	
 	
 	/* MAK algorithm and discovery strategy parameters 
 		string taxon - taxonomy id
@@ -115,7 +83,7 @@ module MAK {
 	    string null_data_path - path to null distribution files
 	    string Rcodepath - path to R code (Miner.R)
 	    string Rdatapath - path to Rdata object
-	    expression_series_ws_ref series_ref - reference to ExpressionSeries
+	    inputdata_ws_ref input_ref - reference to FloatDataTable
 	    list<MAKInputData> inputs - objects for MAK input data
 		
 		@optional 
@@ -135,11 +103,11 @@ module MAK {
 		string null_data_path;
 		string Rcodepath;
 		string Rdatapath;			
-		expression_series_ws_ref series_ref;
+		inputdata_ws_ref input_ref;
 		list<MAKInputData> inputs;		
-  	} MAKParameters;  
-  
+  	} MAKParameters;    
 	
+
 
 	/* Bicluster 
 	
@@ -197,6 +165,7 @@ module MAK {
 		string taxon - NCBI taxonomy id
 		string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)		
 		list<MAKBicluster> biclusters - biclusters
+		map<string, string> id_index - map of bicluster ids to array indices
 		
 	@searchable ws_subset id taxon
 	*/
@@ -212,6 +181,7 @@ module MAK {
 	 	string taxon;		
 	 	string bicluster_type;
 		list<MAKBicluster> biclusters;			
+		map<string, string> id_index;
   	} MAKBiclusterSet; 
   	
 
@@ -261,30 +231,37 @@ module MAK {
 	*/
 	funcdef search_MAK_results_from_cds(string kbgid, string data_type, list<string> geneids) returns(MAKBiclusterSet mbs) authentication required;
 	
-	/* Represents data for a single bicluster data table, for gene expression data convention is genes on y-axis and conditions on x and similarly for other data types
-	string id - identifier for data table (same as bicluster_id in MAKBicluster)
-	list<string> - row_ids (should be reference or kb id?)
+	/* Represents data for a single bicluster data table, convention is biological features on y-axis and samples etc. on x and similarly for other data types
+	string id - identifier for data table (kb or ws)
+	string name - name or title to display in a plot etc.
+	list<string> - row_ids (kb or ws)
 	list<string> - row_labels
-	list<string> - column_ids (should be reference or kb id?)
+	list<string> - column_ids (kb or ws)
 	list<string> - column_labels
+	boolean - isWSID
 	list<list<float>> - data
 	*/
 	typedef structure{
 		string id;
+		string name;
 		list<string> row_ids;
 		list<string> row_labels;
 		list<string> column_ids;
 		list<string> column_labels;
+		boolean isWSID;
 		list<list<float>> data;
 	} FloatDataTable;
 	
 	/* Represents data for a single bicluster
-	string id - identifier for container (same as id in MAKBiclusterSet)
+	string id - identifier for container (kb or ws)
 	list<FloatDataTable> - bicluster data array
+	map<string, string> id_index - map of table ids to array positions
 	*/
 	typedef structure{
 		string id;
+		boolean isWSID;
 		list<FloatDataTable> setdata;
+		map<string, string> id_index;
 	} FloatDataTableContainer;
 	
 };
