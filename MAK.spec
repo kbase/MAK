@@ -248,7 +248,7 @@ module MAK {
 		list<string> row_labels;
 		list<string> column_ids;
 		list<string> column_labels;
-		boolean isWSID;
+		string isWSID;
 		list<list<float>> data;
 	} FloatDataTable;
 	
@@ -259,7 +259,7 @@ module MAK {
 	*/
 	typedef structure{
 		string id;
-		boolean isWSID;
+		string isWSID;
 		list<FloatDataTable> setdata;
 		mapping<string, string> id_index;
 	} FloatDataTableContainer;
