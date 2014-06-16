@@ -181,7 +181,7 @@ module MAK {
 	 	string taxon;		
 	 	string bicluster_type;
 		list<MAKBicluster> biclusters;			
-		map<string, string> id_index;
+		mapping<string, string> id_index;
   	} MAKBiclusterSet; 
   	
 
@@ -261,7 +261,7 @@ module MAK {
 		string id;
 		boolean isWSID;
 		list<FloatDataTable> setdata;
-		map<string, string> id_index;
+		mapping<string, string> id_index;
 	} FloatDataTableContainer;
 	
 };
