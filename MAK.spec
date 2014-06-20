@@ -234,31 +234,73 @@ module MAK {
 	/* Represents data for a single data table, convention is biological features on y-axis and samples etc. on x
 	string id - identifier for data table
 	string name - name or title to display in a plot etc.
-	list<string> - row_ids
-	list<string> - row_labels
-	list<string> - column_ids
-	list<string> - column_labels
-	list<list<float>> - data
+	list<string> row_ids -
+	list<string> row_labels -
+	list<string> row_groups - group labels for row
+	list<string> column_ids -
+	list<string> column_labels -
+	list<string> column_groups - group labels for columns
+	list<list<float>> data -
 	*/
 	typedef structure{
 		string id;
 		string name;
 		list<string> row_ids;
 		list<string> row_labels;
+		list<string> row_groups;
 		list<string> column_ids;
 		list<string> column_labels;
+		list<string> column_groups;
 		list<list<float>> data;
 	} FloatDataTable;
 	
 	/* Represents a list of data tables
 	string id - identifier for container
-	list<FloatDataTable> - bicluster data array
+	string name - name or title to display in a plot etc.
+	list<FloatDataTable> - data array
 	map<string, string> id_index - map of table ids to array positions
 	*/
 	typedef structure{
 		string id;
+		string name;
 		list<FloatDataTable> setdata;
 		mapping<string, string> id_index;
 	} FloatDataTableContainer;
+	
+		/* Represents data for a single data table, convention is biological features on y-axis and samples etc. on x
+	string id - identifier for data table
+	string name - name or title to display in a plot etc.
+	list<string> row_ids -
+	list<string> row_labels -
+	list<string> row_groups - group labels for rows
+	list<string> column_ids -
+	list<string> column_labels -
+	list<string> column_groups - group labels for columns
+	list<list<string>> data -
+	*/
+	typedef structure{
+		string id;
+		string name;
+		list<string> row_ids;
+		list<string> row_labels;
+		list<string> row_groups;
+		list<string> column_ids;
+		list<string> column_labels;		
+		list<string> column_groups;
+		list<list<string>> data;
+	} StringDataTable;
+	
+	/* Represents a list of data tables in a container
+	string id - identifier for container
+	string name - name or title to display in a plot etc.
+	list<StringDataTable> - data array
+	map<string, string> id_index - map of table ids to array positions
+	*/
+	typedef structure{
+		string id;
+		string name;
+		list<StringDataTable> setdata;
+		mapping<string, string> id_index;
+	} StringDataTableContainer;
 	
 };
