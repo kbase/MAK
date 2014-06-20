@@ -4,6 +4,7 @@ import DataMining.*;
 import mathy.SimpleMatrix;
 import us.kbase.common.service.UObject;
 import util.MoreArray;
+import util.ParsePath;
 import util.TabFile;
 import util.TextFile;
 
@@ -31,12 +32,14 @@ public class BiclusterstoJSON {
 
     java.util.Date date;
 
-    String default_series_ref = "AKtest/D_vulgaris_series_series";
+    //String default_series_ref = "AKtest/D_vulgaris_series_series";
 
     /*TODO user variable for primary data type*/
     String default_bicluster_type = "expression";
     String default_biclusterset_id = "" + 0;
     String default_biclusterset_desc = "gene expression biclusters";
+
+    String title;
 
 
     /**
@@ -65,6 +68,49 @@ public class BiclusterstoJSON {
 
             doBiclusters();
 
+
+            FloatDataTableContainer fdtc = new FloatDataTableContainer();
+            List<List<Double>> lld = new ArrayList<List<Double>>();
+            List<FloatDataTable> lfdt = new ArrayList<FloatDataTable>();
+            Map<String, String> map = new HashMap<String, String>();
+            for (int i = 0; i < vbl.size(); i++) {
+                ValueBlock vb = (ValueBlock) vbl.get(i);
+                List<Double> ld = new ArrayList<Double>();
+                for (int a = 0; a < vb.genes.length; a++) {
+                    for (int b = 0; b < vb.exps.length; b++) {
+                        ld.add(sm.data[vb.genes[a] - 1][vb.exps[b] - 1]);
+                    }
+                }
+
+                ArrayList rowS = new ArrayList();
+                for (int a = 0; a < vb.genes.length; a++) {
+                    rowS.add(this.gene_labels[vb.genes[a] - 1]);
+                }
+                ArrayList rowkb = new ArrayList();
+                for (int d = 0; d < vb.genes.length; d++) {
+                    rowkb.add(this.gene_labels[vb.genes[d] - 1]);
+                }
+                ArrayList colS = new ArrayList();
+                for (int b = 0; b < vb.exps.length; b++) {
+                    colS.add(this.exp_labels[vb.exps[b] - 1]);
+                }
+                lld.add(ld);
+                FloatDataTable fdt = new FloatDataTable();
+                fdt.setRowIds(rowkb);
+                fdt.setRowLabels(rowS);
+                //fdt.setRowGroups();
+                fdt.setColumnIds(colS);
+                fdt.setColumnLabels(colS);
+                //fdt.setColumnGroups();
+                String name = title + "_" + i;
+                map.put(name, ""+i);
+                fdt.setName(name);
+                fdt.setData(lld);
+            }
+            fdtc.setSetdata(lfdt);
+            fdtc.setIdIndex(map);
+            fdtc.setName(title);
+
             List<MAKInputData> listinput = doInputs();
 
             makr = new MAKResult();
@@ -77,7 +123,7 @@ public class BiclusterstoJSON {
             doParams(listinput);
 
             TextFile.write(UObject.transformObjectToString(makr), args[0] + "_MAKResult.jsonp");
-
+            TextFile.write(UObject.transformObjectToString(fdtc), args[0] + "_data.jsonp");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,7 +247,7 @@ public class BiclusterstoJSON {
         makp.setRefine((long) (dprm.refine ? 1 : 0));
         makp.setRounds((long) dprm.rounds);
         makp.setRoundsMoveSequences(MoreArray.convtoArrayList(dprm.move_sequences));
-        makp.setSeriesRef(default_series_ref);
+        //makp.setSeriesRef(default_series_ref);
         makr.setParameters(makp);
     }
 
@@ -228,6 +274,10 @@ public class BiclusterstoJSON {
      * @throws Exception
      */
     private void loadInputs(String[] args) throws Exception {
+
+
+        ParsePath pp = new ParsePath(args[0]);
+        title = pp.getName();
         vbl = ValueBlockListMethods.readAny(args[0]);
 
         System.out.println("Loaded " + vbl.size());
@@ -242,42 +292,38 @@ public class BiclusterstoJSON {
         dprm = new DiscoveryParameters();
         dprm.read(args[4]);
 
-        if (args.length >= 6) {
+        try {
+            String[][] sarray = TabFile.readtoArray(args[5]);
+            System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
+            int col = 2;
+            String[] n = MoreArray.extractColumnStr(sarray, col);
+            gene_labels = MoreArray.replaceAll(n, "\"", "");
+            System.out.println("setLabels gene " + gene_labels.length + "\t" + gene_labels[0]);
+        } catch (Exception e) {
+            System.out.println("expecting 2 cols");
+            //e.printStackTrace();
             try {
                 String[][] sarray = TabFile.readtoArray(args[5]);
                 System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
-                int col = 2;
+                int col = 1;
                 String[] n = MoreArray.extractColumnStr(sarray, col);
                 gene_labels = MoreArray.replaceAll(n, "\"", "");
                 System.out.println("setLabels gene " + gene_labels.length + "\t" + gene_labels[0]);
-            } catch (Exception e) {
-                System.out.println("expecting 2 cols");
-                //e.printStackTrace();
-                try {
-                    String[][] sarray = TabFile.readtoArray(args[5]);
-                    System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
-                    int col = 1;
-                    String[] n = MoreArray.extractColumnStr(sarray, col);
-                    gene_labels = MoreArray.replaceAll(n, "\"", "");
-                    System.out.println("setLabels gene " + gene_labels.length + "\t" + gene_labels[0]);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
 
-            }
-            if (args.length == 7) {
-                try {
-                    String[][] sarray = TabFile.readtoArray(args[6]);
-                    System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
-                    int col = 1;
-                    String[] n = MoreArray.extractColumnStr(sarray, col);
-                    exp_labels = MoreArray.replaceAll(n, "\"", "");
-                    System.out.println("setLabels gene " + exp_labels.length + "\t" + exp_labels[0]);
-                } catch (Exception e) {
-                    System.out.println("expecting 1 cols");
-                    e.printStackTrace();
-                }
-            }
+        }
+        try {
+            String[][] sarray = TabFile.readtoArray(args[6]);
+            System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
+            int col = 1;
+            String[] n = MoreArray.extractColumnStr(sarray, col);
+            exp_labels = MoreArray.replaceAll(n, "\"", "");
+            System.out.println("setLabels gene " + exp_labels.length + "\t" + exp_labels[0]);
+        } catch (Exception e) {
+            System.out.println("expecting 1 cols");
+            e.printStackTrace();
         }
 
 
@@ -290,7 +336,7 @@ public class BiclusterstoJSON {
      */
 
     public final static void main(String[] args) {
-        if (args.length == 5 || args.length == 7) {
+        if (args.length == 7) {
             BiclusterstoJSON rm = new BiclusterstoJSON(args);
         } else {
             System.out.println("syntax: java us.kbase.mak.BiclusterstoJSON\n" +
@@ -299,8 +345,8 @@ public class BiclusterstoJSON {
                     "< primary input data>\n" +
                     "< MAK trajectory parameter file >\n" +
                     "< MAK discovery strategy file >\n" +
-                    "< OPTIONAL primary input data gene labels >\n" +
-                    "< OPTIONAL (only if also gene labels) primary input data condition labels >"
+                    "< primary input data gene labels >\n" +
+                    "< primary input data condition labels >"
                     /*TODO add dash options, add option to name primary data type*/
             );
         }

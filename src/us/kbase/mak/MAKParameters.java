@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *             string null_data_path - path to null distribution files
  *             string Rcodepath - path to R code (Miner.R)
  *             string Rdatapath - path to Rdata object
- *             expression_series_ws_ref series_ref - reference to ExpressionSeries
+ *             inputdata_ws_ref input_ref - reference to FloatDataTable
  *             list<MAKInputData> inputs - objects for MAK input data
  * @optional 
  *             @searchable ws_subset
@@ -50,7 +50,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "null_data_path",
     "Rcodepath",
     "Rdatapath",
-    "series_ref",
+    "input_ref",
     "inputs"
 })
 public class MAKParameters {
@@ -79,8 +79,8 @@ public class MAKParameters {
     private java.lang.String Rcodepath;
     @JsonProperty("Rdatapath")
     private java.lang.String Rdatapath;
-    @JsonProperty("series_ref")
-    private java.lang.String seriesRef;
+    @JsonProperty("input_ref")
+    private java.lang.String inputRef;
     @JsonProperty("inputs")
     private List<MAKInputData> inputs;
     private Map<java.lang.String, Object> additionalProperties = new HashMap<java.lang.String, Object>();
@@ -265,18 +265,18 @@ public class MAKParameters {
         return this;
     }
 
-    @JsonProperty("series_ref")
-    public java.lang.String getSeriesRef() {
-        return seriesRef;
+    @JsonProperty("input_ref")
+    public java.lang.String getInputRef() {
+        return inputRef;
     }
 
-    @JsonProperty("series_ref")
-    public void setSeriesRef(java.lang.String seriesRef) {
-        this.seriesRef = seriesRef;
+    @JsonProperty("input_ref")
+    public void setInputRef(java.lang.String inputRef) {
+        this.inputRef = inputRef;
     }
 
-    public MAKParameters withSeriesRef(java.lang.String seriesRef) {
-        this.seriesRef = seriesRef;
+    public MAKParameters withInputRef(java.lang.String inputRef) {
+        this.inputRef = inputRef;
         return this;
     }
 
@@ -307,7 +307,7 @@ public class MAKParameters {
 
     @Override
     public java.lang.String toString() {
-        return ((((((((((((((((((((((((((((((("MAKParameters"+" [taxon=")+ taxon)+", genomeId=")+ genomeId)+", minRawBiclusterScore=")+ minRawBiclusterScore)+", maxBiclusterOverlap=")+ maxBiclusterOverlap)+", maxEnrichPvalue=")+ maxEnrichPvalue)+", rounds=")+ rounds)+", roundsMoveSequences=")+ roundsMoveSequences)+", refine=")+ refine)+", linkage=")+ linkage)+", nullDataPath=")+ nullDataPath)+", Rcodepath=")+ Rcodepath)+", Rdatapath=")+ Rdatapath)+", seriesRef=")+ seriesRef)+", inputs=")+ inputs)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((((((((((((((((("MAKParameters"+" [taxon=")+ taxon)+", genomeId=")+ genomeId)+", minRawBiclusterScore=")+ minRawBiclusterScore)+", maxBiclusterOverlap=")+ maxBiclusterOverlap)+", maxEnrichPvalue=")+ maxEnrichPvalue)+", rounds=")+ rounds)+", roundsMoveSequences=")+ roundsMoveSequences)+", refine=")+ refine)+", linkage=")+ linkage)+", nullDataPath=")+ nullDataPath)+", Rcodepath=")+ Rcodepath)+", Rdatapath=")+ Rdatapath)+", inputRef=")+ inputRef)+", inputs=")+ inputs)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

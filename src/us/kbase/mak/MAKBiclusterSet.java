@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *         string taxon - NCBI taxonomy id
  *         string bicluster_type - type of bicluster (determined by source data, e.g. expression, fitness, metagenomic, metabolite, integrated)                
  *         list<MAKBicluster> biclusters - biclusters
+ *         map<string, string> id_index - map of bicluster ids to array indices
  *         
  * @searchable ws_subset id taxon
  * </pre>
@@ -45,16 +46,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "max_conditions",
     "taxon",
     "bicluster_type",
-    "biclusters"
+    "biclusters",
+    "id_index"
 })
 public class MAKBiclusterSet {
 
     @JsonProperty("id")
-    private String id;
+    private java.lang.String id;
     @JsonProperty("time_stamp")
-    private String timeStamp;
+    private java.lang.String timeStamp;
     @JsonProperty("version")
-    private String version;
+    private java.lang.String version;
     @JsonProperty("number")
     private Long number;
     @JsonProperty("min_genes")
@@ -66,54 +68,56 @@ public class MAKBiclusterSet {
     @JsonProperty("max_conditions")
     private Long maxConditions;
     @JsonProperty("taxon")
-    private String taxon;
+    private java.lang.String taxon;
     @JsonProperty("bicluster_type")
-    private String biclusterType;
+    private java.lang.String biclusterType;
     @JsonProperty("biclusters")
     private List<MAKBicluster> biclusters;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @JsonProperty("id_index")
+    private Map<String, String> idIndex;
+    private Map<java.lang.String, Object> additionalProperties = new HashMap<java.lang.String, Object>();
 
     @JsonProperty("id")
-    public String getId() {
+    public java.lang.String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(String id) {
+    public void setId(java.lang.String id) {
         this.id = id;
     }
 
-    public MAKBiclusterSet withId(String id) {
+    public MAKBiclusterSet withId(java.lang.String id) {
         this.id = id;
         return this;
     }
 
     @JsonProperty("time_stamp")
-    public String getTimeStamp() {
+    public java.lang.String getTimeStamp() {
         return timeStamp;
     }
 
     @JsonProperty("time_stamp")
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(java.lang.String timeStamp) {
         this.timeStamp = timeStamp;
     }
 
-    public MAKBiclusterSet withTimeStamp(String timeStamp) {
+    public MAKBiclusterSet withTimeStamp(java.lang.String timeStamp) {
         this.timeStamp = timeStamp;
         return this;
     }
 
     @JsonProperty("version")
-    public String getVersion() {
+    public java.lang.String getVersion() {
         return version;
     }
 
     @JsonProperty("version")
-    public void setVersion(String version) {
+    public void setVersion(java.lang.String version) {
         this.version = version;
     }
 
-    public MAKBiclusterSet withVersion(String version) {
+    public MAKBiclusterSet withVersion(java.lang.String version) {
         this.version = version;
         return this;
     }
@@ -194,31 +198,31 @@ public class MAKBiclusterSet {
     }
 
     @JsonProperty("taxon")
-    public String getTaxon() {
+    public java.lang.String getTaxon() {
         return taxon;
     }
 
     @JsonProperty("taxon")
-    public void setTaxon(String taxon) {
+    public void setTaxon(java.lang.String taxon) {
         this.taxon = taxon;
     }
 
-    public MAKBiclusterSet withTaxon(String taxon) {
+    public MAKBiclusterSet withTaxon(java.lang.String taxon) {
         this.taxon = taxon;
         return this;
     }
 
     @JsonProperty("bicluster_type")
-    public String getBiclusterType() {
+    public java.lang.String getBiclusterType() {
         return biclusterType;
     }
 
     @JsonProperty("bicluster_type")
-    public void setBiclusterType(String biclusterType) {
+    public void setBiclusterType(java.lang.String biclusterType) {
         this.biclusterType = biclusterType;
     }
 
-    public MAKBiclusterSet withBiclusterType(String biclusterType) {
+    public MAKBiclusterSet withBiclusterType(java.lang.String biclusterType) {
         this.biclusterType = biclusterType;
         return this;
     }
@@ -238,19 +242,34 @@ public class MAKBiclusterSet {
         return this;
     }
 
+    @JsonProperty("id_index")
+    public Map<String, String> getIdIndex() {
+        return idIndex;
+    }
+
+    @JsonProperty("id_index")
+    public void setIdIndex(Map<String, String> idIndex) {
+        this.idIndex = idIndex;
+    }
+
+    public MAKBiclusterSet withIdIndex(Map<String, String> idIndex) {
+        this.idIndex = idIndex;
+        return this;
+    }
+
     @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
+    public Map<java.lang.String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
     @JsonAnySetter
-    public void setAdditionalProperties(String name, Object value) {
+    public void setAdditionalProperties(java.lang.String name, Object value) {
         this.additionalProperties.put(name, value);
     }
 
     @Override
-    public String toString() {
-        return ((((((((((((((((((((((((("MAKBiclusterSet"+" [id=")+ id)+", timeStamp=")+ timeStamp)+", version=")+ version)+", number=")+ number)+", minGenes=")+ minGenes)+", maxGenes=")+ maxGenes)+", minConditions=")+ minConditions)+", maxConditions=")+ maxConditions)+", taxon=")+ taxon)+", biclusterType=")+ biclusterType)+", biclusters=")+ biclusters)+", additionalProperties=")+ additionalProperties)+"]");
+    public java.lang.String toString() {
+        return ((((((((((((((((((((((((((("MAKBiclusterSet"+" [id=")+ id)+", timeStamp=")+ timeStamp)+", version=")+ version)+", number=")+ number)+", minGenes=")+ minGenes)+", maxGenes=")+ maxGenes)+", minConditions=")+ minConditions)+", maxConditions=")+ maxConditions)+", taxon=")+ taxon)+", biclusterType=")+ biclusterType)+", biclusters=")+ biclusters)+", idIndex=")+ idIndex)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

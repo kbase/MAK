@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *         string taxon - NCBI taxonomy id
  *         string genome_id - kbase id of genome
  *         string id - kbase id
+ *         string ws_id - reference to workspace id of FloatDataTable object for input data
  *         string data_type - type of data: "expression", "fitness"
  *         string description - description
  *         string dataPath - path to data

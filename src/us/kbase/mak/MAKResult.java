@@ -57,7 +57,7 @@ public class MAKResult {
      *             string null_data_path - path to null distribution files
      *             string Rcodepath - path to R code (Miner.R)
      *             string Rdatapath - path to Rdata object
-     *             expression_series_ws_ref series_ref - reference to ExpressionSeries
+     *             inputdata_ws_ref input_ref - reference to FloatDataTable
      *             list<MAKInputData> inputs - objects for MAK input data
      * @optional 
      *             @searchable ws_subset
@@ -131,7 +131,7 @@ public class MAKResult {
      *             string null_data_path - path to null distribution files
      *             string Rcodepath - path to R code (Miner.R)
      *             string Rdatapath - path to Rdata object
-     *             expression_series_ws_ref series_ref - reference to ExpressionSeries
+     *             inputdata_ws_ref input_ref - reference to FloatDataTable
      *             list<MAKInputData> inputs - objects for MAK input data
      * @optional 
      *             @searchable ws_subset
@@ -159,7 +159,7 @@ public class MAKResult {
      *             string null_data_path - path to null distribution files
      *             string Rcodepath - path to R code (Miner.R)
      *             string Rdatapath - path to Rdata object
-     *             expression_series_ws_ref series_ref - reference to ExpressionSeries
+     *             inputdata_ws_ref input_ref - reference to FloatDataTable
      *             list<MAKInputData> inputs - objects for MAK input data
      * @optional 
      *             @searchable ws_subset
