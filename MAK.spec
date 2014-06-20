@@ -1,3 +1,4 @@
+test
 /* 
 	Module MAK version 1.0
 	This module provides access to MAK biclustering results.
