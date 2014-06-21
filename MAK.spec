@@ -241,6 +241,11 @@ module MAK {
 	list<string> column_labels -
 	list<string> column_groups - group labels for columns
 	list<list<float>> data -
+	
+	@optional id
+	@optional name
+	@optional row_groups
+	@optional column_groups
 	*/
 	typedef structure{
 		string id;
@@ -259,6 +264,10 @@ module MAK {
 	string name - name or title to display in a plot etc.
 	list<FloatDataTable> - data array
 	map<string, string> id_index - map of table ids to array positions
+	
+	@optional id
+	@optional name
+	@optional id_index
 	*/
 	typedef structure{
 		string id;
@@ -277,6 +286,11 @@ module MAK {
 	list<string> column_labels -
 	list<string> column_groups - group labels for columns
 	list<list<string>> data -
+	
+	@optional id
+	@optional name
+	@optional row_groups
+	@optional column_groups
 	*/
 	typedef structure{
 		string id;
@@ -295,6 +309,10 @@ module MAK {
 	string name - name or title to display in a plot etc.
 	list<StringDataTable> - data array
 	map<string, string> id_index - map of table ids to array positions
+	
+	@optional id
+	@optional name
+	@optional id_index
 	*/
 	typedef structure{
 		string id;
