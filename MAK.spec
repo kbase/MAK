@@ -234,17 +234,19 @@ module MAK {
 	/* Represents data for a single data table, convention is biological features on y-axis and samples etc. on x
 	string id - identifier for data table
 	string name - name or title to display in a plot etc.
-	list<string> row_ids -
-	list<string> row_labels -
+	list<string> row_ids - kb ids for the objects
+	list<string> row_labels - label text to display
 	list<string> row_groups - group labels for row
-	list<string> column_ids -
-	list<string> column_labels -
+	list<string> column_ids - kb ids for the objects
+	list<string> column_labels - label text to display
 	list<string> column_groups - group labels for columns
-	list<list<float>> data -
+	list<list<float>> data - a list of rows of floats, non-numeric values represented as 'null'
 	
 	@optional id
 	@optional name
+	@optional row_ids
 	@optional row_groups
+	@optional column_ids
 	@optional column_groups
 	*/
 	typedef structure{
@@ -279,17 +281,19 @@ module MAK {
 		/* Represents data for a single data table, convention is biological features on y-axis and samples etc. on x
 	string id - identifier for data table
 	string name - name or title to display in a plot etc.
-	list<string> row_ids -
-	list<string> row_labels -
+	list<string> row_ids - kb ids for the row objects
+	list<string> row_labels - label text to display
 	list<string> row_groups - group labels for rows
-	list<string> column_ids -
-	list<string> column_labels -
+	list<string> column_ids - kb ids for the column objects
+	list<string> column_labels - label text to display
 	list<string> column_groups - group labels for columns
-	list<list<string>> data -
+	list<list<string>> data - a list of rows of strings, non-numeric values represented as 'null'
 	
 	@optional id
 	@optional name
+	@optional row_ids
 	@optional row_groups
+	@optional column_ids
 	@optional column_groups
 	*/
 	typedef structure{
@@ -307,7 +311,7 @@ module MAK {
 	/* Represents a list of data tables in a container
 	string id - identifier for container
 	string name - name or title to display in a plot etc.
-	list<StringDataTable> - data array
+	list<StringDataTable> - data table array
 	map<string, string> id_index - map of table ids to array positions
 	
 	@optional id
