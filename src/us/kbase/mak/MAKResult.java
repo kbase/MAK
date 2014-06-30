@@ -59,7 +59,7 @@ public class MAKResult {
      *             string Rdatapath - path to Rdata object
      *             inputdata_ws_ref input_ref - reference to FloatDataTable
      *             list<MAKInputData> inputs - objects for MAK input data
-     * @optional 
+     * @optional input_ref
      *             @searchable ws_subset
      * </pre>
      * 
@@ -133,7 +133,7 @@ public class MAKResult {
      *             string Rdatapath - path to Rdata object
      *             inputdata_ws_ref input_ref - reference to FloatDataTable
      *             list<MAKInputData> inputs - objects for MAK input data
-     * @optional 
+     * @optional input_ref
      *             @searchable ws_subset
      * </pre>
      * 
@@ -161,7 +161,7 @@ public class MAKResult {
      *             string Rdatapath - path to Rdata object
      *             inputdata_ws_ref input_ref - reference to FloatDataTable
      *             list<MAKInputData> inputs - objects for MAK input data
-     * @optional 
+     * @optional input_ref
      *             @searchable ws_subset
      * </pre>
      * 

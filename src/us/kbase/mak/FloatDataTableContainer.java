@@ -20,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * string name - name or title to display in a plot etc.
  * list<FloatDataTable> - data array
  * map<string, string> id_index - map of table ids to array positions
+ * @optional id
+ * @optional name
+ * @optional id_index
  * </pre>
  * 
  */

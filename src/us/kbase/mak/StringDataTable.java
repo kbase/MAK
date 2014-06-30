@@ -18,13 +18,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * Represents data for a single data table, convention is biological features on y-axis and samples etc. on x
  * string id - identifier for data table
  * string name - name or title to display in a plot etc.
- * list<string> row_ids -
- * list<string> row_labels -
+ * list<string> row_ids - kb ids for the row objects
+ * list<string> row_labels - label text to display
  * list<string> row_groups - group labels for rows
- * list<string> column_ids -
- * list<string> column_labels -
+ * list<string> column_groups_ids - kb ids for group objects
+ * list<string> column_ids - kb ids for the column objects
+ * list<string> column_labels - label text to display
  * list<string> column_groups - group labels for columns
- * list<list<string>> data -
+ * list<string> column_groups_ids - kb ids for group objects
+ * list<list<string>> data - a list of rows of strings, non-numeric values represented as 'null'
+ * @optional id
+ * @optional name
+ * @optional row_ids
+ * @optional row_groups
+ * @optional column_ids
+ * @optional column_groups
  * </pre>
  * 
  */
@@ -36,9 +44,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "row_ids",
     "row_labels",
     "row_groups",
+    "row_groups_ids",
     "column_ids",
     "column_labels",
     "column_groups",
+    "column_groups_ids",
     "data"
 })
 public class StringDataTable {
@@ -53,12 +63,16 @@ public class StringDataTable {
     private List<String> rowLabels;
     @JsonProperty("row_groups")
     private List<String> rowGroups;
+    @JsonProperty("row_groups_ids")
+    private List<String> rowGroupsIds;
     @JsonProperty("column_ids")
     private List<String> columnIds;
     @JsonProperty("column_labels")
     private List<String> columnLabels;
     @JsonProperty("column_groups")
     private List<String> columnGroups;
+    @JsonProperty("column_groups_ids")
+    private List<String> columnGroupsIds;
     @JsonProperty("data")
     private List<List<String>> data;
     private Map<java.lang.String, Object> additionalProperties = new HashMap<java.lang.String, Object>();
@@ -138,6 +152,21 @@ public class StringDataTable {
         return this;
     }
 
+    @JsonProperty("row_groups_ids")
+    public List<String> getRowGroupsIds() {
+        return rowGroupsIds;
+    }
+
+    @JsonProperty("row_groups_ids")
+    public void setRowGroupsIds(List<String> rowGroupsIds) {
+        this.rowGroupsIds = rowGroupsIds;
+    }
+
+    public StringDataTable withRowGroupsIds(List<String> rowGroupsIds) {
+        this.rowGroupsIds = rowGroupsIds;
+        return this;
+    }
+
     @JsonProperty("column_ids")
     public List<String> getColumnIds() {
         return columnIds;
@@ -183,6 +212,21 @@ public class StringDataTable {
         return this;
     }
 
+    @JsonProperty("column_groups_ids")
+    public List<String> getColumnGroupsIds() {
+        return columnGroupsIds;
+    }
+
+    @JsonProperty("column_groups_ids")
+    public void setColumnGroupsIds(List<String> columnGroupsIds) {
+        this.columnGroupsIds = columnGroupsIds;
+    }
+
+    public StringDataTable withColumnGroupsIds(List<String> columnGroupsIds) {
+        this.columnGroupsIds = columnGroupsIds;
+        return this;
+    }
+
     @JsonProperty("data")
     public List<List<String>> getData() {
         return data;
@@ -210,7 +254,7 @@ public class StringDataTable {
 
     @Override
     public java.lang.String toString() {
-        return ((((((((((((((((((((("StringDataTable"+" [id=")+ id)+", name=")+ name)+", rowIds=")+ rowIds)+", rowLabels=")+ rowLabels)+", rowGroups=")+ rowGroups)+", columnIds=")+ columnIds)+", columnLabels=")+ columnLabels)+", columnGroups=")+ columnGroups)+", data=")+ data)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((((((((((("StringDataTable"+" [id=")+ id)+", name=")+ name)+", rowIds=")+ rowIds)+", rowLabels=")+ rowLabels)+", rowGroups=")+ rowGroups)+", rowGroupsIds=")+ rowGroupsIds)+", columnIds=")+ columnIds)+", columnLabels=")+ columnLabels)+", columnGroups=")+ columnGroups)+", columnGroupsIds=")+ columnGroupsIds)+", data=")+ data)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

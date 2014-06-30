@@ -18,8 +18,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * Represents a list of data tables in a container
  * string id - identifier for container
  * string name - name or title to display in a plot etc.
- * list<StringDataTable> - data array
+ * list<StringDataTable> - data table array
  * map<string, string> id_index - map of table ids to array positions
+ * @optional id
+ * @optional name
+ * @optional id_index
  * </pre>
  * 
  */
