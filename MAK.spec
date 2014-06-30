@@ -55,6 +55,10 @@ module MAK {
 	    int num_rows - number of rows
 	    int num_columns - number of columns
 	     	     
+	    @optional id
+	    @optional datapath
+	    @optional num_rows
+	    @optional num_cols
 		@searchable ws_subset taxon id description
 	*/
 	typedef structure {	   
@@ -167,6 +171,8 @@ module MAK {
 		list<MAKBicluster> biclusters - biclusters
 		map<string, string> id_index - map of bicluster ids to array indices (translates between kb id and ws id)
 		
+	@optional id_index
+	
 	@searchable ws_subset id taxon
 	*/
 	typedef structure {	
@@ -190,7 +196,8 @@ module MAK {
 	string start_time - start time of MAK run
 	string finish_time - end time of MAK run
 	MAKParameters parameters - run parameters
-	list<MAKBiclusterSet> sets;
+	list<MAKBiclusterSet> sets - set of biclusters
+	MAKInputData input - input data object
 	*/
 	typedef structure{
 		string id;
@@ -198,6 +205,7 @@ module MAK {
 		string finish_time;
 		MAKParameters parameters;	
 		list<MAKBiclusterSet> sets;
+		MAKInputData input;
 	} MAKResult;
   	
 	/*	Starts MAK server job and returns job ID of the run
