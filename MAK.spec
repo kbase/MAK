@@ -56,7 +56,7 @@ module MAK {
 	    int num_columns - number of columns
 	     	     
 	    @optional id
-	    @optional datapath
+	    @optional dataPath
 	    @optional num_rows
 	    @optional num_cols
 		@searchable ws_subset taxon id description
