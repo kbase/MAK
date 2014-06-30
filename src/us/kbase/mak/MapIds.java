@@ -6,6 +6,7 @@ import us.kbase.common.service.UObject;
 import us.kbase.idmap.IdMapClient;
 import us.kbase.idmap.IdPair;
 import util.MoreArray;
+import util.StringUtil;
 import util.TabFile;
 import util.TextFile;
 
@@ -25,7 +26,8 @@ public class MapIds {
     //SOMR1 dnaA
     String testid = "199205";
     String testgenome = "Shewanella oneidensis MR-1";
-    String testgenomeId = "211586";
+    String taxId = "211586";
+    String kbGenomeId;
 
     final static String sourcedb = "microbes_online";
     String[] gene_labels;
@@ -38,6 +40,8 @@ public class MapIds {
     public MapIds(String[] args) {
 
         init(args);
+
+        String prefix = args[0].substring(0, args[0].indexOf("_MAKResult"));
 
         if (idmapping.size() == 0)
             idMap(args);
@@ -69,8 +73,29 @@ public class MapIds {
                 System.out.println("map " + kbgids.size());
                 makb.setGeneIds(kbgids);
                 mbs.set(a, makb);
+
+
+                //SOMR1_expr_refine_top_0.25_1.0_c_reconstructed.txt
+
+                //SOMR1_expr_refine_top_0.25_1.0_c_reconstructed.txt_bicluster.0_data.jsonp
+
+
+                //tried
+                //SOMR1_expr_refine_top_0.25_1.0_c_reconstructed.txt_MAKResult.jsonp_bicluster.0_data.jsonp
+
+                ObjectMapper mapper2 = new ObjectMapper();
+                String inpath = prefix + "_bicluster." + a + "_data.jsonp";
+                File f2 = new File(inpath);
+                FloatDataTable biclustertable = mapper2.readValue(f2, FloatDataTable.class);
+
+                biclustertable.setRowIds(kbgids);
+
+                TextFile.write(UObject.transformObjectToString(biclustertable), inpath + "_map.jsonp");
             }
             makResult.getSets().get(0).setBiclusters(mbs);
+            MAKParameters makprm = makResult.getParameters();
+            makprm.setGenomeId(this.kbGenomeId);
+            makprm.setTaxon(this.taxId);
 
             TextFile.write(UObject.transformObjectToString(makResult), args[0] + "_kbmap.jsonp");
         } catch (IOException e) {
@@ -100,60 +125,71 @@ public class MapIds {
 
             for (int i = 0; i < kbasegenomes.size(); i++) {
                 IdPair ip = (IdPair) kbasegenomes.get(i);
+
                 System.out.println(i + "\t" + ip.getKbaseId());
 
                 ArrayList unmapped = new ArrayList();
 
                 try {
                     List syns = idc.lookupFeatureSynonyms(ip.getKbaseId(), "CDS");
-                    System.out.println("synonyms " + syns.size());
+                    System.out.println("synonyms " + ip.getKbaseId() + "\t" + syns.size());
 
                     if (syns.size() > 0) {
+                        this.kbGenomeId = ip.getKbaseId();
                         //String[] kbaseids = new String[gene_labels.length];
-                        for (int j = 0; j < gene_labels.length; j++) {
-                            System.out.println(j + "\t" + gene_labels[j]);
-                            List<String> a = new ArrayList();
-                            a.add(gene_labels[j]);
-                            Map map = idc.lookupFeatures(ip.getKbaseId(), Arrays.asList(gene_labels[j]), "CDS", "microbes_online");
-                            Set keys = map.keySet();
-                            Set entries = map.entrySet();
-                            Iterator kit = keys.iterator();
-                            Iterator eit = entries.iterator();
 
-                            System.out.println("entries " + entries.size());
-                            //for (int k = 0; k < keys.size(); k++) {
-                            if (kit.hasNext()) {
-                                while (kit.hasNext()) {
-                                    ArrayList me = (ArrayList) map.get(kit.next());
-                                    for (int z = 0; z < me.size(); z++) {
-                                        IdPair cur = (IdPair) me.get(z);
-                                        System.out.println(gene_labels[j] + "\t" + cur.getAlias() + "\t" + cur.getKbaseId() + "\t" + cur.getSourceDb());
-                                        idmapping.put(cur.getAlias(), cur.getKbaseId());
-                                    }
+                        Map map = idc.lookupFeatures(ip.getKbaseId(), Arrays.asList(gene_labels), "CDS", "microbes_online");
+                        Set keys = map.keySet();
+                        Set entries = map.entrySet();
+                        Iterator kit = keys.iterator();
+                        Iterator eit = entries.iterator();
+
+                        int[] done = new int[gene_labels.length];
+                        System.out.println("entries " + entries.size());
+                        // for (int j = 0; j < gene_labels.length; j++) {
+                        // System.out.println(j + "\t" + gene_labels[j]);
+                        //for (int k = 0; k < keys.size(); k++) {
+                        if (kit.hasNext()) {
+                            while (kit.hasNext()) {
+                                String query = (String) kit.next();
+                                int index = StringUtil.getFirstEqualsIndex(gene_labels, query);
+                                done[index] = 1;
+                                ArrayList me = (ArrayList) map.get(query);
+                                for (int z = 0; z < me.size(); z++) {
+                                    IdPair cur = (IdPair) me.get(z);
+                                    System.out.println("idmapping " + query + "\t" + cur.getAlias() + "\t" + cur.getKbaseId() + "\t" + cur.getSourceDb());
+                                    idmapping.put(cur.getAlias(), cur.getKbaseId());
                                 }
-                            } else {
-                                unmapped.add(gene_labels[j]);
                             }
-
                         }
+
+
+                        for (int j = 0; j < done.length; j++) {
+                            if (done[j] == 0)
+                                unmapped.add(gene_labels[j]);
+                        }
+
+                        //}
                         //testSynonyms(syns);
 
                         System.out.println("unmapped " + unmapped.size());
-                        String outpath = this.testgenomeId + "_unmapped.txt";
+                        String outpath = this.taxId + "_unmapped.txt";
                         TextFile.write(unmapped, outpath);
                         System.out.println("wrote " + outpath);
                     }
 
                     ArrayList outmap = new ArrayList();
                     Set<String> setm = idmapping.keySet();
+
+                    System.out.println("outputting map " + setm.size());
                     Iterator<String> mapit = setm.iterator();
                     while (mapit.hasNext()) {
                         String key = mapit.next();
                         outmap.add(key + "\t" + idmapping.get(key));
                     }
-                    String outpath = this.testgenomeId + "_map.txt";
-                    TextFile.write(outmap, outpath);
-                    System.out.println("wrote " + outpath);
+                    String outpath2 = this.taxId + "_map.txt";
+                    TextFile.write(outmap, outpath2);
+                    System.out.println("wrote " + outpath2);
 
                 } catch (JsonClientException e) {
                     e.printStackTrace();
@@ -187,7 +223,7 @@ public class MapIds {
 
     private void init(String[] args) {
 
-        testgenomeId = args[1];
+        taxId = args[1];
         try {
             String[][] sarray = TabFile.readtoArray(args[2]);
             System.out.println("setLabels g " + sarray.length + "\t" + sarray[0].length);
@@ -218,7 +254,10 @@ public class MapIds {
         if (args.length == 3 || args.length == 4) {
             MapIds ce = new MapIds(args);
         } else {
-            System.out.println("usage: java us.kbase.mak.MapIds <MAK result jsonp> <taxonomy id> <id file> <OPTIONAL precomputed map file>");
+            System.out.println("usage: java us.kbase.mak.MapIds <MAK result jsonp> " +
+                    "<taxonomy id> " +
+                    "<id file> " +
+                    "<OPTIONAL precomputed map file>");
         }
     }
 

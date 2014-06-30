@@ -8,7 +8,10 @@ import util.TextFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Marcin Joachimiak
@@ -32,6 +35,8 @@ public class RegisterBiclusterIds {
             ObjectMapper mapper = new ObjectMapper();
             File f = new File(args[0]);
             MAKResult makResult = mapper.readValue(f, MAKResult.class);
+
+            String prefixInput = args[0].substring(0, args[0].indexOf("_MAKResult"));
 
             int slashind = args[0].indexOf("/");
             int max = Math.max(0, slashind);
@@ -130,6 +135,22 @@ public class RegisterBiclusterIds {
                     }
                     mb.setBiclusterId(kbid);
                     biclusters.set(i, mb);
+
+
+                    //SOMR1_expr_refine_top_0.25_1.0_c_reconstructed.txt
+
+                    //SOMR1_expr_refine_top_0.25_1.0_c_reconstructed.txt_bicluster.0_data.jsonp
+
+                    //SOMR1_expr_refine_top_0.25_1.0_c_reconstructed.txt_MAKResult.jsonp_kbmap.jsonp_bicluster.0_data.jsonp
+
+                    ObjectMapper mapper2 = new ObjectMapper();
+                    String inpath = prefixInput + "_bicluster." + i + "_data.jsonp_map.jsonp";
+                    File f2 = new File(inpath);
+                    FloatDataTable biclustertable = mapper2.readValue(f2, FloatDataTable.class);
+
+                    biclustertable.setId(kbid);
+
+                    TextFile.write(UObject.transformObjectToString(biclustertable), inpath + "_register.jsonp");
                 }
 
                 makResult.getSets().get(0).setBiclusters(biclusters);

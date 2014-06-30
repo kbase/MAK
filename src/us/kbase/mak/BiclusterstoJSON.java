@@ -35,9 +35,9 @@ public class BiclusterstoJSON {
     //String default_series_ref = "AKtest/D_vulgaris_series_series";
 
     /*TODO user variable for primary data type*/
-    String default_bicluster_type = "expression";
+    String default_bicluster_type;// = "expression";
     String default_biclusterset_id = "" + 0;
-    String default_biclusterset_desc = "gene expression biclusters";
+    String default_biclusterset_desc = " biclusters";//gene expression
 
     String title;
 
@@ -82,6 +82,8 @@ public class BiclusterstoJSON {
                     }
                 }
 
+                System.out.println("i " + ld.size());
+
                 ArrayList rowS = new ArrayList();
                 for (int a = 0; a < vb.genes.length; a++) {
                     rowS.add(this.gene_labels[vb.genes[a] - 1]);
@@ -103,14 +105,17 @@ public class BiclusterstoJSON {
                 fdt.setColumnLabels(colS);
                 //fdt.setColumnGroups();
                 String name = title + "_" + i;
-                map.put(name, ""+i);
+                map.put(name, "" + i);
                 fdt.setName(name);
                 fdt.setData(lld);
+                TextFile.write(UObject.transformObjectToString(fdt), args[0] + "_bicluster." + i + "_data.jsonp");
+                //lfdt.add(fdt);
             }
-            fdtc.setSetdata(lfdt);
+           /* fdtc.setSetdata(lfdt);
             fdtc.setIdIndex(map);
             fdtc.setName(title);
-
+            TextFile.write(UObject.transformObjectToString(fdtc), args[0] + "_data.jsonp");
+            */
             List<MAKInputData> listinput = doInputs();
 
             makr = new MAKResult();
@@ -123,7 +128,7 @@ public class BiclusterstoJSON {
             doParams(listinput);
 
             TextFile.write(UObject.transformObjectToString(makr), args[0] + "_MAKResult.jsonp");
-            TextFile.write(UObject.transformObjectToString(fdtc), args[0] + "_data.jsonp");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -247,6 +252,8 @@ public class BiclusterstoJSON {
         makp.setRefine((long) (dprm.refine ? 1 : 0));
         makp.setRounds((long) dprm.rounds);
         makp.setRoundsMoveSequences(MoreArray.convtoArrayList(dprm.move_sequences));
+        //makp.setGenomeId();
+        //makp.setTaxon();
         //makp.setSeriesRef(default_series_ref);
         makr.setParameters(makp);
     }
@@ -327,6 +334,9 @@ public class BiclusterstoJSON {
         }
 
 
+        default_bicluster_type = args[7];
+        default_biclusterset_desc = default_bicluster_type + default_biclusterset_desc;
+
         date = new java.util.Date();
     }
 
@@ -336,7 +346,7 @@ public class BiclusterstoJSON {
      */
 
     public final static void main(String[] args) {
-        if (args.length == 7) {
+        if (args.length == 8) {
             BiclusterstoJSON rm = new BiclusterstoJSON(args);
         } else {
             System.out.println("syntax: java us.kbase.mak.BiclusterstoJSON\n" +
@@ -346,7 +356,8 @@ public class BiclusterstoJSON {
                     "< MAK trajectory parameter file >\n" +
                     "< MAK discovery strategy file >\n" +
                     "< primary input data gene labels >\n" +
-                    "< primary input data condition labels >"
+                    "< primary input data condition labels >\n" +
+                    "< bicluster type >"
                     /*TODO add dash options, add option to name primary data type*/
             );
         }
