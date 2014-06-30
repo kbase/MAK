@@ -98,7 +98,7 @@ public class MapIds {
             makprm.setTaxon(this.taxId);
             makResult.setParameters(makprm);
 
-            MAKInputData makid = makResult.get
+            //MAKInputData makid = makResult.get
 
             TextFile.write(UObject.transformObjectToString(makResult), args[0] + "_kbmap.jsonp");
         } catch (IOException e) {

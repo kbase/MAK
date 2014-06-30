@@ -197,7 +197,6 @@ module MAK {
 	string finish_time - end time of MAK run
 	MAKParameters parameters - run parameters
 	list<MAKBiclusterSet> sets - set of biclusters
-	MAKInputData input - input data object
 	*/
 	typedef structure{
 		string id;
@@ -205,7 +204,6 @@ module MAK {
 		string finish_time;
 		MAKParameters parameters;	
 		list<MAKBiclusterSet> sets;
-		MAKInputData input;
 	} MAKResult;
   	
 	/*	Starts MAK server job and returns job ID of the run
