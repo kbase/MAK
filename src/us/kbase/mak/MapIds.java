@@ -34,6 +34,8 @@ public class MapIds {
 
     HashMap<String, String> idmapping = new HashMap<String, String>();
 
+    int restart_index =0;
+
     /**
      * @param args
      */
@@ -54,7 +56,8 @@ public class MapIds {
 
             List<MAKBicluster> mbs = makResult.getSets().get(0).getBiclusters();
 
-            for (int a = 0; a < mbs.size(); a++) {
+            for (int a = restart_index; a < mbs.size(); a++) {
+                System.out.println(a);
                 MAKBicluster makb = mbs.get(a);
                 List<String> gids = makb.getGeneIds();
                 List<String> kbgids = new ArrayList<String>();
@@ -96,9 +99,18 @@ public class MapIds {
             MAKParameters makprm = makResult.getParameters();
             makprm.setGenomeId(this.kbGenomeId);
             makprm.setTaxon(this.taxId);
-            makResult.setParameters(makprm);
 
-            //MAKInputData makid = makResult.get
+
+            List<MAKInputData> lmid = makprm.getInputs();
+            for(int i=0;i<lmid.size();i++) {
+                MAKInputData mid = lmid.get(i);
+                mid.setGenomeId(this.kbGenomeId);
+                mid.setTaxon(this.taxId);
+                lmid.set(i, mid);
+            }
+            makprm.setInputs(lmid);
+
+            makResult.setParameters(makprm);
 
             TextFile.write(UObject.transformObjectToString(makResult), args[0] + "_kbmap.jsonp");
         } catch (IOException e) {
@@ -141,7 +153,7 @@ public class MapIds {
                         this.kbGenomeId = ip.getKbaseId();
                         //String[] kbaseids = new String[gene_labels.length];
 
-                        Map map = idc.lookupFeatures(ip.getKbaseId(), Arrays.asList(gene_labels), "CDS", "microbes_online");
+                        Map map = idc.lookupFeatures(ip.getKbaseId(), Arrays.asList(gene_labels), "CDS", "microbes_online");//"genbank_locus_tag");//
                         Set keys = map.keySet();
                         Set entries = map.entrySet();
                         Iterator kit = keys.iterator();
@@ -239,14 +251,17 @@ public class MapIds {
             e.printStackTrace();
         }
 
-        if (args.length == 4) {
-            String[][] txt = TabFile.readtoArray(args[3]);
+        if (args.length == 5) {
+            String[][] txt = TabFile.readtoArray(args[4]);
 
             for (int i = 0; i < txt.length; i++) {
                 System.out.println("load map " + txt[i][0] + "\t" + txt[i][1]);
                 idmapping.put(txt[i][0], txt[i][1]);
             }
         }
+
+        if(args.length==4)
+        restart_index = Integer.parseInt(args[3]);
     }
 
 
@@ -254,12 +269,14 @@ public class MapIds {
      * @param args
      */
     public static void main(String[] args) {
-        if (args.length == 3 || args.length == 4) {
+        if (args.length == 3 || args.length == 4 || args.length == 5) {
             MapIds ce = new MapIds(args);
         } else {
-            System.out.println("usage: java us.kbase.mak.MapIds <MAK result jsonp> " +
+            System.out.println("usage: java us.kbase.mak.MapIds " +
+                    "<MAK result jsonp> " +
                     "<taxonomy id> " +
                     "<id file> " +
+                    "<OPTIONAL restart index>"+
                     "<OPTIONAL precomputed map file>");
         }
     }

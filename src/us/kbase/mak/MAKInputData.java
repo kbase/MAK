@@ -25,6 +25,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *     int num_rows - number of rows
  *     int num_columns - number of columns
  *                   
+ *     @optional id
+ *     @optional dataPath
+ *     @optional num_rows
+ *     @optional num_cols
  *         @searchable ws_subset taxon id description
  * </pre>
  * 

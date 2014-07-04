@@ -3,6 +3,7 @@ package us.kbase.mak;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import us.kbase.common.service.UObject;
 import us.kbase.idserverapi.IDServerAPIClient;
+import util.StringUtil;
 import util.TextFile;
 
 import java.io.File;
@@ -47,7 +48,8 @@ public class RegisterBiclusterIds {
 
 
                 String prefix = "kb|" + biclusterType;
-                List<MAKBicluster> biclusters = makResult.getSets().get(0).getBiclusters();
+                MAKBiclusterSet makBiclusterSet = makResult.getSets().get(0);
+                List<MAKBicluster> biclusters = makBiclusterSet.getBiclusters();
                 Long aLong = idClient.allocateIdRange(biclusterType, (long) biclusters.size());
                 String biclusterid = prefix + "." + aLong.toString();
                 System.out.println("biclusterid " + biclusterid);
@@ -121,21 +123,28 @@ public class RegisterBiclusterIds {
                 }
 
 
-                makResult.getSets().get(0).setId(setKBId);
+                makBiclusterSet.setId(setKBId);
                 makResult.setId(resultKBId);
 
+                Map<String, String> indexMap = new HashMap<String, String>();
                 for (int i = 0; i < biclusters.size(); i++) {
                     MAKBicluster mb = biclusters.get(i);
                     //String kbid = prefix + "." + unmappedIds.get(fileprefix + "." + i);
 
                     String curkey = fileprefix + "." + i;
                     String kbid = mappedIds.get(curkey);
+                    String shortkbid = mappedIds.get(curkey);
                     if (kbid == null) {
                         kbid = prefix + "." + unmappedIds.get(curkey);
+                        shortkbid = biclusterType + "." + unmappedIds.get(curkey);
+                    }
+                    else {
+                        shortkbid = StringUtil.replace(shortkbid, "kb|", "");
                     }
                     mb.setBiclusterId(kbid);
                     biclusters.set(i, mb);
 
+                    indexMap.put(kbid, "" + i);
 
                     //SOMR1_expr_refine_top_0.25_1.0_c_reconstructed.txt
 
@@ -144,16 +153,17 @@ public class RegisterBiclusterIds {
                     //SOMR1_expr_refine_top_0.25_1.0_c_reconstructed.txt_MAKResult.jsonp_kbmap.jsonp_bicluster.0_data.jsonp
 
                     ObjectMapper mapper2 = new ObjectMapper();
-                    String inpath = prefixInput + "_bicluster." + i + "_data.jsonp_map.jsonp";
+                    String inpath = prefixInput + "_bicluster." + i + "_data.jsonp_map.jsonp";//"bicluster." + kbid;//
                     File f2 = new File(inpath);
                     FloatDataTable biclustertable = mapper2.readValue(f2, FloatDataTable.class);
 
                     biclustertable.setId(kbid);
 
-                    TextFile.write(UObject.transformObjectToString(biclustertable), inpath + "_register.jsonp");
+                    TextFile.write(UObject.transformObjectToString(biclustertable), shortkbid + ".jsonp");
                 }
 
-                makResult.getSets().get(0).setBiclusters(biclusters);
+                makBiclusterSet.setIdIndex(indexMap);
+                makBiclusterSet.setBiclusters(biclusters);
 
                 TextFile.write(UObject.transformObjectToString(makResult), args[0] + "_register.jsonp");
 

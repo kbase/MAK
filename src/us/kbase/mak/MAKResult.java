@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * string start_time - start time of MAK run
  * string finish_time - end time of MAK run
  * MAKParameters parameters - run parameters
- * list<MAKBiclusterSet> sets;
+ * list<MAKBiclusterSet> sets - set of biclusters
  * </pre>
  * 
  */

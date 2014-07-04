@@ -190,7 +190,8 @@ public class MAKCSDumper {
 
         makResult = mapper.readValue(f, MAKResult.class);
 
-        kbgid = KBidforTaxId.getKBidforTaxId(makResult.getParameters().getInputs().get(0).getTaxon());
+        kbgid = makResult.getParameters().getGenomeId();//KBidforTaxId.getKBidforTaxId(makResult.getParameters().getInputs().get(0).getTaxon());
+
 
         bundle = new MAKBundle();
     }

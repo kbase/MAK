@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *         list<MAKBicluster> biclusters - biclusters
  *         map<string, string> id_index - map of bicluster ids to array indices (translates between kb id and ws id)
  *         
+ * @optional id_index
  * @searchable ws_subset id taxon
  * </pre>
  * 
