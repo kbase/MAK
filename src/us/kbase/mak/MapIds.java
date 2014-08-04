@@ -153,7 +153,7 @@ public class MapIds {
                         this.kbGenomeId = ip.getKbaseId();
                         //String[] kbaseids = new String[gene_labels.length];
 
-                        Map map = idc.lookupFeatures(ip.getKbaseId(), Arrays.asList(gene_labels), "CDS", "microbes_online");//"genbank_locus_tag");//
+                        Map map = idc.lookupFeatures(ip.getKbaseId(), Arrays.asList(gene_labels), "CDS",  "microbes_online");////"genbank_locus_tag");//,
                         Set keys = map.keySet();
                         Set entries = map.entrySet();
                         Iterator kit = keys.iterator();

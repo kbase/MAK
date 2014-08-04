@@ -63,7 +63,7 @@ public class MAKCSDumper {
 
                     try {
                         bundle.so.withId(MAKresource)
-                                .withDescription("Massive Associative K-biclustering database")
+                                .withDescription("Massive Associative K-biclustering results")
                                 .withName("MAKDB")
                                 .withUrl(MAKurl)
                                 .push();

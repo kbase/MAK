@@ -47,6 +47,7 @@ module MAK {
 	
 		string taxon - NCBI taxonomy id
 		string genome_id - kbase id of genome
+		genome_ws_ref genome_ref - ws genome object reference
 		string id - kbase id
 		string ws_id - reference to workspace id of FloatDataTable object for input data
 		string data_type - type of data: "expression", "fitness"
@@ -64,6 +65,7 @@ module MAK {
 	typedef structure {	   
 		string taxon;	 
 		string genome_id;
+		genome_ws_ref genome_ref;
 		string id;
 		string data_type;
 		string description;	
@@ -77,6 +79,7 @@ module MAK {
 	/* MAK algorithm and discovery strategy parameters 
 		string taxon - taxonomy id
 		string genome_id - kbase genome id
+		genome_ws_ref genome_ref - ws genome object reference
 		float min_raw_bicluster_score - minimum raw bicluster score
 		float max_bicluster_overlap - maximum allowed bicluster overlap
 		float max_enrich_pvalue - maximum allowed enrichment p-value
@@ -97,6 +100,7 @@ module MAK {
   	typedef structure {  
   		string taxon;
   		string genome_id;
+  		genome_ws_ref genome_ref;
 		float min_raw_bicluster_score;
 		float max_bicluster_overlap;
 		float max_enrich_pvalue;

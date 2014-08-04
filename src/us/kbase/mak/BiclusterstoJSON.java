@@ -70,35 +70,36 @@ public class BiclusterstoJSON {
 
 
             //FloatDataTableContainer fdtc = new FloatDataTableContainer();
-            List<List<Double>> lld = new ArrayList<List<Double>>();
+
             //List<FloatDataTable> lfdt = new ArrayList<FloatDataTable>();
             Map<String, String> map = new HashMap<String, String>();
             for (int i = 0; i < vbl.size(); i++) {
+                System.out.println("i " + i);
+                List<List<Double>> lld = new ArrayList<List<Double>>();
                 ValueBlock vb = (ValueBlock) vbl.get(i);
-                List<Double> ld = new ArrayList<Double>();
                 for (int a = 0; a < vb.genes.length; a++) {
+                    List<Double> ld = new ArrayList<Double>();
                     for (int b = 0; b < vb.exps.length; b++) {
                         Double e = null;
                         try {
                             e = sm.data[vb.genes[a] - 1][vb.exps[b] - 1];
                         } catch (Exception e1) {
-
                             System.out.println("sm " + sm.data.length + "\t" + sm.data[0].length);
                             System.out.println("vb " + vb.genes.length + "\t" + vb.exps.length);
                             System.out.println("g " + vb.genes[a] + "\te " + vb.exps[b]);
                             System.out.println("g " + (vb.genes[a] - 1) + "\te " + (vb.exps[b] - 1));
-                            System.out.println("val " +sm.data[vb.genes[a] - 1][vb.exps[b] - 1]);
+                            System.out.println("val " + sm.data[vb.genes[a] - 1][vb.exps[b] - 1]);
                             e1.printStackTrace();
                         }
                         Double store = null;
-                        if (Double.isNaN(e))
+                        if (Double.isNaN(e)) {
+                            //System.out.println("e null " + e);
                             store = null;
-                        else store = new Double(e);
+                        } else store = new Double(e);
                         ld.add(store);
                     }
+                    lld.add(ld);
                 }
-
-                System.out.println("i " + ld.size());
 
                 ArrayList rowS = new ArrayList();
                 for (int a = 0; a < vb.genes.length; a++) {
@@ -212,6 +213,7 @@ public class BiclusterstoJSON {
             String allterms = summary_data[i][12];
             String[] termlist = new String[0];
             try {
+                System.out.println("GO " + allterms);
                 termlist = allterms.substring(4).split("_");
                 for (int t = 0; t < termlist.length; t++) {
                     terms.put("GO", termlist[t]);
@@ -224,8 +226,8 @@ public class BiclusterstoJSON {
             //TIGRFam roles
             allterms = summary_data[i][10];
             try {
+                System.out.println("TIGRFam " + allterms);
                 termlist = allterms.substring(10).split("_");
-
                 for (int t = 0; t < termlist.length; t++) {
                     terms.put("TIGRFam", termlist[t]);
                 }
