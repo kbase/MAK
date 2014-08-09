@@ -98,6 +98,7 @@ public class MapIds {
             makResult.getSets().get(0).setBiclusters(mbs);
             MAKParameters makprm = makResult.getParameters();
             makprm.setGenomeId(this.kbGenomeId);
+            makprm.setInputRef("KBasePublicGenomesV3/"+this.kbGenomeId);
             makprm.setTaxon(this.taxId);
 
 
@@ -105,6 +106,7 @@ public class MapIds {
             for(int i=0;i<lmid.size();i++) {
                 MAKInputData mid = lmid.get(i);
                 mid.setGenomeId(this.kbGenomeId);
+                mid.setGenomeRef("KBasePublicGenomesV3/"+this.kbGenomeId);
                 mid.setTaxon(this.taxId);
                 lmid.set(i, mid);
             }

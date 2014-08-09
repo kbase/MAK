@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * MAK dataset source 
  *         string taxon - NCBI taxonomy id
  *         string genome_id - kbase id of genome
+ *         genome_ws_ref genome_ref - ws genome object reference
  *         string id - kbase id
  *         string ws_id - reference to workspace id of FloatDataTable object for input data
  *         string data_type - type of data: "expression", "fitness"
@@ -38,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "taxon",
     "genome_id",
+    "genome_ref",
     "id",
     "data_type",
     "description",
@@ -51,6 +53,8 @@ public class MAKInputData {
     private String taxon;
     @JsonProperty("genome_id")
     private String genomeId;
+    @JsonProperty("genome_ref")
+    private String genomeRef;
     @JsonProperty("id")
     private String id;
     @JsonProperty("data_type")
@@ -92,6 +96,21 @@ public class MAKInputData {
 
     public MAKInputData withGenomeId(String genomeId) {
         this.genomeId = genomeId;
+        return this;
+    }
+
+    @JsonProperty("genome_ref")
+    public String getGenomeRef() {
+        return genomeRef;
+    }
+
+    @JsonProperty("genome_ref")
+    public void setGenomeRef(String genomeRef) {
+        this.genomeRef = genomeRef;
+    }
+
+    public MAKInputData withGenomeRef(String genomeRef) {
+        this.genomeRef = genomeRef;
         return this;
     }
 
@@ -197,7 +216,7 @@ public class MAKInputData {
 
     @Override
     public String toString() {
-        return ((((((((((((((((((("MAKInputData"+" [taxon=")+ taxon)+", genomeId=")+ genomeId)+", id=")+ id)+", dataType=")+ dataType)+", description=")+ description)+", dataPath=")+ dataPath)+", numRows=")+ numRows)+", numCols=")+ numCols)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((((((("MAKInputData"+" [taxon=")+ taxon)+", genomeId=")+ genomeId)+", genomeRef=")+ genomeRef)+", id=")+ id)+", dataType=")+ dataType)+", description=")+ description)+", dataPath=")+ dataPath)+", numRows=")+ numRows)+", numCols=")+ numCols)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

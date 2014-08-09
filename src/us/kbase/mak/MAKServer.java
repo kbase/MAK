@@ -1,19 +1,18 @@
 package us.kbase.mak;
 
-import DataMining.Parameters;
-import us.kbase.auth.AuthToken;
-import us.kbase.common.service.JsonServerMethod;
-import us.kbase.common.service.JsonServerServlet;
-import util.MoreArray;
-import util.TabFile;
-
+//BEGIN_HEADER
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-//BEGIN_HEADER
+import DataMining.Parameters;
+import us.kbase.auth.AuthToken;
+import us.kbase.common.service.JsonServerMethod;
+import us.kbase.common.service.JsonServerServlet;
+import util.MoreArray;
+import util.TabFile;
 //END_HEADER
 
 /**
@@ -21,9 +20,8 @@ import java.util.Random;
  * <pre>
  * Module MAK version 1.0
  * This module provides access to MAK biclustering results.
- *
  * @author marcin
- *         </pre>
+ * </pre>
  */
 public class MAKServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
@@ -52,11 +50,10 @@ public class MAKServer extends JsonServerServlet {
      * string kbgid - kbase genome id kbgid
      * string job_id - identifier of MAK job
      * </pre>
-     *
-     * @param wsId     instance of String
-     * @param kbgid    instance of String
-     * @param dataType instance of String
-     * @return parameter "MAK_job_id" of String
+     * @param   wsId   instance of String
+     * @param   kbgid   instance of String
+     * @param   dataType   instance of String
+     * @return   parameter "MAK_job_id" of String
      */
     @JsonServerMethod(rpc = "MAK.runall_MAK_job_from_ws")
     public String runallMAKJobFromWs(String wsId, String kbgid, String dataType, AuthToken authPart) throws Exception {
@@ -75,12 +72,11 @@ public class MAKServer extends JsonServerServlet {
      * MAKBicluster makb - starting point bicluster
      * string job_id - identifier of MAK job
      * </pre>
-     *
-     * @param wsId     instance of String
-     * @param kbgid    instance of String
-     * @param dataType instance of String
-     * @param geneids  instance of list of String
-     * @return parameter "MAK_job_id" of String
+     * @param   wsId   instance of String
+     * @param   kbgid   instance of String
+     * @param   dataType   instance of String
+     * @param   geneids   instance of list of String
+     * @return   parameter "MAK_job_id" of String
      */
     @JsonServerMethod(rpc = "MAK.runsingle_MAK_job_from_ws")
     public String runsingleMAKJobFromWs(String wsId, String kbgid, String dataType, List<String> geneids, AuthToken authPart) throws Exception {
@@ -93,6 +89,7 @@ public class MAKServer extends JsonServerServlet {
 
         String[] gene_labels;
         String geneidfile = kbgid + "_" + dataType + "geneids.txt";
+
         File testg = new File(geneidfile);
         if (testg.exists()) {
             try {
@@ -136,7 +133,6 @@ public class MAKServer extends JsonServerServlet {
         /*TODO check if job is done*/
         /*TODO if done create JSONP objects*/
         /*TODO upload JSONP to workspace*/
-
         //END runsingle_MAK_job_from_ws
         return returnVal;
     }
@@ -150,18 +146,16 @@ public class MAKServer extends JsonServerServlet {
      * list<string> geneids - list of kb gene ids
      * MAKBiclusterSet set - MAKBiclusterSet
      * </pre>
-     *
-     * @param wsId     instance of String
-     * @param kbgid    instance of String
-     * @param dataType instance of String
-     * @param geneids  instance of list of String
-     * @return parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
+     * @param   wsId   instance of String
+     * @param   kbgid   instance of String
+     * @param   dataType   instance of String
+     * @param   geneids   instance of list of String
+     * @return   parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
      */
     @JsonServerMethod(rpc = "MAK.search_MAK_results_from_ws")
     public MAKBiclusterSet searchMAKResultsFromWs(String wsId, String kbgid, String dataType, List<String> geneids, AuthToken authPart) throws Exception {
         MAKBiclusterSet returnVal = null;
         //BEGIN search_MAK_results_from_ws
-
         //END search_MAK_results_from_ws
         return returnVal;
     }
@@ -175,11 +169,10 @@ public class MAKServer extends JsonServerServlet {
      * list<string> geneids - list of kb gene ids
      * MAKBiclusterSet set - MAKBiclusterSet
      * </pre>
-     *
-     * @param kbgid    instance of String
-     * @param dataType instance of String
-     * @param geneids  instance of list of String
-     * @return parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
+     * @param   kbgid   instance of String
+     * @param   dataType   instance of String
+     * @param   geneids   instance of list of String
+     * @return   parameter "mbs" of type {@link us.kbase.mak.MAKBiclusterSet MAKBiclusterSet}
      */
     @JsonServerMethod(rpc = "MAK.search_MAK_results_from_cds")
     public MAKBiclusterSet searchMAKResultsFromCds(String kbgid, String dataType, List<String> geneids, AuthToken authPart) throws Exception {

@@ -47,6 +47,7 @@ public class MAKResult {
      * MAK algorithm and discovery strategy parameters 
      * string taxon - taxonomy id
      * string genome_id - kbase genome id
+     * genome_ws_ref genome_ref - ws genome object reference
      * float min_raw_bicluster_score - minimum raw bicluster score
      * float max_bicluster_overlap - maximum allowed bicluster overlap
      * float max_enrich_pvalue - maximum allowed enrichment p-value
@@ -121,6 +122,7 @@ public class MAKResult {
      * MAK algorithm and discovery strategy parameters 
      * string taxon - taxonomy id
      * string genome_id - kbase genome id
+     * genome_ws_ref genome_ref - ws genome object reference
      * float min_raw_bicluster_score - minimum raw bicluster score
      * float max_bicluster_overlap - maximum allowed bicluster overlap
      * float max_enrich_pvalue - maximum allowed enrichment p-value
@@ -149,6 +151,7 @@ public class MAKResult {
      * MAK algorithm and discovery strategy parameters 
      * string taxon - taxonomy id
      * string genome_id - kbase genome id
+     * genome_ws_ref genome_ref - ws genome object reference
      * float min_raw_bicluster_score - minimum raw bicluster score
      * float max_bicluster_overlap - maximum allowed bicluster overlap
      * float max_enrich_pvalue - maximum allowed enrichment p-value

@@ -270,6 +270,7 @@ public class BiclusterstoJSON {
         makp.setRefine((long) (dprm.refine ? 1 : 0));
         makp.setRounds((long) dprm.rounds);
         makp.setRoundsMoveSequences(MoreArray.convtoArrayList(dprm.move_sequences));
+
         //makp.setGenomeId();
         //makp.setTaxon();
         //makp.setSeriesRef(default_series_ref);

@@ -56,7 +56,7 @@ public class UploadMAKBIclusterstoWS {
                 if (filelist[i].indexOf("MAKResult") != -1) {
                     try {
                         MAKResult makResult = mapper.readValue(objfile, MAKResult.class);
-                        String objType = "MAK.MAKResult-4.0";
+                        String objType = "MAK.MAKResult-5.0";
                         final String name = prefix + "__" + makResult.getId().substring(3);
                         System.out.println("saving object MAKResult " + name);
                         wc.saveObjects(new SaveObjectsParams().withWorkspace(args[2]).withObjects(Arrays.asList(new ObjectSaveData().withType(objType).withData(new UObject(makResult)).withName(makResult.getId()))));
